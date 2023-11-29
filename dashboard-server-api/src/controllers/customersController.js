@@ -1,4 +1,5 @@
 import { Customers } from "../models/index.js";
+import { GetCurrentTimeObject } from "../services/index.js";
 
 export default class CustomerController {
   // GET -> ./customers
@@ -50,10 +51,11 @@ export default class CustomerController {
   // PUT -> ./customers/:id
   static UpdateCustomer = async (req, res) => {
     const id = req.params.id;
+    const lastUpdate = GetCurrentTimeObject();
 
     try {
       const updateCustomer = await Customers.findByIdAndUpdate(id, {
-        $set: req.body,
+        $set: { ...req.body, lastUpdate },
       });
 
       res.send({

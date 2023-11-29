@@ -1,15 +1,7 @@
 import mongoose from "mongoose";
+import { GetCurrentTimeObject } from "../services/index.js";
 
 const Schema = mongoose.Schema;
-
-const GetCurrentTimeObject = () => {
-  const Local = new Date().toLocaleString();
-  const UTC = new Date();
-  return {
-    Local: Local,
-    UTC: UTC,
-  };
-};
 
 const CustomerSchema = new Schema({
   nome: {

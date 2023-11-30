@@ -20,15 +20,17 @@ const CustomerSchema = new Schema({
     type: String,
     required: true,
   },
-  details: {
-    type: String,
+  conveniosAtivos: {
+    type: Schema.Types.ObjectId,
+    ref: "insurances",
   },
   registerDate: {
-    type: Schema.Types.Object,
+    type: Schema.Types.Mixed,
     default: () => GetCurrentTimeObject(),
+    immutable: true,
   },
   lastUpdate: {
-    type: Schema.Types.Object,
+    type: Schema.Types.Mixed,
     default: () => GetCurrentTimeObject(),
   },
 });

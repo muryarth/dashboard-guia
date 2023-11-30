@@ -4,19 +4,25 @@ import { GetCurrentTimeObject } from "../services/index.js";
 export default class CustomerController {
   // GET -> ./customers
   static GetAllCustomers = async (req, res) => {
-    // let perPage = 10;
-    // let page = req.query.page || 1;
-
     try {
-      const customers = await Customers.find();
-      // const customers = await Customer.aggregate([{ $sort: { updatedAt: -1 } }])
-      //   .skip(perPage * page - perPage)
-      //   .limit(perPage)
-      //   .exec();
+      let customers;
+
+      const { page = 1, limit = 10 } = req.query;
+
+      const pageNumber = parseInt(page);
+      const limitNumber = parseInt(limit);
+
+      // Calcula o número de documentos para pular
+      const skip = (pageNumber - 1) * limitNumber;
+
+      customers = await Customers.find().skip(skip).limit(limitNumber);
 
       res.send(customers);
     } catch (err) {
-      console.log(err);
+      res.send({
+        message: `Ocorreu um erro no servidor.`,
+        err: err,
+      });
     }
   };
 
@@ -33,7 +39,10 @@ export default class CustomerController {
         results: customers,
       });
     } catch (err) {
-      res.send([]);
+      res.send({
+        message: `Ocorreu um erro no servidor.`,
+        err: err,
+      });
     }
   };
 
@@ -46,7 +55,10 @@ export default class CustomerController {
 
       res.send(customers);
     } catch (err) {
-      console.log(err);
+      res.send({
+        message: `Ocorreu um erro no servidor.`,
+        err: err,
+      });
     }
   };
 
@@ -61,7 +73,10 @@ export default class CustomerController {
         results: customer.toJSON(),
       });
     } catch (err) {
-      console.log(err);
+      res.send({
+        message: `Ocorreu um erro no servidor.`,
+        err: err,
+      });
     }
   };
 
@@ -80,7 +95,10 @@ export default class CustomerController {
         results: updateCustomer.toJSON(),
       });
     } catch (err) {
-      console.log(err);
+      res.send({
+        message: `Ocorreu um erro no servidor.`,
+        err: err,
+      });
     }
   };
 
@@ -97,7 +115,10 @@ export default class CustomerController {
         results: { oldId: id },
       });
     } catch (err) {
-      console.log(err);
+      res.send({
+        message: `Ocorreu um erro no servidor.`,
+        err: err,
+      });
     }
   };
 }

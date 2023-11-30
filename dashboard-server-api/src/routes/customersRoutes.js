@@ -8,6 +8,7 @@ const router = express.Router();
 // http://localhost:5000/customers/
 router
   .get("/customers/", CustomerController.GetAllCustomers)
+  .get("/customers/search", CustomerController.GetCustomersByQuerySearch)
   .get("/customers/:id", CustomerController.GetCustomerById)
   .post("/customers/", CustomerController.AddNewCustomer)
   .put("/customers/:id", CustomerController.UpdateCustomer)

@@ -1,9 +1,9 @@
 const GetCurrentTimeObject = () => {
-  const Local = new Date().toLocaleString();
-  const UTC = new Date();
+  const DateBR = new Date().toLocaleString();
+  const DateUTC = new Date();
   return {
-    Local: Local,
-    UTC: UTC,
+    FormatBR: DateBR,
+    FormatUTC: DateUTC,
   };
 };
 

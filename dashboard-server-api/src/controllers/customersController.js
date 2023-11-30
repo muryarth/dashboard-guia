@@ -20,6 +20,23 @@ export default class CustomerController {
     }
   };
 
+  // GET -> ./customers/search (Busca com filtro)
+  static GetCustomersByQuerySearch = async (req, res) => {
+    const urlParams = req.query;
+    console.log(urlParams);
+
+    try {
+      const customers = await Customers.find({ ...urlParams }, {});
+
+      res.send({
+        message: "Customers found successfully.",
+        results: customers,
+      });
+    } catch (err) {
+      res.send([]);
+    }
+  };
+
   // GET -> ./customers/:id
   static GetCustomerById = async (req, res) => {
     const id = req.params.id;

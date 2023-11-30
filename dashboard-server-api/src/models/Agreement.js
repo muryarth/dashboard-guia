@@ -3,7 +3,7 @@ import { GetCurrentTimeObject } from "../services";
 
 const Schema = mongoose.Schema;
 
-const InsuranceSchema = new Schema({
+const AgreementSchema = new Schema({
   nome: {
     type: String,
     required: true,
@@ -33,6 +33,6 @@ const InsuranceSchema = new Schema({
   },
 });
 
-const Insurances = mongoose.model("insurances", InsuranceSchema);
+const Agreements = mongoose.model("agreements", AgreementSchema);
 
 export default Insurances;

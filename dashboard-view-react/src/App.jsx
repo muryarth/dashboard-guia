@@ -1,19 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import Button from "react-bootstrap/Button";
 
 function App() {
+  const [resultados, setResultados] = useState();
+
   const GetEmployees = async () => {
     const url = "http://dashboard-server-api.vercel.app/employees";
+    // const url = "http://localhost:3000/employees";
 
-    const result = await fetch(url);
-    console.log(result);
+    const response = await (await fetch(url)).json();
+    setResultados(response);
+    console.log(response);
 
     return result;
   };
 
   useEffect(() => {
-    const result = GetEmployees();
-    console.log(result);
+    GetEmployees();
   }, []);
 
   return <div></div>;

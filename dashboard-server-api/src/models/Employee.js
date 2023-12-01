@@ -28,7 +28,7 @@ const EmployeeSchema = new Schema({
   },
 });
 
-next(savePasswordHash(EmployeeSchema));
+savePasswordHash(EmployeeSchema);
 
 const Employees = mongoose.model("employees", EmployeeSchema);
 

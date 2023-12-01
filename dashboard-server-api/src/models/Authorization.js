@@ -26,6 +26,6 @@ const AuthorizationSchema = new Schema({
   },
 });
 
-const Authorizations = mongoose.Model("authorizations", AuthorizationSchema);
+const Authorizations = mongoose.model("authorizations", AuthorizationSchema);
 
 export default Authorizations;

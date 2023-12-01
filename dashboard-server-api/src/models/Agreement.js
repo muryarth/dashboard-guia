@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { GetCurrentTimeObject } from "../services";
+import { GetCurrentTimeObject } from "../services/index.js";
 
 const Schema = mongoose.Schema;
 
@@ -9,7 +9,7 @@ const AgreementSchema = new Schema({
     required: true,
   },
   preco: {
-    type: Float32Array,
+    type: Number,
     required: true,
   },
   locais: {
@@ -35,4 +35,4 @@ const AgreementSchema = new Schema({
 
 const Agreements = mongoose.model("agreements", AgreementSchema);
 
-export default Insurances;
+export default Agreements;

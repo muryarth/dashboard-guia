@@ -7,7 +7,14 @@
       }
     ],
     "routes": [
-      { "handle": "filesystem" },
+      { 
+        "handle": "filesystem",
+        "src": "/employees",
+        "methods": ["GET"],
+        "headers": {
+          "Access-Control-Allow-Origin": "*"
+        } 
+      },
       {
         "src": "/(.*)",
         "dest": "/",

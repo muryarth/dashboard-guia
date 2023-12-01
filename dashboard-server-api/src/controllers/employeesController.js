@@ -4,11 +4,7 @@ import { GetCurrentTimeObject } from "../services/index.js";
 export default class EmployeeController {
   // GET -> ./employees
   static GetAllEmployees = async (req, res) => {
-    console.log("teste!");
-
     try {
-      let employees;
-
       const { page = 1, limit = 10 } = req.query;
 
       const pageNumber = parseInt(page);
@@ -17,7 +13,10 @@ export default class EmployeeController {
       // Calcula o número de documentos para pular
       const skip = (pageNumber - 1) * limitNumber;
 
-      employees = await Employees.find().skip(skip).limit(limitNumber);
+      const employees = await Employees.find()
+        .skip(skip)
+        .limit(limitNumber)
+        .select("-senha");
 
       if (employees.length > 0) {
         res.status(200).send({
@@ -44,17 +43,25 @@ export default class EmployeeController {
     const urlParams = req.query;
     console.log(urlParams);
 
-    try {
-      const employees = await Employees.find({ ...urlParams }, {});
+    if (!urlParams.senha) {
+      try {
+        const employees = await Employees.find({ ...urlParams }, {}).select(
+          "-senha"
+        );
 
-      res.status(200).send({
-        message: "Funcionários encontrados com sucesso.",
-        results: employees,
-      });
-    } catch (err) {
-      res.status(500).send({
-        message: `Erro interno do servidor.`,
-        err: err,
+        res.status(200).send({
+          message: "Funcionários encontrados com sucesso.",
+          results: employees,
+        });
+      } catch (err) {
+        res.status(500).send({
+          message: `Erro interno do servidor.`,
+          err: err,
+        });
+      }
+    } else {
+      res.status(403).send({
+        message: `Filtrar consultas por senha não é permitido.`,
       });
     }
   };
@@ -64,7 +71,7 @@ export default class EmployeeController {
     const id = req.params.id;
 
     try {
-      const employees = await Employees.findById(id);
+      const employees = await Employees.findById(id).select("-senha");
 
       res.status(200).send({
         message: "Funcionário encontrado com sucesso.",
@@ -101,13 +108,20 @@ export default class EmployeeController {
     const lastUpdate = GetCurrentTimeObject();
 
     try {
-      const updateEmplyee = await Employees.findByIdAndUpdate(id, {
-        $set: { ...req.body, lastUpdate },
-      });
+      const updateEmployee = await Employees.findOneAndUpdate(
+        { _id: id },
+        { $set: { ...req.body, lastUpdate } },
+        { new: true }
+      );
+
+      // Alternativa
+      // const updateEmplyee = await Employees.findByIdAndUpdate(id, {
+      //   $set: { ...req.body, lastUpdate },
+      // });
 
       res.status(200).send({
         message: `Funcionário de ID:(${id}) atualizado com sucesso.`,
-        results: updateEmplyee,
+        results: updateEmployee,
       });
     } catch (err) {
       res.status(500).send({

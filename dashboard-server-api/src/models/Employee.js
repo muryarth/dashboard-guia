@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { GetCurrentTimeObject } from "../services/index.js";
-import savePasswordHash from "../middlewares/savePasswordHash.js";
+import SaveOrUpdatePasswordHash from "../middlewares/savePasswordHash.js";
 
 const Schema = mongoose.Schema;
 
@@ -32,7 +32,7 @@ const EmployeeSchema = new Schema({
   },
 });
 
-savePasswordHash(EmployeeSchema);
+SaveOrUpdatePasswordHash(EmployeeSchema);
 
 const Employees = mongoose.model("employees", EmployeeSchema);
 

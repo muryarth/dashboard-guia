@@ -26,6 +26,10 @@ const EmployeeSchema = new Schema({
     Default: () => GetCurrentTimeObject(),
     immutable: true,
   },
+  lastUpdated: {
+    type: Schema.Types.Mixed,
+    Default: () => GetCurrentTimeObject(),
+  },
 });
 
 savePasswordHash(EmployeeSchema);

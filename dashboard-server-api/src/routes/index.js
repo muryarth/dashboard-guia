@@ -1,5 +1,6 @@
 import express from "express";
 import customers from "./customersRoutes.js";
+import employees from "./employeesRoutes.js";
 
 const routes = (app) => {
   // Rota raiz
@@ -8,7 +9,7 @@ const routes = (app) => {
   });
 
   // Todas as rotas
-  app.use(express.json(), customers);
+  app.use(express.json(), customers, employees);
 };
 
 export default routes;

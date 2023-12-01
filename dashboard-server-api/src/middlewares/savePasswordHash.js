@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 
 // Gera hash para a senha cadastrada ou alterada
-const savePasswordHash = async (employeeSchema) => {
+const savePasswordHash = (employeeSchema) => {
   employeeSchema.pre("save", async function (next) {
     const employee = this;
 
@@ -13,7 +13,7 @@ const savePasswordHash = async (employeeSchema) => {
       const salt = await bcrypt.genSalt(10);
 
       // Hash
-      hashedPassword = await bcrypt.hash(employee.senha, salt);
+      const hashedPassword = await bcrypt.hash(employee.senha, salt);
 
       //Substituir a senha orifinal pela senha hash
       employee.senha = hashedPassword;

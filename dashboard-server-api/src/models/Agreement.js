@@ -12,24 +12,34 @@ const AgreementSchema = new Schema({
     type: Number,
     required: true,
   },
-  locais: {
+  locais: [
+    {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "clinics",
+    },
+  ],
+  especialidades: [
+    {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "expertises",
+    },
+  ],
+  criadoPor: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: "clinics",
-  },
-  especialidades: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "expertises",
+    ref: "employees",
+    immutable: true,
   },
   registerDate: {
     type: Schema.Types.Mixed,
-    Default: () => GetCurrentTimeObject(),
+    default: () => GetCurrentTimeObject(),
     immutable: true,
   },
   lastUpdate: {
     type: Schema.Types.Mixed,
-    Default: () => GetCurrentTimeObject(),
+    default: () => GetCurrentTimeObject(),
   },
 });
 

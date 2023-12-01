@@ -1,4 +1,5 @@
 import { Clinics } from "../models/index.js";
+import { HandleQuerySearch } from "../services/index.js";
 
 export default class ClinicController {
   // GET -> ./clinics
@@ -37,7 +38,8 @@ export default class ClinicController {
 
     if (!urlParams.senha) {
       try {
-        const clinics = await Clinics.find({ ...urlParams }, {});
+        const search = await HandleQuerySearch();
+        const clinics = await Clinics.find(search, {});
 
         res.status(200).send({
           message: "Especialidades encontradas com sucesso.",

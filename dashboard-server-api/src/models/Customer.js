@@ -22,7 +22,7 @@ const CustomerSchema = new Schema({
   },
   conveniosAtivos: {
     type: Schema.Types.ObjectId,
-    ref: "insurances",
+    ref: "agreements",
   },
   registerDate: {
     type: Schema.Types.Mixed,

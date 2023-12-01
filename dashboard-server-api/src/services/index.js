@@ -1,10 +1,4 @@
-const GetCurrentTimeObject = () => {
-  const DateBR = new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
-  const DateUTC = new Date();
-  return {
-    FormatBR: DateBR,
-    FormatUTC: DateUTC,
-  };
-};
+import GetCurrentTimeObject from "./handleTimeObject.js";
+import HandleQuerySearch from "./handleQuerySearch.js";
 
-export { GetCurrentTimeObject };
+export { GetCurrentTimeObject, HandleQuerySearch };

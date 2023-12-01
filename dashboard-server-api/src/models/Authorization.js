@@ -21,7 +21,7 @@ const AuthorizationSchema = new Schema({
   },
   registerDate: {
     type: Schema.Types.Mixed,
-    Default: () => GetCurrentTimeObject(),
+    default: () => GetCurrentTimeObject(),
     immutable: true,
   },
 });

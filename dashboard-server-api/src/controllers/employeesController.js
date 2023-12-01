@@ -1,5 +1,5 @@
 import { Employees } from "../models/index.js";
-import { GetCurrentTimeObject } from "../services/index.js";
+import { GetCurrentTimeObject, HandleQuerySearch } from "../services/index.js";
 
 export default class EmployeeController {
   // GET -> ./employees
@@ -36,19 +36,19 @@ export default class EmployeeController {
 
   // GET -> ./employees/search (Busca com filtro)
   static GetEmployeesByQuerySearch = async (req, res) => {
-    const urlParams = req.query;
-    console.log(urlParams);
-
-    if (!urlParams.senha) {
+    if (req.query.nome || req.query.administrador) {
       try {
-        const employees = await Employees.find({ ...urlParams }, {}).select(
-          "-senha"
-        );
+        const search = await HandleQuerySearch(req);
+        const employees = await Employees.find(search, {}).select("-senha");
 
-        res.status(200).send({
-          message: "Funcionários encontrados com sucesso.",
-          results: employees,
-        });
+        if (employees.length > 0) {
+          res.status(200).send({
+            message: "Funcionários encontrados com sucesso.",
+            results: employees,
+          });
+        } else {
+          res.status(204).send(); // A requisição foi bem sucedida mas nenhum registro foi encontrado
+        }
       } catch (err) {
         res.status(500).send({
           message: `Erro interno do servidor.`,
@@ -57,7 +57,7 @@ export default class EmployeeController {
       }
     } else {
       res.status(403).send({
-        message: `Filtrar consultas por senha não é permitido.`,
+        message: `A consulta solicitada é inválida.`,
       });
     }
   };

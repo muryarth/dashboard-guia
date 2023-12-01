@@ -1,4 +1,5 @@
 import { Expertises } from "../models/index.js";
+import { HandleQuerySearch } from "../services/index.js";
 
 export default class ExpertiseController {
   // GET -> ./expertises
@@ -37,7 +38,8 @@ export default class ExpertiseController {
 
     if (!urlParams.senha) {
       try {
-        const expertises = await Expertises.find({ ...urlParams }, {});
+        const search = await HandleQuerySearch();
+        const expertises = await Expertises.find(search, {});
 
         res.status(200).send({
           message: "Especialidades encontradas com sucesso.",

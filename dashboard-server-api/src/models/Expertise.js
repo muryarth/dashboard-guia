@@ -7,10 +7,11 @@ const ExpertiseSchema = new Schema({
   especialidade: {
     type: String,
     required: true,
+    unique: true,
   },
   registerDate: {
     type: Schema.Types.Mixed,
-    Default: () => GetCurrentTimeObject(),
+    default: () => GetCurrentTimeObject(),
     immutable: true,
   },
 });

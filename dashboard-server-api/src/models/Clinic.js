@@ -7,6 +7,7 @@ const ClinicSchema = new Schema({
   nome: {
     type: String,
     required: true,
+    unique: true,
   },
   endereco: {
     type: String,
@@ -14,7 +15,7 @@ const ClinicSchema = new Schema({
   },
   registerDate: {
     type: Schema.Types.Mixed,
-    Default: () => GetCurrentTimeObject,
+    default: () => GetCurrentTimeObject,
     immutable: true,
   },
 });

@@ -23,12 +23,12 @@ const EmployeeSchema = new Schema({
   },
   registerDate: {
     type: Schema.Types.Mixed,
-    Default: () => GetCurrentTimeObject(),
+    default: () => GetCurrentTimeObject(),
     immutable: true,
   },
   lastUpdated: {
     type: Schema.Types.Mixed,
-    Default: () => GetCurrentTimeObject(),
+    default: () => GetCurrentTimeObject(),
   },
 });
 

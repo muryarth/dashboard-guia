@@ -1,5 +1,5 @@
 import { Customers } from "../models/index.js";
-import { GetCurrentTimeObject } from "../services/index.js";
+import { GetCurrentTimeObject, HandleQuerySearch } from "../services/index.js";
 
 export default class CustomerController {
   // GET -> ./customers
@@ -24,7 +24,7 @@ export default class CustomerController {
         res.status(204).send(); // A requisição foi bem sucedida mas nenhum registro foi encontrado
       }
     } catch (err) {
-      res.send({
+      res.status(500).send({
         message: `Erro interno no servidor.`,
         err: err,
       });
@@ -33,18 +33,16 @@ export default class CustomerController {
 
   // GET -> ./customers/search (Busca com filtro)
   static GetCustomersByQuerySearch = async (req, res) => {
-    const urlParams = req.query;
-    console.log(urlParams);
-
     try {
-      const customers = await Customers.find({ ...urlParams }, {});
+      const search = await HandleQuerySearch(req);
+      const customers = await Customers.find(search, {});
 
-      res.send({
+      res.status(200).send({
         message: "Clientes encontrados com sucesso.",
         results: customers,
       });
     } catch (err) {
-      res.send({
+      res.status(500).send({
         message: `Erro interno no servidor.`,
         err: err,
       });
@@ -60,10 +58,10 @@ export default class CustomerController {
 
       res.status(200).send({
         message: `Cliente de ID:(${id}) encontrado com sucesso.`,
-        results: employees,
+        results: customers,
       });
     } catch (err) {
-      res.send({
+      res.status(500).send({
         message: `Erro interno no servidor.`,
         err: err,
       });
@@ -76,12 +74,12 @@ export default class CustomerController {
 
     try {
       const customer = await newCustomer.save();
-      res.send({
+      res.status(201).send({
         message: "Cliente adicionado com sucesso.",
-        results: customer.toJSON(),
+        results: customer,
       });
     } catch (err) {
-      res.send({
+      res.status(500).send({
         message: `Erro interno no servidor.`,
         err: err,
       });
@@ -105,12 +103,12 @@ export default class CustomerController {
       //   $set: { ...req.body, lastUpdate },
       // });
 
-      res.send({
+      res.status(200).send({
         message: "Cliente cadastrado com successfully.",
         results: updateCustomer.toJSON(),
       });
     } catch (err) {
-      res.send({
+      res.status(500).send({
         message: `Erro interno no servidor.`,
         err: err,
       });
@@ -125,12 +123,12 @@ export default class CustomerController {
     try {
       await Customers.findByIdAndDelete(id);
 
-      res.send({
+      res.status(200).send({
         message: `Cliente de id:(${id}) removido com sucesso.`,
         results: { oldId: id },
       });
     } catch (err) {
-      res.send({
+      res.status(500).send({
         message: `Erro interno no servidor.`,
         err: err,
       });

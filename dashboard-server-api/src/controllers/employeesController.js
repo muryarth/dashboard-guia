@@ -24,11 +24,7 @@ export default class EmployeeController {
           results: employees,
         });
       } else {
-        res.status(204).send({
-          message:
-            "Nenhum usuário foi adicionado a esta coleção até o momento.",
-          results: employees,
-        });
+        res.status(204).send(); // A requisição foi bem sucedida mas nenhum registro foi encontrado
       }
     } catch (err) {
       res.status(500).send({
@@ -74,7 +70,7 @@ export default class EmployeeController {
       const employees = await Employees.findById(id).select("-senha");
 
       res.status(200).send({
-        message: "Funcionário encontrado com sucesso.",
+        message: `Funcionário de ID:(${id}) encontrado com sucesso.`,
         results: employees,
       });
     } catch (err) {
@@ -92,7 +88,7 @@ export default class EmployeeController {
     try {
       await newEmployee.save();
       res.status(201).send({
-        message: "Funcionário adicionado com sucesso.",
+        message: "Funcionário cadastrado com sucesso.",
       });
     } catch (err) {
       res.status(500).send({
@@ -115,7 +111,7 @@ export default class EmployeeController {
       );
 
       // Alternativa
-      // const updateEmplyee = await Employees.findByIdAndUpdate(id, {
+      // const updateEmployee = await Employees.findByIdAndUpdate(id, {
       //   $set: { ...req.body, lastUpdate },
       // });
 

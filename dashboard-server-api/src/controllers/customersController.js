@@ -5,8 +5,6 @@ export default class CustomerController {
   // GET -> ./customers
   static GetAllCustomers = async (req, res) => {
     try {
-      let customers;
-
       const { page = 1, limit = 10 } = req.query;
 
       const pageNumber = parseInt(page);
@@ -15,12 +13,19 @@ export default class CustomerController {
       // Calcula o número de documentos para pular
       const skip = (pageNumber - 1) * limitNumber;
 
-      customers = await Customers.find().skip(skip).limit(limitNumber);
+      const customers = await Customers.find().skip(skip).limit(limitNumber);
 
-      res.send(customers);
+      if (customers.length > 0) {
+        res.status(200).send({
+          message: "Clientes encontradas com sucesso.",
+          results: customers,
+        });
+      } else {
+        res.status(204).send(); // A requisição foi bem sucedida mas nenhum registro foi encontrado
+      }
     } catch (err) {
       res.send({
-        message: `Ocorreu um erro no servidor.`,
+        message: `Erro interno no servidor.`,
         err: err,
       });
     }
@@ -35,12 +40,12 @@ export default class CustomerController {
       const customers = await Customers.find({ ...urlParams }, {});
 
       res.send({
-        message: "Customers found successfully.",
+        message: "Clientes encontrados com sucesso.",
         results: customers,
       });
     } catch (err) {
       res.send({
-        message: `Ocorreu um erro no servidor.`,
+        message: `Erro interno no servidor.`,
         err: err,
       });
     }
@@ -53,10 +58,13 @@ export default class CustomerController {
     try {
       const customers = await Customers.findById(id);
 
-      res.send(customers);
+      res.status(200).send({
+        message: `Cliente de ID:(${id}) encontrado com sucesso.`,
+        results: employees,
+      });
     } catch (err) {
       res.send({
-        message: `Ocorreu um erro no servidor.`,
+        message: `Erro interno no servidor.`,
         err: err,
       });
     }
@@ -69,12 +77,12 @@ export default class CustomerController {
     try {
       const customer = await newCustomer.save();
       res.send({
-        message: "Customer added successfully.",
+        message: "Cliente adicionado com sucesso.",
         results: customer.toJSON(),
       });
     } catch (err) {
       res.send({
-        message: `Ocorreu um erro no servidor.`,
+        message: `Erro interno no servidor.`,
         err: err,
       });
     }
@@ -86,17 +94,24 @@ export default class CustomerController {
     const lastUpdate = GetCurrentTimeObject();
 
     try {
-      const updateCustomer = await Customers.findByIdAndUpdate(id, {
-        $set: { ...req.body, lastUpdate },
-      });
+      const updateCustomer = await Customers.findOneAndUpdate(
+        { _id: id },
+        { $set: { ...req.body, lastUpdate } },
+        { new: true }
+      );
+
+      // Alternativa
+      // const updateCustomer = await Customers.findByIdAndUpdate(id, {
+      //   $set: { ...req.body, lastUpdate },
+      // });
 
       res.send({
-        message: "Customer added successfully.",
+        message: "Cliente cadastrado com successfully.",
         results: updateCustomer.toJSON(),
       });
     } catch (err) {
       res.send({
-        message: `Ocorreu um erro no servidor.`,
+        message: `Erro interno no servidor.`,
         err: err,
       });
     }
@@ -111,12 +126,12 @@ export default class CustomerController {
       await Customers.findByIdAndDelete(id);
 
       res.send({
-        message: `Customer of id:(${id}) removed successfully.`,
+        message: `Cliente de id:(${id}) removido com sucesso.`,
         results: { oldId: id },
       });
     } catch (err) {
       res.send({
-        message: `Ocorreu um erro no servidor.`,
+        message: `Erro interno no servidor.`,
         err: err,
       });
     }

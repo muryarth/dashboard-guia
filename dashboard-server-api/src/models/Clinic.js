@@ -14,15 +14,9 @@ const ClinicSchema = new Schema({
     required: true,
   },
   registerDate: {
-    FormatBR: { type: Date },
-    FormatUTC: { type: Date },
+    type: Schema.Types.Mixed,
     default: () => GetCurrentTimeObject,
     immutable: true,
-  },
-  lastUpdated: {
-    FormatBR: { type: Date },
-    FormatUTC: { type: Date },
-    default: () => GetCurrentTimeObject,
   },
 });
 

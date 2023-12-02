@@ -33,14 +33,12 @@ const AgreementSchema = new Schema({
     immutable: true,
   },
   registerDate: {
-    FormatBR: { type: Date },
-    FormatUTC: { type: Date },
+    type: Schema.Types.Mixed,
     default: () => GetCurrentTimeObject(),
     immutable: true,
   },
   lastUpdate: {
-    FormatBR: { type: Date },
-    FormatUTC: { type: Date },
+    type: Schema.Types.Mixed,
     default: () => GetCurrentTimeObject(),
   },
 });

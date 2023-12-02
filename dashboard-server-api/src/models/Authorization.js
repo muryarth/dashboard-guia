@@ -20,8 +20,7 @@ const AuthorizationSchema = new Schema({
     ref: "clinics",
   },
   registerDate: {
-    FormatBR: { type: Date },
-    FormatUTC: { type: Date },
+    type: Schema.Types.Mixed,
     default: () => GetCurrentTimeObject(),
     immutable: true,
   },

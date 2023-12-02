@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { GetCurrentTimeObject } from "../services/index.js";
-import HandleDefaultDate from "../middlewares/handleDefaultDate.js";
 
 const Schema = mongoose.Schema;
 

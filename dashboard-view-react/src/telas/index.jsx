@@ -8,14 +8,14 @@ import Container from "react-bootstrap/Container";
 
 // Componentes da prórpria App
 import AppHeader from "../components/AppHeader";
-import Sidebar from "../components/Sidebar";
+import AppSidebar from "../components/AppSidebar";
 
 export default function Main({ children }) {
   return (
     <>
-      <AppHeader />
-      <Sidebar />
-      <Container>{children}</Container>
+      {/* <AppHeader />
+      <AppSidebar /> */}
+      <Container className="ms-auto">{children}</Container>
     </>
   );
 }

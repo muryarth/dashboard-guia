@@ -35,7 +35,10 @@ function Home() {
 
             <div className="btn-toolbar mb-2 mb-md-0">
               <div className="btn-group me-2">
-                <a href="/customers/add" className="btn btn-sm btn-outline-secondary">
+                <a
+                  href="/customers/add"
+                  className="btn btn-sm btn-outline-secondary"
+                >
                   + Novo Cliente
                 </a>
               </div>

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { GetCurrentTimeObject } from "../services/index.js";
+import HandleDefaultDate from "../middlewares/handleDefaultDate.js";
 
 const Schema = mongoose.Schema;
 
@@ -20,9 +21,26 @@ const CustomerSchema = new Schema({
     type: String,
     required: true,
   },
+  matricula: {
+    type: String,
+    unique: true,
+  },
+  rg: {
+    type: String,
+    unique: true,
+  },
+  cpf: {
+    type: String,
+    unique: true,
+  },
   conveniosAtivos: {
     type: Schema.Types.ObjectId,
     ref: "agreements",
+  },
+  endereco: {
+    rua: { type: String },
+    cep: { type: String },
+    uf: { type: String },
   },
   registerDate: {
     type: Schema.Types.Mixed,

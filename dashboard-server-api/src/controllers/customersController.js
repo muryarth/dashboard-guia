@@ -75,7 +75,7 @@ export default class CustomerController {
     try {
       const customer = await newCustomer.save();
       res.status(201).send({
-        message: "Cliente adicionado com sucesso.",
+        message: "Cliente cadastrado com sucesso.",
         results: customer,
       });
     } catch (err) {
@@ -104,7 +104,7 @@ export default class CustomerController {
       // });
 
       res.status(200).send({
-        message: "Cliente cadastrado com successfully.",
+        message: `Cliente de id:(${id}) atualizado com successfully.`,
         results: updateCustomer.toJSON(),
       });
     } catch (err) {

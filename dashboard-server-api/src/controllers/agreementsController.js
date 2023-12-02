@@ -49,7 +49,7 @@ export default class AgreementController {
         });
 
       res.status(200).send({
-        message: "Clientes encontrados com sucesso.",
+        message: "Convênios encontrados com sucesso.",
         results: agreements,
       });
     } catch (err) {
@@ -74,7 +74,7 @@ export default class AgreementController {
         });
 
       res.status(200).send({
-        message: `Cliente de ID:(${id}) encontrado com sucesso.`,
+        message: `Convênio de ID:(${id}) encontrado com sucesso.`,
         results: agreements,
       });
     } catch (err) {
@@ -112,7 +112,7 @@ export default class AgreementController {
       );
 
       res.status(200).send({
-        message: "Cliente cadastrado com successfully.",
+        message: "Convênio atualizado com successfully.",
         results: updateAgreement.toJSON(),
       });
     } catch (err) {
@@ -132,7 +132,7 @@ export default class AgreementController {
       await Agreements.findByIdAndDelete(id);
 
       res.status(200).send({
-        message: `Cliente de id:(${id}) removido com sucesso.`,
+        message: `Convênio de id:(${id}) removido com sucesso.`,
         results: { oldId: id },
       });
     } catch (err) {

@@ -12,6 +12,21 @@ const CustomerSchema = new Schema({
     type: String,
     required: true,
   },
+  // matricula: {
+  //   type: String,
+  //   // required: true,
+  //   unique: true,
+  // },
+  rg: {
+    type: String,
+    // required: true,
+    unique: true,
+  },
+  cpf: {
+    type: String,
+    // required: true,
+    unique: true,
+  },
   telefone: {
     type: String,
     required: true,
@@ -24,13 +39,20 @@ const CustomerSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "agreements",
   },
+  endereco: {
+    rua: { type: String },
+    cep: { type: String },
+    uf: { type: String },
+  },
   registerDate: {
-    type: Schema.Types.Mixed,
+    FormatBR: { type: Date },
+    FormatUTC: { type: Date },
     default: () => GetCurrentTimeObject(),
     immutable: true,
   },
   lastUpdate: {
-    type: Schema.Types.Mixed,
+    FormatBR: { type: Date },
+    FormatUTC: { type: Date },
     default: () => GetCurrentTimeObject(),
   },
 });

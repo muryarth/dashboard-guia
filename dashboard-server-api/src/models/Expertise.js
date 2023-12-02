@@ -10,7 +10,8 @@ const ExpertiseSchema = new Schema({
     unique: true,
   },
   registerDate: {
-    type: Schema.Types.Mixed,
+    FormatBR: { type: Date },
+    FormatUTC: { type: Date },
     default: () => GetCurrentTimeObject(),
     immutable: true,
   },

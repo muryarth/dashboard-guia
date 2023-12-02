@@ -1,30 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
+import { Nav, Container } from "react-bootstrap";
 
-// Estilos
-import "./sidebar.css";
+export default function NewSidebar({
+  items = [
+    { name: "Dashboard", link: "/customers" },
+    { name: "About", link: "/customers/about" },
+  ],
+}) {
+  // const [sidebarItems, setSidebarItems] = useState();
 
-export default function Sidebar() {
   return (
-    <nav
-      id="sidebarMenu"
-      className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
-    >
-      <div className="position-sticky pt-3 sidebar-sticky">
-        <ul className="nav flex-column">
-          <li className="nav-item">
-            <a className="nav-link active" aria-current="page" href="/">
-              <i className="bi bi-house"></i>
-              Dashboard
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="/about">
-              <i className="bi bi-patch-question"></i>
-              About
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    <Nav className="flex-column position-fixed pt-3">
+      <Container fluid>
+        {items.map((item) => {
+          // Cria a sidebar de acordo com os valores recebidos pela prop, dinâmicamente
+          return (
+            <Nav.Link
+              className="active"
+              // key={item.name.toLowerCase()}
+              key={item.name}
+              href={item.link}
+            >
+              {item.name}
+            </Nav.Link>
+          );
+        })}
+      </Container>
+    </Nav>
   );
 }

@@ -4,6 +4,7 @@ import { GetCurrentTimeObject } from "../services/index.js";
 const Schema = mongoose.Schema;
 
 const CustomerSchema = new Schema({
+  // Campos obrigatórios
   nome: {
     type: String,
     required: true,
@@ -16,10 +17,13 @@ const CustomerSchema = new Schema({
     type: String,
     required: true,
   },
+
   email: {
     type: String,
     required: true,
   },
+
+  // Campos opcionais
   matricula: {
     type: String,
     unique: true,
@@ -32,15 +36,31 @@ const CustomerSchema = new Schema({
     type: String,
     unique: true,
   },
-  conveniosAtivos: {
-    type: Schema.Types.ObjectId,
-    ref: "agreements",
+  detalhesCliente: {
+    type: String,
   },
+  cidade: {
+    type: String,
+  },
+  dataNascimento: {
+    type: String,
+  },
+  genero: {
+    type: String,
+  },
+  conveniosAtivos: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "agreements",
+    },
+  ],
   endereco: {
     rua: { type: String },
     cep: { type: String },
     uf: { type: String },
   },
+
+  // Registrando data
   registerDate: {
     type: Schema.Types.Mixed,
     default: () => GetCurrentTimeObject(),

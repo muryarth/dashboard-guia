@@ -13,7 +13,10 @@ export default class CustomerController {
       // Calcula o número de documentos para pular
       const skip = (pageNumber - 1) * limitNumber;
 
-      const customers = await Customers.find().skip(skip).limit(limitNumber);
+      const customers = await Customers.find()
+        .skip(skip)
+        .limit(limitNumber)
+        .populate("conveniosAtivos");
 
       if (customers.length > 0) {
         res.status(200).send({

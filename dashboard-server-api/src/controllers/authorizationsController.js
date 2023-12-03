@@ -18,7 +18,7 @@ export default class AuthorizationController {
         .limit(limitNumber)
         .populate({
           path: "cliente",
-          select: ["_id", "nome"],
+          select: ["_id", "nome", "sobrenome"],
         })
         .populate("local")
         .populate({

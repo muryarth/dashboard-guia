@@ -19,6 +19,58 @@ import RequestHTTP from "../../../services/services";
 // Estilos
 import "./home.css";
 
+const actionsButtonGroup = [
+  {
+    title: "Ações",
+    component: (
+      <>
+        <Button
+          variant="info"
+          size="sm"
+          className="me-2"
+          onClick={() => console.log("Teste")}
+        >
+          Visualizar
+        </Button>
+        <Button
+          variant="primary"
+          size="sm"
+          className="me-2"
+          onClick={() => console.log("Teste")}
+        >
+          Editar
+        </Button>
+        <Button variant="danger" size="sm" onClick={() => console.log("Teste")}>
+          Deletar
+        </Button>
+      </>
+    ),
+  },
+  {
+    title: "Guias",
+    component: (
+      <>
+        <Button
+          variant="info"
+          size="sm"
+          className="me-2"
+          onClick={() => console.log("Teste")}
+        >
+          Emitir
+        </Button>
+        <Button
+          variant="primary"
+          size="sm"
+          className="me-2"
+          onClick={() => console.log("Teste")}
+        >
+          Histórico
+        </Button>
+      </>
+    ),
+  },
+];
+
 function CustomersHome() {
   const [customerList, setCustomerList] = useState([]);
 
@@ -38,7 +90,7 @@ function CustomersHome() {
           <Container fluid className="pt-3 pb-2 mb-3 border-bottom">
             <Row className="justify-content-between align-items-center">
               <Col md="auto">
-                <h1 className="h2">Dashboard</h1>
+                <h1 className="h2">Dashboard de clientes:</h1>
               </Col>
               <Col md="auto">
                 <ButtonToolbar className="mb-2 mb-md-0">
@@ -54,7 +106,11 @@ function CustomersHome() {
             </Row>
           </Container>
 
-          {Dashboard(customerList)}
+          <Dashboard
+            elements={customerList}
+            fields={["_id", "nome", "cpf", "email", "telefone", "registerDate"]}
+            buttonsGroup={actionsButtonGroup}
+          />
         </Col>
       </Row>
     </Container>

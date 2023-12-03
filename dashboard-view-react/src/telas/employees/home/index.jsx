@@ -28,6 +28,39 @@ function EmployeesHome() {
     GetEmployees();
   }, []);
 
+  const actionsButtonGroup = [
+    {
+      title: "Ações",
+      component: (
+        <>
+          <Button
+            variant="info"
+            size="sm"
+            className="me-2"
+            onClick={() => console.log("Teste")}
+          >
+            Visualizar
+          </Button>
+          <Button
+            variant="primary"
+            size="sm"
+            className="me-2"
+            onClick={() => console.log("Teste")}
+          >
+            Editar
+          </Button>
+          <Button
+            variant="danger"
+            size="sm"
+            onClick={() => console.log("Teste")}
+          >
+            Deletar
+          </Button>
+        </>
+      ),
+    },
+  ];
+
   return (
     <Container fluid>
       <Row>
@@ -35,7 +68,7 @@ function EmployeesHome() {
           <Container fluid className="pt-3 pb-2 mb-3 border-bottom">
             <Row className="justify-content-between align-items-center">
               <Col md="auto">
-                <h1 className="h2">Dashboard</h1>
+                <h1 className="h2">Dashboard de funcionários:</h1>
               </Col>
               <Col md="auto">
                 <ButtonToolbar className="mb-2 mb-md-0">
@@ -51,7 +84,11 @@ function EmployeesHome() {
             </Row>
           </Container>
 
-          {Dashboard(employeesList)}
+          <Dashboard
+            elements={employeesList}
+            fields={["nome", "administrador", "registerDate", "lastUpdated"]}
+            buttonsGroup={actionsButtonGroup}
+          />
         </Col>
       </Row>
     </Container>

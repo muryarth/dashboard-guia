@@ -1,58 +1,45 @@
 import { Table, Button } from "react-bootstrap";
 
-export default function Dashboard(
-  elements,
+export default function Dashboard({
+  elements = [
+    { nome: "nome", cpf: "cpf", email: "email", telefone: "telefone" },
+    { nome: "nome", cpf: "cpf", email: "email", telefone: "telefone" },
+    { nome: "nome", cpf: "cpf", email: "email", telefone: "telefone" },
+  ],
   fields = ["nome", "cpf", "email", "telefone"],
-  buttonsGroup = [
-    {
-      title: "Ações",
-      component: (
-        <>
-          <Button
-            variant="info"
-            size="sm"
-            className="me-2"
-            onClick={() => console.log("Teste")}
-          >
-            Visualizar
-          </Button>
-          <Button
-            variant="primary"
-            size="sm"
-            className="me-2"
-            onClick={() => console.log("Teste")}
-          >
-            Editar
-          </Button>
-          <Button
-            variant="danger"
-            size="sm"
-            onClick={() => console.log("Teste")}
-          >
-            Deletar
-          </Button>
-        </>
-      ),
-    },
-  ]
-) {
+  buttonsGroup = [],
+  message = "Nenhum item disponível.",
+}) {
   return (
     <>
-      {elements.length > 0 ? (
+      {fields.length > 0 && elements.length > 0 ? (
         <div className="table-responsive">
           <Table striped bordered hover size="sm">
+            {/* Cabeçalhos */}
             <thead>
               <tr>
                 {fields.map((field) => {
                   if (
-                    (field !== "cpf",
-                    field !== "rg",
-                    field !== "uf",
-                    field !== "cep")
+                    field === "cpf" ||
+                    field === "rg" ||
+                    field === "uf" ||
+                    field === "cep"
                   ) {
                     return (
                       <th key={field} className="text-center">
-                        {`${field.charAt(0).toUpperCase()}${field.slice(1)}`}
+                        {`${field.toUpperCase()}`}
+                      </th>
+                    );
+                  } else if (field === "registerDate") {
+                    return (
+                      <th key={field} className="text-center">
+                        {"Cadastrado em:"}
+                      </th>
+                    );
+                  } else if (field === "lastUpdated") {
+                    return (
+                      <th key={field} className="text-center">
+                        {"Última atualização:"}
                       </th>
                     );
                   } else {
@@ -75,10 +62,11 @@ export default function Dashboard(
                   })}
               </tr>
             </thead>
+
+            {/* Renderiza cada célula da tabela */}
             <tbody>
               {elements.map((element) => (
                 <tr key={element._id}>
-                  {/* Renderiza cada célula da tabela */}
                   {fields.map((field) => {
                     if (field === "nome" && element.sobrenome) {
                       return (
@@ -87,11 +75,35 @@ export default function Dashboard(
                           className="text-center"
                         >{`${element["nome"]} ${element["sobrenome"]}`}</td>
                       );
+                    } else if (field === "registerDate") {
+                      return (
+                        <td
+                          key={field}
+                          className="text-center"
+                        >{`${element[field].FormatBR}`}</td>
+                      );
+                    } else if (field === "lastUpdated") {
+                      return (
+                        <td
+                          key={field}
+                          className="text-center"
+                        >{`${element[field].FormatBR}`}</td>
+                      );
+                    } else if (field === "administrador") {
+                      return (
+                        <td key={field} className="text-center">
+                          {element[field] === true ? "Sim" : "Não"}
+                        </td>
+                      );
                     }
-                    return <td className="text-center">{element[field]}</td>;
+                    return (
+                      <td key={field} className="text-center">
+                        {element[field]}
+                      </td>
+                    );
                   })}
 
-                  {/* Renderiza o componente com botões */}
+                  {/* Renderiza o componente com botões (Opcional) */}
                   {buttonsGroup.length > 0 &&
                     buttonsGroup.map((buttonGroup) => {
                       if (buttonGroup.title && buttonGroup.component) {
@@ -111,7 +123,7 @@ export default function Dashboard(
           </Table>
         </div>
       ) : (
-        <p className="text-center">No customers available.</p>
+        <p className="text-center">{message}</p>
       )}
     </>
   );

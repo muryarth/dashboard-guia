@@ -35,7 +35,7 @@ export default function Main({ children }) {
   const headerOptions = [];
 
   const sidebarOptions = [
-    { name: "Dashboard", link: "/customers" },
+    { name: "Clientes", link: "/customers" },
     { name: "Funcionários", link: "/employees" },
     { name: "Convênios", link: "/agreements" },
     { name: "Histórico de guias", link: "/authorizations" },

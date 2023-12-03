@@ -14,7 +14,7 @@ export default function CustomersAdd() {
   const [uf, setUF] = useState("");
   const [detalhesCliente, setDetalhesCliente] = useState("");
 
-  const CampoForm = (label, placeholder, nome, set) => {
+  const CampoForm = (label, placeholder, nome, set, required = false) => {
     return (
       <>
         <label>{`${label}:`}</label>
@@ -25,7 +25,7 @@ export default function CustomersAdd() {
           value={nome}
           placeholder={placeholder}
           onChange={(event) => set(event.target.value)}
-          required
+          required={required}
         />
       </>
     );
@@ -67,11 +67,11 @@ export default function CustomersAdd() {
 
         <Row className="form-group mb-4">
           <Col>
-            {CampoForm("Telefone", "(00)90000-0000", telefone, setTelefone)}
+            {CampoForm("Telefone", "(00)90000-0000", telefone, setTelefone, true)}
           </Col>
 
           <Col>
-            {CampoForm("Email", "exemplo@exemplo.com", email, setEmail)}
+            {CampoForm("Email", "exemplo@exemplo.com", email, setEmail, true)}
           </Col>
         </Row>
 

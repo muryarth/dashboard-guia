@@ -1,3 +1,3 @@
-import AuthorizationsHome from "../telas/authorizations/home";
+import AuthHome from "../telas/auth/home";
 
-export { AuthorizationsHome };
+export { AuthHome };

@@ -6,7 +6,8 @@ import { createBrowserRouter } from "react-router-dom";
 // Componentes sendo importados na rota
 import { CustomersHome, CustomersAdd } from "./customersRoutes";
 import { EmployeesHome } from "./employeesRoutes";
-import { AuthorizationsHome } from "./authRoutes";
+import { AuthHome } from "./authRoutes";
+import { AgreeHome } from "./agreeRoutes";
 
 const router = createBrowserRouter([
   {
@@ -27,7 +28,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/authorizations",
-    element: <AuthorizationsHome />,
+    element: <AuthHome />,
+  },
+  {
+    path: "/agreements",
+    element: <AgreeHome />,
   },
 ]);
 

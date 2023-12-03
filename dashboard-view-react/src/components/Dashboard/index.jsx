@@ -1,4 +1,4 @@
-import { Table, Button } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 
 export default function Dashboard({
   elements = [
@@ -94,7 +94,7 @@ export default function Dashboard({
                     } else if (field === "cliente") {
                       return (
                         <td key={field} className="text-center">
-                          {`${element[field].nome}`}
+                          {`${element[field].nome} ${element[field].sobrenome}`}
                         </td>
                       );
                     } else if (field === "local") {
@@ -109,6 +109,25 @@ export default function Dashboard({
                           {element[field].especialidade}
                         </td>
                       );
+                    } else if (field === "locais") {
+                      let htmlElement = (
+                        <td key={field} className="text-center">
+                          {element[field].map((item) => {
+                            return `${item.nome}; `;
+                          })}
+                        </td>
+                      );
+
+                      return htmlElement;
+                    } else if (field === "especialidades") {
+                      let htmlElement = (
+                        <td key={field} className="text-center">
+                          {element[field].map((item) => {
+                            return `${item.especialidade}; `;
+                          })}
+                        </td>
+                      );
+                      return htmlElement;
                     }
                     return (
                       <td key={field} className="text-center">

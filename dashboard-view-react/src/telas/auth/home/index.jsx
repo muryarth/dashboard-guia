@@ -16,16 +16,28 @@ import RequestHTTP from "../../../services/services";
 // Placeholder Loader
 // import ContentLoader from "react-content-loader";
 
-function EmployeesHome() {
-  const [employeesList, setEmployeesList] = useState([]);
+function AuthHome() {
+  const [authorizationsList, setAuthorizationsList] = useState([]);
 
-  const GetEmployees = async () => {
-    const data = await RequestHTTP.GetPaginatedItems("/employees");
-    setEmployeesList(data);
+  // const GetCustomerAuthorizationByName = async () => {
+  //   console.log(searchName);
+
+  //   if (searchName !== "") {
+  //     const data = await RequestHTTP.GetItemsBySearch(
+  //       "/authorizations",
+  //       `name=${searchName}`
+  //     );
+  //     setAuthorizationsList(data);
+  //   }
+  // };
+
+  const GetCustomerAuthorization = async () => {
+    const data = await RequestHTTP.GetPaginatedItems("/authorizations");
+    setAuthorizationsList(data);
   };
 
   useEffect(() => {
-    GetEmployees();
+    GetCustomerAuthorization();
   }, []);
 
   const actionsButtonGroup = [
@@ -66,9 +78,9 @@ function EmployeesHome() {
       <Row>
         <Col>
           <Container fluid className="pt-3 pb-2 mb-3 border-bottom">
-            <Row className="justify-content-between align-items-center">
+            <Row className="align-items-center">
               <Col md="auto">
-                <h1 className="h2">Funcionários:</h1>
+                <h1 className="h2">Guias emitidas:</h1>
               </Col>
               <Col md="auto" className="flex-fill">
                 <Form.Control
@@ -91,11 +103,11 @@ function EmployeesHome() {
               <Col md="auto">
                 <ButtonToolbar className="mb-2 mb-md-0">
                   <Button
-                    href="/employees/add"
+                    href="/authorizations/add"
                     variant="outline-secondary"
                     size="sm"
                   >
-                    + Novo Funcionário
+                    + Nova Guia
                   </Button>
                 </ButtonToolbar>
               </Col>
@@ -103,9 +115,8 @@ function EmployeesHome() {
           </Container>
 
           <Dashboard
-            elements={employeesList}
-            fields={["nome", "administrador", "registerDate", "lastUpdated"]}
-            buttonsGroup={actionsButtonGroup}
+            elements={authorizationsList}
+            fields={["cliente", "local", "especialidade", "registerDate"]}
           />
         </Col>
       </Row>
@@ -113,4 +124,4 @@ function EmployeesHome() {
   );
 }
 
-export default EmployeesHome;
+export default AuthHome;

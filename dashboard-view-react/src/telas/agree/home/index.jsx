@@ -3,7 +3,7 @@ import {
   Container,
   Row,
   Col,
-  Table,
+  Form,
   Button,
   ButtonToolbar,
 } from "react-bootstrap";
@@ -16,29 +16,22 @@ import RequestHTTP from "../../../services/services";
 // Placeholder Loader
 // import ContentLoader from "react-content-loader";
 
-function AuthorizationsHome() {
-  const [authorizationsList, setAuthorizationsList] = useState([]);
-  const [searchName, setSearchName] = useState();
+function AgreeHome() {
+  const [agreementsList, setAgreementsList] = useState([]);
+  const [search, setSearch] = useState("");
 
-  // const GetCustomerAuthorizationByName = async () => {
-  //   console.log(searchName);
+  const GetAllAgreements = async () => {
+    const data = await RequestHTTP.GetPaginatedItems("/agreements");
+    setAgreementsList(data);
+  };
 
-  //   if (searchName !== "") {
-  //     const data = await RequestHTTP.GetItemsBySearch(
-  //       "/authorizations",
-  //       `name=${searchName}`
-  //     );
-  //     setAuthorizationsList(data);
-  //   }
-  // };
-
-  const GetCustomerAuthorization = async () => {
-    const data = await RequestHTTP.GetPaginatedItems("/authorizations");
-    setAuthorizationsList(data);
+  const GetAgreementsBySearch = async () => {
+    const data = await RequestHTTP.GetPaginatedItems("/agreements");
+    setAgreementsList(data);
   };
 
   useEffect(() => {
-    GetCustomerAuthorization();
+    GetAllAgreements();
   }, []);
 
   const actionsButtonGroup = [
@@ -79,9 +72,27 @@ function AuthorizationsHome() {
       <Row>
         <Col>
           <Container fluid className="pt-3 pb-2 mb-3 border-bottom">
-            <Row className="justify-content-between align-items-center">
+            <Row className="align-items-center">
               <Col md="auto">
-                <h1 className="h2">Dashboard de funcionários:</h1>
+                <h1 className="h2">Convênios:</h1>
+              </Col>
+              <Col md="auto" className="flex-fill">
+                <Form.Control
+                  type="text"
+                  placeholder="Pesquisar..."
+                  className="mr-sm-2"
+                />
+              </Col>
+              <Col md="auto">
+                <ButtonToolbar className="mb-2 mb-md-0">
+                  <Button
+                    variant="outline-secondary"
+                    size="sm"
+                    onClick={() => {}}
+                  >
+                    Pesquisar
+                  </Button>
+                </ButtonToolbar>
               </Col>
               <Col md="auto">
                 <ButtonToolbar className="mb-2 mb-md-0">
@@ -90,7 +101,7 @@ function AuthorizationsHome() {
                     variant="outline-secondary"
                     size="sm"
                   >
-                    + Nova Guia
+                    + Novo Convênio
                   </Button>
                 </ButtonToolbar>
               </Col>
@@ -98,8 +109,8 @@ function AuthorizationsHome() {
           </Container>
 
           <Dashboard
-            elements={authorizationsList}
-            fields={["cliente", "local", "especialidade", "registerDate"]}
+            elements={agreementsList}
+            fields={["nome", "locais", "especialidades"]}
           />
         </Col>
       </Row>
@@ -107,4 +118,4 @@ function AuthorizationsHome() {
   );
 }
 
-export default AuthorizationsHome;
+export default AgreeHome;

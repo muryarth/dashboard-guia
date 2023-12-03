@@ -18,6 +18,10 @@ const CustomerSchema = new Schema({
     required: true,
     unique: true,
   },
+  cpf: {
+    type: String,
+    required: true,
+  },
 
   // Campos opcionais
   matricula: {
@@ -27,9 +31,6 @@ const CustomerSchema = new Schema({
     type: String,
   },
   rg: {
-    type: String,
-  },
-  cpf: {
     type: String,
   },
   detalhesCliente: {

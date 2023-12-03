@@ -1,38 +1,32 @@
 import React, { useEffect, useState } from "react";
+import { Container, Row, Col, Table, Button } from "react-bootstrap";
+
+import RequestHTTP from "../../../services/services";
+
+// Placeholder Loader
+// import ContentLoader from "react-content-loader";
+
+// Estilos
 import "./home.css";
 
 function Home() {
   const [customerList, setCustomerList] = useState([]);
 
+  const GetCustomers = async () => {
+    const data = await RequestHTTP.GetPaginatedItems("/customers");
+    setCustomerList(data);
+  };
+
   useEffect(() => {
-    const getCustomers = async () => {
-      try {
-        const response = await fetch(
-          "https://dashboard-server-api.vercel.app/customers",
-          { method: "GET" }
-        );
-        const data = await response.json();
-
-        if (Array.isArray(data.results)) {
-          setCustomerList(data.results);
-        } else {
-          console.error("Invalid data format:", data);
-        }
-      } catch (error) {
-        console.error("Error fetching customers:", error);
-      }
-    };
-
-    getCustomers();
+    GetCustomers();
   }, []);
 
   return (
-    <div className="container-fluid">
-      <div className="row">
-        <main className="col-md-9 col-lg-10 px-md-4">
+    <Container fluid>
+      <Row>
+        <Col md={9} lg={10} className="px-md-4">
           <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 className="h2">Dashboard</h1>
-
             <div className="btn-toolbar mb-2 mb-md-0">
               <div className="btn-group me-2">
                 <a
@@ -44,10 +38,10 @@ function Home() {
               </div>
             </div>
           </div>
-
+          {console.log(customerList)}
           {customerList.length > 0 ? (
             <div className="table-responsive">
-              <table className="table table-striped table-sm">
+              <Table striped bordered hover size="sm">
                 <thead>
                   <tr>
                     <th>Nome</th>
@@ -65,27 +59,27 @@ function Home() {
                       <td>{customer.email}</td>
                       <td>{customer.telefone}</td>
                       <td>
-                        <button className="btn btn-sm btn-info me-2">
+                        <Button variant="info" size="sm" className="me-2">
                           Visualizar
-                        </button>
-                        <button className="btn btn-sm btn-primary me-2">
+                        </Button>
+                        <Button variant="primary" size="sm" className="me-2">
                           Editar
-                        </button>
-                        <button className="btn btn-sm btn-danger">
+                        </Button>
+                        <Button variant="danger" size="sm">
                           Deletar
-                        </button>
+                        </Button>
                       </td>
                     </tr>
                   ))}
                 </tbody>
-              </table>
+              </Table>
             </div>
           ) : (
             <p>No customers available.</p>
           )}
-        </main>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 

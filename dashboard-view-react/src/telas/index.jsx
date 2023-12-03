@@ -1,11 +1,9 @@
-import React, { Children } from "react";
-import ReactDOM from "react-dom";
+import React from "react";
 
 // react-bootstrap
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
 
 // Componentes da prórpria App
 import AppSidebar from "../components/AppSidebar";

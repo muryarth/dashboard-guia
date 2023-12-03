@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Navbar, Nav, Form } from "react-bootstrap";
+import React from "react";
+import { Navbar, Nav } from "react-bootstrap";
 
 export default function HeaderNavbar({ items = [] }) {
   return (

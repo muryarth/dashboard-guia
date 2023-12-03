@@ -7,6 +7,7 @@ const AgreementSchema = new Schema({
   nome: {
     type: String,
     required: true,
+    unique: true
   },
   preco: {
     type: Number,

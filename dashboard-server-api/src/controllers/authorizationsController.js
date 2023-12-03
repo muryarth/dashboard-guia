@@ -22,7 +22,7 @@ export default class AuthorizationController {
 
       if (authorizations.length > 0) {
         res.status(200).send({
-          message: "Convênios encontrados com sucesso.",
+          message: "Guias encontradas com sucesso.",
           results: authorizations,
         });
       } else {
@@ -86,7 +86,7 @@ export default class AuthorizationController {
     try {
       const authorization = await newAuthorization.save();
       res.status(200).send({
-        message: "Convênio criado com sucesso",
+        message: "Guia gerada com sucesso",
         results: authorization,
       });
     } catch (err) {

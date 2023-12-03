@@ -24,9 +24,9 @@ function AuthorizationsHome() {
   //   console.log(searchName);
 
   //   if (searchName !== "") {
-  //     const data = await RequestHTTP.GetItemsBySearchName(
+  //     const data = await RequestHTTP.GetItemsBySearch(
   //       "/authorizations",
-  //       searchName
+  //       `name=${searchName}`
   //     );
   //     setAuthorizationsList(data);
   //   }

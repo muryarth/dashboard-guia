@@ -43,12 +43,12 @@ export default class RequestHTTP {
     }
   };
 
-  // search?nome=Id
-  static GetItemsBySearchId = async (endpoint, searchId, url = baseURL) => {
-    console.log(`${url}${endpoint}/search?_id=${searchId}`);
+  // search?
+  static GetItemsBySearch = async (endpoint, querySearch, url = baseURL) => {
+    console.log(`${url}${endpoint}/search?${querySearch}`);
 
     try {
-      const response = await fetch(`${url}${endpoint}/search?_id=${searchId}`, {
+      const response = await fetch(`${url}${endpoint}/search?${querySearch}`, {
         method: "GET",
       });
 
@@ -58,6 +58,34 @@ export default class RequestHTTP {
         return jsonData.results;
       }
       return [];
+    } catch (error) {
+      return error;
+    }
+  };
+
+  static AddItem = async (endpoint, url = baseURL) => {
+    console.log(`${url}${endpoint}`);
+
+    try {
+      const response = await fetch(`${url}${endpoint}`, {
+        method: "POST",
+      });
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  };
+
+  static GetItemById = async (endpoint, id, url = baseURL) => {
+    console.log(`${url}${endpoint}/${id}`);
+
+    try {
+      const response = await fetch(`${url}${endpoint}/${id}`, {
+        method: "DELETE",
+      });
+
+      return response;
     } catch (error) {
       return error;
     }

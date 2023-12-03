@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import RequestHTTP from "../../../services/services";
 
 export default function CustomersAdd() {
   const [nome, setNome] = useState("");
@@ -31,7 +32,7 @@ export default function CustomersAdd() {
     );
   };
 
-  const SendPOSTRequest = () => {
+  const SubmitFormData = () => {
     const body = {};
 
     body.nome = nome;
@@ -46,28 +47,39 @@ export default function CustomersAdd() {
     body.uf = uf;
     body.detalhesCliente = detalhesCliente;
 
-    console.log(body);
+    if ((nome !== "", sobrenome !== "", telefone !== "", email !== "")) {
+      RequestHTTP.AddItem("/customers", body);
+    }
   };
 
   return (
     <Container fluid>
       <Form>
         <Row className="form-group mb-4">
-          <Col>{CampoForm("Nome", "Insira o nome...", nome, setNome)}</Col>
+          <Col>
+            {CampoForm("Nome", "Insira o nome...", nome, setNome, true)}
+          </Col>
 
           <Col>
             {CampoForm(
               "Sobrenome",
               "Insira o sobrenome...",
               sobrenome,
-              setSobrenome
+              setSobrenome,
+              true
             )}
           </Col>
         </Row>
 
         <Row className="form-group mb-4">
           <Col>
-            {CampoForm("Telefone", "(00)90000-0000", telefone, setTelefone, true)}
+            {CampoForm(
+              "Telefone",
+              "(00)90000-0000",
+              telefone,
+              setTelefone,
+              true
+            )}
           </Col>
 
           <Col>
@@ -111,7 +123,7 @@ export default function CustomersAdd() {
           <Button
             // type="submit"
             variant="primary"
-            onClick={() => SendPOSTRequest()}
+            onClick={() => SubmitFormData()}
           >
             Adicionar Cliente
           </Button>

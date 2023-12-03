@@ -86,12 +86,17 @@ export default class RequestHTTP {
     }
   };
 
-  static AddItem = async (endpoint, url = baseURL) => {
+  static AddItem = async (endpoint, body, url = baseURL) => {
     console.log(`${url}${endpoint}`);
+    console.log(body);
 
     try {
       const response = await fetch(`${url}${endpoint}`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
       });
 
       return response;

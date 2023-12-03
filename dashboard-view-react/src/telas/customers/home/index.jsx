@@ -13,7 +13,13 @@ function Home() {
   const [customerList, setCustomerList] = useState([]);
 
   const GetCustomers = async () => {
+    // const teste = await RequestHTTP.GetItemById(
+    //   "/customers",
+    //   "65695931f320a434ac744055"
+    // );
+    // console.log(teste);
     const data = await RequestHTTP.GetPaginatedItems("/customers");
+    console.log(data);
     setCustomerList(data);
   };
 

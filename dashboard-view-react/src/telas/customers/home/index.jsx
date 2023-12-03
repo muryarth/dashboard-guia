@@ -38,27 +38,27 @@ function Home() {
               </div>
             </div>
           </div>
-          {console.log(customerList)}
+
           {customerList.length > 0 ? (
             <div className="table-responsive">
               <Table striped bordered hover size="sm">
                 <thead>
                   <tr>
-                    <th>Nome</th>
-                    <th>Sobrenome</th>
-                    <th>E-mail</th>
-                    <th>Telefone</th>
-                    <th>Ações</th>
+                    <th className="text-center">Nome</th>
+                    <th className="text-center">Sobrenome</th>
+                    <th className="text-center">E-mail</th>
+                    <th className="text-center">Telefone</th>
+                    <th className="text-center">Ações</th>
                   </tr>
                 </thead>
                 <tbody>
                   {customerList.map((customer) => (
                     <tr key={customer._id}>
-                      <td>{customer.nome}</td>
-                      <td>{customer.sobrenome}</td>
-                      <td>{customer.email}</td>
-                      <td>{customer.telefone}</td>
-                      <td>
+                      <td className="text-center">{customer.nome}</td>
+                      <td className="text-center">{customer.sobrenome}</td>
+                      <td className="text-center">{customer.email}</td>
+                      <td className="text-center">{customer.telefone}</td>
+                      <td className="text-center">
                         <Button variant="info" size="sm" className="me-2">
                           Visualizar
                         </Button>
@@ -75,7 +75,7 @@ function Home() {
               </Table>
             </div>
           ) : (
-            <p>No customers available.</p>
+            <p className="text-center">No customers available.</p>
           )}
         </Col>
       </Row>

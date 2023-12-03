@@ -75,14 +75,10 @@ export default function Dashboard({
                           className="text-center"
                         >{`${element["nome"]} ${element["sobrenome"]}`}</td>
                       );
-                    } else if (field === "registerDate") {
-                      return (
-                        <td
-                          key={field}
-                          className="text-center"
-                        >{`${element[field].FormatBR}`}</td>
-                      );
-                    } else if (field === "lastUpdated") {
+                    } else if (
+                      field === "registerDate" ||
+                      field === "lastUpdated"
+                    ) {
                       return (
                         <td
                           key={field}
@@ -93,6 +89,24 @@ export default function Dashboard({
                       return (
                         <td key={field} className="text-center">
                           {element[field] === true ? "Sim" : "Não"}
+                        </td>
+                      );
+                    } else if (field === "cliente") {
+                      return (
+                        <td key={field} className="text-center">
+                          {`${element[field].nome}`}
+                        </td>
+                      );
+                    } else if (field === "local") {
+                      return (
+                        <td key={field} className="text-center">
+                          {element[field].nome}
+                        </td>
+                      );
+                    } else if (field === "especialidade") {
+                      return (
+                        <td key={field} className="text-center">
+                          {element[field].especialidade}
                         </td>
                       );
                     }

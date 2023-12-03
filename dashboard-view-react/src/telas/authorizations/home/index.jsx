@@ -16,16 +16,29 @@ import RequestHTTP from "../../../services/services";
 // Placeholder Loader
 // import ContentLoader from "react-content-loader";
 
-function EmployeesHome() {
-  const [employeesList, setEmployeesList] = useState([]);
+function AuthorizationsHome() {
+  const [authorizationsList, setAuthorizationsList] = useState([]);
+  const [searchName, setSearchName] = useState();
 
-  const GetEmployees = async () => {
-    const data = await RequestHTTP.GetPaginatedItems("/employees");
-    setEmployeesList(data);
+  // const GetCustomerAuthorizationByName = async () => {
+  //   console.log(searchName);
+
+  //   if (searchName !== "") {
+  //     const data = await RequestHTTP.GetItemsBySearchName(
+  //       "/authorizations",
+  //       searchName
+  //     );
+  //     setAuthorizationsList(data);
+  //   }
+  // };
+
+  const GetCustomerAuthorization = async () => {
+    const data = await RequestHTTP.GetPaginatedItems("/authorizations");
+    setAuthorizationsList(data);
   };
 
   useEffect(() => {
-    GetEmployees();
+    GetCustomerAuthorization();
   }, []);
 
   const actionsButtonGroup = [
@@ -73,11 +86,11 @@ function EmployeesHome() {
               <Col md="auto">
                 <ButtonToolbar className="mb-2 mb-md-0">
                   <Button
-                    href="/employees/add"
+                    href="/authorizations/add"
                     variant="outline-secondary"
                     size="sm"
                   >
-                    + Novo Funcionário
+                    + Nova Guia
                   </Button>
                 </ButtonToolbar>
               </Col>
@@ -85,9 +98,8 @@ function EmployeesHome() {
           </Container>
 
           <Dashboard
-            elements={employeesList}
-            fields={["nome", "administrador", "registerDate", "lastUpdated"]}
-            buttonsGroup={actionsButtonGroup}
+            elements={authorizationsList}
+            fields={["cliente", "local", "especialidade", "registerDate"]}
           />
         </Col>
       </Row>
@@ -95,4 +107,4 @@ function EmployeesHome() {
   );
 }
 
-export default EmployeesHome;
+export default AuthorizationsHome;

@@ -42,4 +42,24 @@ export default class RequestHTTP {
       return error;
     }
   };
+
+  // search?nome=Id
+  static GetItemsBySearchId = async (endpoint, searchId, url = baseURL) => {
+    console.log(`${url}${endpoint}/search?_id=${searchId}`);
+
+    try {
+      const response = await fetch(`${url}${endpoint}/search?_id=${searchId}`, {
+        method: "GET",
+      });
+
+      const jsonData = await response.json();
+
+      if (jsonData.results) {
+        return jsonData.results;
+      }
+      return [];
+    } catch (error) {
+      return error;
+    }
+  };
 }

@@ -36,10 +36,9 @@ export default function Main({ children }) {
 
   const sidebarOptions = [
     { name: "Dashboard", link: "/customers" },
-    { name: "Convênios", link: "/agreements" },
-    { name: "Guias", link: "/authorizarions" },
     { name: "Funcionários", link: "/employees" },
-    { name: "Log", link: "/log" },
+    { name: "Convênios", link: "/agreements" },
+    { name: "Histórico de guias", link: "/authorizations" },
     { name: "About", link: "/about" },
   ];
 

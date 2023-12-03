@@ -16,11 +16,12 @@ const CustomerSchema = new Schema({
   telefone: {
     type: String,
     required: true,
+    unique: true,
   },
-
   email: {
     type: String,
     required: true,
+    unique: true,
   },
 
   // Campos opcionais
@@ -39,14 +40,17 @@ const CustomerSchema = new Schema({
   detalhesCliente: {
     type: String,
   },
-  cidade: {
-    type: String,
-  },
   dataNascimento: {
     type: String,
   },
   genero: {
     type: String,
+  },
+  endereco: {
+    uf: { type: String },
+    cidade: { type: String },
+    rua: { type: String },
+    cep: { type: String },
   },
   conveniosAtivos: [
     {
@@ -54,11 +58,6 @@ const CustomerSchema = new Schema({
       ref: "agreements",
     },
   ],
-  endereco: {
-    rua: { type: String },
-    cep: { type: String },
-    uf: { type: String },
-  },
 
   // Registrando data
   registerDate: {

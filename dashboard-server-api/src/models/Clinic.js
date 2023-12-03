@@ -10,8 +10,10 @@ const ClinicSchema = new Schema({
     unique: true,
   },
   endereco: {
-    type: String,
-    required: true,
+    uf: { type: String, required: true },
+    cidade: { type: String, required: true },
+    rua: { type: String },
+    cep: { type: String },
   },
   registerDate: {
     type: Schema.Types.Mixed,

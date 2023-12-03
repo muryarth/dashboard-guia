@@ -8,7 +8,7 @@ import Col from "react-bootstrap/Col";
 import { Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
 
 // Componentes da prórpria App
-import NewSidebar from "../components/AppSidebar";
+import AppSidebar from "../components/AppSidebar";
 import AppHeader from "../components/AppHeader";
 
 export default function Main({ children }) {
@@ -34,17 +34,26 @@ export default function Main({ children }) {
     padding: "35px", // ajuste conforme necessário
   };
 
-  const sidebarOptions = [{}];
+  const headerOptions = [];
+
+  const sidebarOptions = [
+    { name: "Dashboard", link: "/customers" },
+    { name: "Convênios", link: "/agreements" },
+    { name: "Guias", link: "/authorizarions" },
+    { name: "Funcionários", link: "/employees" },
+    { name: "Log", link: "/log" },
+    { name: "About", link: "/about" },
+  ];
 
   return (
     <>
       {/* Header fixo da App */}
-      <AppHeader />
+      <AppHeader items={headerOptions} />
 
       <Row style={{ margin: 0, overflow: "hidden" }}>
         {/* Siderbar fixa da App */}
         <Col style={{ padding: 0, ...sidebarStyle }}>
-          <NewSidebar />
+          <AppSidebar items={sidebarOptions} />
         </Col>
 
         {/* Conteúdo principal da página */}

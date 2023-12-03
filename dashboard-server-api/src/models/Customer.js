@@ -13,11 +13,6 @@ const CustomerSchema = new Schema({
     type: String,
     required: true,
   },
-  telefone: {
-    type: String,
-    required: true,
-    unique: true,
-  },
   email: {
     type: String,
     required: true,
@@ -27,15 +22,15 @@ const CustomerSchema = new Schema({
   // Campos opcionais
   matricula: {
     type: String,
-    unique: true,
+  },
+  telefone: {
+    type: String,
   },
   rg: {
     type: String,
-    unique: true,
   },
   cpf: {
     type: String,
-    unique: true,
   },
   detalhesCliente: {
     type: String,

@@ -16,9 +16,15 @@ export default class AuthorizationController {
       const authorizations = await Authorizations.find()
         .skip(skip)
         .limit(limitNumber)
-        .populate("cliente")
+        .populate({
+          path: "cliente",
+          select: ["_id", "nome"],
+        })
         .populate("local")
-        .populate("especialidade");
+        .populate({
+          path: "especialidade",
+          select: ["_id", "especialidade"],
+        });
 
       if (authorizations.length > 0) {
         res.status(200).send({
@@ -41,9 +47,15 @@ export default class AuthorizationController {
     try {
       const search = await HandleQuerySearch(req);
       const authorizations = await Authorizations.find(search, {})
-        .populate({ path: "cliente", select: ["_id", "nome", "sobrenome"] })
+        .populate({
+          path: "cliente",
+          select: ["_id", "nome"],
+        })
         .populate("local")
-        .populate("especialidade");
+        .populate({
+          path: "especialidade",
+          select: ["_id", "especialidade"],
+        });
 
       res.status(200).send({
         message: "Clientes encontrados com sucesso.",
@@ -63,9 +75,15 @@ export default class AuthorizationController {
 
     try {
       const authorizations = await Authorizations.findById(id)
-        .populate("cliente")
+        .populate({
+          path: "cliente",
+          select: ["_id", "nome"],
+        })
         .populate("local")
-        .populate("especialidade");
+        .populate({
+          path: "especialidade",
+          select: ["_id", "especialidade"],
+        });
 
       res.status(200).send({
         message: `Cliente de ID:(${id}) encontrado com sucesso.`,

@@ -16,19 +16,16 @@ import RequestHTTP from "../../../services/services";
 // Placeholder Loader
 // import ContentLoader from "react-content-loader";
 
-// Estilos
-import "./home.css";
+function EmployeesHome() {
+  const [employeesList, setEmployeesList] = useState([]);
 
-function CustomersHome() {
-  const [customerList, setCustomerList] = useState([]);
-
-  const GetCustomers = async () => {
-    const data = await RequestHTTP.GetPaginatedItems("/customers");
-    setCustomerList(data);
+  const GetEmployees = async () => {
+    const data = await RequestHTTP.GetPaginatedItems("/employees");
+    setEmployeesList(data);
   };
 
   useEffect(() => {
-    GetCustomers();
+    GetEmployees();
   }, []);
 
   return (
@@ -54,11 +51,11 @@ function CustomersHome() {
             </Row>
           </Container>
 
-          {Dashboard(customerList)}
+          {Dashboard(employeesList)}
         </Col>
       </Row>
     </Container>
   );
 }
 
-export default CustomersHome;
+export default EmployeesHome;

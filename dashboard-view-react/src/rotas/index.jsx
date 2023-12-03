@@ -4,21 +4,25 @@ import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 
 // Componentes sendo importados na rota
-import CustomerHome from "../telas/customers/home";
-import CustomerAdd from "../telas/customers/add";
+import { CustomersHome, CustomersAdd } from "./customersRoutes";
+import { EmployeesHome } from "./employeesRoutes";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <CustomerHome />,
+    element: <CustomersHome />,
   },
   {
     path: "/customers",
-    element: <CustomerHome />,
+    element: <CustomersHome />,
   },
   {
     path: "/customers/add",
-    element: <CustomerAdd />,
+    element: <CustomersAdd />,
+  },
+  {
+    path: "/employees",
+    element: <EmployeesHome />,
   },
 ]);
 

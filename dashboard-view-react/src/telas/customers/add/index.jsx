@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 
-export default function AddCustomer() {
+export default function CustomersAdd() {
   const [nome, setNome] = useState("");
   const [sobrenome, setSobrenome] = useState("");
   const [telefone, setTelefone] = useState("");

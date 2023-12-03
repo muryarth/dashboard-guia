@@ -1,360 +1,122 @@
 import React, { useState } from "react";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 
 export default function AddCustomer() {
-  const [formData, setFormData] = useState({
-    nome: "",
-    sobrenome: "",
-    telefone: "",
-    email: "",
-  });
+  const [nome, setNome] = useState("");
+  const [sobrenome, setSobrenome] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [email, setEmail] = useState("");
+  const [rg, setRG] = useState("");
+  const [cpf, setCPF] = useState("");
+  const [matricula, setMatricula] = useState("");
+  const [cep, setCEP] = useState("");
+  const [endereco, setEndereco] = useState("");
+  const [uf, setUF] = useState("");
+  const [detalhesCliente, setDetalhesCliente] = useState("");
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  const CampoForm = (label, placeholder, nome, set) => {
+    return (
+      <>
+        <label>{`${label}:`}</label>
+        <input
+          type="text"
+          className="form-control"
+          name={`${nome}`}
+          value={nome}
+          placeholder={placeholder}
+          onChange={(event) => set(event.target.value)}
+          required
+        />
+      </>
+    );
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission, you can use formData to send the data to the server
-    console.log("Form Data:", formData);
+  const SendPOSTRequest = () => {
+    const body = {};
+
+    body.nome = nome;
+    body.sobrenome = sobrenome;
+    body.telefone = telefone;
+    body.email = email;
+    body.rg = rg;
+    body.cpf = cpf;
+    body.matricula = matricula;
+    body.cep = cep;
+    body.endereco = endereco;
+    body.uf = uf;
+    body.detalhesCliente = detalhesCliente;
+
+    console.log(body);
   };
 
   return (
-    <div className="container-fluid">
-      {/* ... (previous code) */}
-      <form action="/add" method="POST" onSubmit={handleSubmit}>
-        <div className="row form-group mb-4">
-          <div className="col">
-            <label htmlFor="nomePrimeiro">Nome</label>
-            <input
-              type="text"
-              className="form-control"
-              id="nome"
-              name="nomePrimeiro"
-              value={formData.nomePrimeiro}
-              placeholder="Nome"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
+    <Container fluid>
+      <Form>
+        <Row className="form-group mb-4">
+          <Col>{CampoForm("Nome", "Insira o nome...", nome, setNome)}</Col>
 
-          <div className="col">
-            <label htmlFor="sobreNome">Sobrenome</label>
-            <input
-              type="text"
-              className="form-control"
-              id="sobrenome"
-              name="sobreNome"
-              value={formData.sobreNome}
-              placeholder="Sobrenome"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-        </div>
+          <Col>
+            {CampoForm(
+              "Sobrenome",
+              "Insira o sobrenome...",
+              sobrenome,
+              setSobrenome
+            )}
+          </Col>
+        </Row>
 
-        <div className="row form-group mb-4">
-          <div className="col">
-            <label htmlFor="tel">Contato</label>
-            <input
-              type="text"
-              className="form-control"
-              id="tel"
-              name="tel"
-              value={formData.tel}
-              placeholder="(00) 00000-0000"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
+        <Row className="form-group mb-4">
+          <Col>
+            {CampoForm("Telefone", "(00)90000-0000", telefone, setTelefone)}
+          </Col>
 
-          <div className="col">
-            <label htmlFor="email">E-mail</label>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              name="email"
-              value={formData.email}
-              placeholder="nome@exemplo.com"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-        </div>
-        <div className="row form-group mb-4">
-          <div className="col">
-            <label htmlFor="rg">RG</label>
-            <input
-              type="text"
-              className="form-control"
-              id="rg"
-              name="rg"
-              value={formData.rg}
-              placeholder="00.000.000-0"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
+          <Col>
+            {CampoForm("Email", "exemplo@exemplo.com", email, setEmail)}
+          </Col>
+        </Row>
 
-          <div className="col">
-            <label htmlFor="cpf">CPF</label>
-            <input
-              type="text"
-              className="form-control"
-              id="cpf"
-              name="cpf"
-              value={formData.cpf}
-              placeholder="000.000.000-00"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className="col">
-            <label htmlFor="matricula">Matrícula</label>
-            <input
-              type="text"
-              className="form-control"
-              id="matricula"
-              name="matricula"
-              value={formData.matricula}
-              placeholder="000000"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-        </div>
+        <Row className="form-group mb-4">
+          <Col>{CampoForm("RG", "00.000.000-0", rg, setRG)}</Col>
 
-        <div className="row form-group mb-4">
-          <div className="col">
-            <label htmlFor="cep">CEP</label>
-            <input
-              type="text"
-              className="form-control"
-              id="cep"
-              name="cep"
-              value={formData.cep}
-              placeholder="00000-00"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
+          <Col>{CampoForm("CPF", "000.000.000-00", cpf, setCPF)}</Col>
 
-          <div className="col">
-            <label htmlFor="endereco">Endereço</label>
-            <input
-              type="text"
-              className="form-control"
-              id="endereco"
-              name="endereco"
-              value={formData.endereco}
-              placeholder="Rua Exemplo, n° 100"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className="col">
-            <label htmlFor="uf">UF</label>
-            <input
-              type="text"
-              className="form-control"
-              id="uf"
-              name="uf"
-              value={formData.uf}
-              placeholder="RJ"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-        </div>
+          <Col>{CampoForm("Matrícula", "000000", matricula, setMatricula)}</Col>
+        </Row>
 
-        <div className="form-group mb-4">
-          <label htmlFor="details">Detalhes do Cliente</label>
-          <textarea
-            className="form-control"
-            name="details"
-            id="details"
-            cols="30"
-            rows="10"
-            value={formData.details}
-            placeholder="Detalhes do Cliente"
-            onChange={handleInputChange}
-          ></textarea>
-        </div>
+        <Row className="form-group mb-4">
+          <Col>{CampoForm("CEP", "00000-000", cep, setCEP)}</Col>
 
-        <div className="form-group mb-4">
-          <button type="submit" className="btn btn-primary">
+          <Col>
+            {CampoForm(
+              "Endereco",
+              "Rua Exemplo, n° 100",
+              endereco,
+              setEndereco
+            )}
+          </Col>
+
+          <Col>{CampoForm("UF", "Rio de Janeiro", uf, setUF)}</Col>
+        </Row>
+
+        <Form.Group className="mb-4">
+          {CampoForm(
+            "Detalhes do cliente",
+            "",
+            detalhesCliente,
+            setDetalhesCliente
+          )}
+        </Form.Group>
+
+        <Form.Group className="mb-4">
+          <Button
+            // type="submit"
+            variant="primary"
+            onClick={() => SendPOSTRequest()}
+          >
             Adicionar Cliente
-          </button>
-        </div>
-        <div className="row form-group mb-4">
-          <div className="col">
-            <label htmlFor="nomePrimeiro">Nome</label>
-            <input
-              type="text"
-              className="form-control"
-              id="nome"
-              name="nomePrimeiro"
-              value={formData.nomePrimeiro}
-              placeholder="Nome"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-
-          <div className="col">
-            <label htmlFor="sobreNome">Sobrenome</label>
-            <input
-              type="text"
-              className="form-control"
-              id="sobrenome"
-              name="sobreNome"
-              value={formData.sobreNome}
-              placeholder="Sobrenome"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-        </div>
-
-        <div className="row form-group mb-4">
-          <div className="col">
-            <label htmlFor="tel">Contato</label>
-            <input
-              type="text"
-              className="form-control"
-              id="tel"
-              name="tel"
-              value={formData.tel}
-              placeholder="(00) 00000-0000"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-
-          <div className="col">
-            <label htmlFor="email">E-mail</label>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              name="email"
-              value={formData.email}
-              placeholder="nome@exemplo.com"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-        </div>
-        <div className="row form-group mb-4">
-          <div className="col">
-            <label htmlFor="rg">RG</label>
-            <input
-              type="text"
-              className="form-control"
-              id="rg"
-              name="rg"
-              value={formData.rg}
-              placeholder="00.000.000-0"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-
-          <div className="col">
-            <label htmlFor="cpf">CPF</label>
-            <input
-              type="text"
-              className="form-control"
-              id="cpf"
-              name="cpf"
-              value={formData.cpf}
-              placeholder="000.000.000-00"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className="col">
-            <label htmlFor="matricula">Matrícula</label>
-            <input
-              type="text"
-              className="form-control"
-              id="matricula"
-              name="matricula"
-              value={formData.matricula}
-              placeholder="000000"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-        </div>
-
-        <div className="row form-group mb-4">
-          <div className="col">
-            <label htmlFor="cep">CEP</label>
-            <input
-              type="text"
-              className="form-control"
-              id="cep"
-              name="cep"
-              value={formData.cep}
-              placeholder="00000-00"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-
-          <div className="col">
-            <label htmlFor="endereco">Endereço</label>
-            <input
-              type="text"
-              className="form-control"
-              id="endereco"
-              name="endereco"
-              value={formData.endereco}
-              placeholder="Rua Exemplo, n° 100"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className="col">
-            <label htmlFor="uf">UF</label>
-            <input
-              type="text"
-              className="form-control"
-              id="uf"
-              name="uf"
-              value={formData.uf}
-              placeholder="RJ"
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-        </div>
-
-        <div className="form-group mb-4">
-          <label htmlFor="details">Detalhes do Cliente</label>
-          <textarea
-            className="form-control"
-            name="details"
-            id="details"
-            cols="30"
-            rows="10"
-            value={formData.details}
-            placeholder="Detalhes do Cliente"
-            onChange={handleInputChange}
-          ></textarea>
-        </div>
-
-        <div className="form-group mb-4">
-          <button type="submit" className="btn btn-primary">
-            Adicionar Cliente
-          </button>
-        </div>
-      </form>
-    </div>
+          </Button>
+        </Form.Group>
+      </Form>
+    </Container>
   );
 }

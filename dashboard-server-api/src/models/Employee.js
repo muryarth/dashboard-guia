@@ -12,6 +12,7 @@ const EmployeeSchema = new Schema({
   login: {
     type: String,
     required: true,
+    unique: true
   },
   senha: {
     type: String,

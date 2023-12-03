@@ -1,8 +1,7 @@
+const baseURL = "https://dashboard-guia.vercel.app";
+
 export default class RequestHTTP {
-  static GetPaginatedItems = async (
-    endpoint,
-    url = "https://dashboard-server-api.vercel.app"
-  ) => {
+  static GetPaginatedItems = async (endpoint, url = baseURL) => {
     // console.log(`${url}${endpoint}`);
 
     if (!(endpoint.split("/").filter((part) => part !== "").length > 1)) {
@@ -25,11 +24,7 @@ export default class RequestHTTP {
     }
   };
 
-  static GetItemById = async (
-    endpoint,
-    id,
-    url = "https://dashboard-server-api.vercel.app"
-  ) => {
+  static GetItemById = async (endpoint, id, url = baseURL) => {
     console.log(`${url}${endpoint}/${id}`);
 
     try {

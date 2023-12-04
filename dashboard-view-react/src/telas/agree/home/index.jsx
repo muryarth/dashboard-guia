@@ -13,9 +13,6 @@ import Dashboard from "../../../components/Dashboard";
 
 import RequestHTTP from "../../../services/services";
 
-// Placeholder Loader
-// import ContentLoader from "react-content-loader";
-
 function AgreeHome() {
   const [agreementsList, setAgreementsList] = useState([]);
   const [search, setSearch] = useState("");
@@ -97,7 +94,7 @@ function AgreeHome() {
               <Col md="auto">
                 <ButtonToolbar className="mb-2 mb-md-0">
                   <Button
-                    href="/authorizations/add"
+                    href="/agreements/add"
                     variant="outline-secondary"
                     size="sm"
                   >

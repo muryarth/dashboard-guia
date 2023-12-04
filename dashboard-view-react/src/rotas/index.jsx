@@ -7,7 +7,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { CustomersHome, CustomersAdd } from "./customersRoutes";
 import { EmployeesHome } from "./employeesRoutes";
 import { AuthHome } from "./authRoutes";
-import { AgreeHome } from "./agreeRoutes";
+import { AgreeHome, AgreeAdd } from "./agreeRoutes";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "/agreements",
     element: <AgreeHome />,
+  },
+  {
+    path: "/agreements/add",
+    element: <AgreeAdd />,
   },
 ]);
 

@@ -17,6 +17,16 @@
         "Content-Type": "application/json"
       },
       "continue": true
+    },
+    {
+      "handle": "allow-origin",
+      "src": "/(.*)/:id",
+      "methods": ["PUT", "DELETE"],
+      "headers": {
+        "Access-Control-Allow-Origin": "https/localhost:3000",
+        "Content-Type": "application/json"
+      },
+      "continue": true
     }
   ]
 }

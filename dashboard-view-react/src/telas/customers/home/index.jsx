@@ -22,6 +22,7 @@ function CustomersHome() {
   const [customerList, setCustomerList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [currentUserId, setCurrentUserId] = useState();
+  const [currentUserName, setCurrentUserName] = useState();
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
@@ -29,7 +30,7 @@ function CustomersHome() {
   const actionsButtonGroup = [
     {
       title: "Ações",
-      component: ({ _id = "_id" }) => {
+      component: ({ _id = "_id", name = "name" }) => {
         return (
           <>
             <Button
@@ -38,6 +39,7 @@ function CustomersHome() {
               className="me-2"
               onClick={() => {
                 setCurrentUserId(_id);
+                setCurrentUserName(name);
                 handleShow();
               }}
             >
@@ -90,6 +92,7 @@ function CustomersHome() {
         showModal={showModal}
         handleClose={handleClose}
         currentUserId={currentUserId}
+        currentUserName={currentUserName}
       />
 
       <Container fluid>
@@ -134,13 +137,7 @@ function CustomersHome() {
 
             <Dashboard
               elements={customerList}
-              fields={[
-                "nome",
-                "cpf",
-                "email",
-                "telefone",
-                "registerDate",
-              ]}
+              fields={["nome", "cpf", "email", "telefone", "registerDate"]}
               buttonsGroup={actionsButtonGroup}
             />
           </Col>

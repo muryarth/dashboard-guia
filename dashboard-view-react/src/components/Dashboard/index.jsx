@@ -77,7 +77,7 @@ export default function Dashboard({
                     ) {
                       return (
                         <td key={field} className="text-center">
-                          Rafael Santos
+                          -
                         </td>
                       );
                     } else if (field === "nome" && element.sobrenome) {
@@ -157,7 +157,7 @@ export default function Dashboard({
                             key={`${buttonGroup.title}`}
                             className="text-center"
                           >
-                            <buttonGroup.component _id={element._id} />
+                            <buttonGroup.component _id={element._id} name={element.nome} />
                           </td>
                         );
                       }

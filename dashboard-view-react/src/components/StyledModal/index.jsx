@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Container, Button, Modal, Dropdown } from "react-bootstrap";
 import RequestHTTP from "../../services/services";
 
-const StyledModal = ({ showModal, handleClose, currentUserId = "" }) => {
+const StyledModal = ({
+  showModal,
+  handleClose,
+  currentUserId = "",
+  currentUserName = "",
+}) => {
   const [convenios, setConvenios] = useState([]);
   const [especialidades, setEspecialidades] = useState([]);
   const [locais, setLocais] = useState([]);
@@ -21,6 +26,22 @@ const StyledModal = ({ showModal, handleClose, currentUserId = "" }) => {
     setLocais(dadosConvenio.locais);
   };
 
+  const SendAuthorizationData = () => {
+    const body = {};
+
+    body.cliente = currentUserId;
+    body.preco = 70;
+    body.convenio = convenioAtivo;
+    body.especialidade = especialidadeAtiva;
+    body.local = localAtivo;
+    body.criadoPor = "656cb3af8d7c85e024a6a892";
+
+    if (convenioAtivo || especialidadeAtiva || localAtivo) {
+      RequestHTTP.AddItem("/authorizations", body);
+      window.location.reload();
+    }
+  };
+
   useEffect(() => {
     GetAgreements();
   }, []);
@@ -33,7 +54,7 @@ const StyledModal = ({ showModal, handleClose, currentUserId = "" }) => {
   return (
     <Modal show={showModal} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Emitir guia:</Modal.Title>
+        <Modal.Title>Emitir guia para {currentUserName}:</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Container>
@@ -133,7 +154,7 @@ const StyledModal = ({ showModal, handleClose, currentUserId = "" }) => {
         </Container>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="primary" onClick={() => console.log("Click!")}>
+        <Button variant="primary" onClick={() => SendAuthorizationData()}>
           Save Changes
         </Button>
         <Button variant="secondary" onClick={handleClose}>

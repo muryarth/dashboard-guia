@@ -22,7 +22,16 @@
   "routes": [
     {
       "src": "/(.*)",
+<<<<<<< HEAD
       "dest": "index.js"
+=======
+      "methods": ["GET", "POST", "PUT", "DELETE"],
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json"
+      },
+      "continue": true
+>>>>>>> parent of bccc28c (Update vercel.json)
     }
   ]
 }

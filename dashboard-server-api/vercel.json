@@ -7,27 +7,16 @@
     }
   ],
   "routes": [
-    { "handle": "filesystem" },
     {
       "handle": "allow-origin",
       "src": "/(.*)",
-      "methods": ["GET", "POST"],
-      "headers": {
-        "Access-Control-Allow-Origin": "https/localhost:3000",
-        "Content-Type": "application/json"
-      },
-      "continue": true
-    },
-    {
-      "src": "/api/customers/:id",
-      "methods": ["DELETE"],
+      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       "headers": {
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type"
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With, X-Auth-Token, Your-Custom-Header"
       },
-      "continue": true,
-      "dest": "https://dashboard-guia.vercel.app/customers/:id"
+      "continue": true
     }
   ]
 }

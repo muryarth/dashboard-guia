@@ -48,7 +48,7 @@ export default class RequestHTTP {
   };
 
   static GetItemById = async (endpoint, id, url = baseURL) => {
-    console.log(`${url}${endpoint}/${id}`);
+    // console.log(`${url}${endpoint}/${id}`);
 
     try {
       const response = await fetch(`${url}${endpoint}/${id}`, {
@@ -68,7 +68,7 @@ export default class RequestHTTP {
 
   // search?
   static GetItemsBySearch = async (endpoint, querySearch, url = baseURL) => {
-    console.log(`${url}${endpoint}/search?${querySearch}`);
+    // console.log(`${url}${endpoint}/search?${querySearch}`);
 
     try {
       const response = await fetch(`${url}${endpoint}/search?${querySearch}`, {
@@ -87,15 +87,12 @@ export default class RequestHTTP {
   };
 
   static AddItem = async (endpoint, body, url = baseURL) => {
-    console.log(`${url}${endpoint}`);
-    console.log(body);
+    // console.log(`${url}${endpoint}`);
+    // console.log(JSON.stringify(body));
 
     try {
       const response = await fetch(`${url}${endpoint}`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify(body),
       });
 
@@ -105,8 +102,24 @@ export default class RequestHTTP {
     }
   };
 
-  static GetItemById = async (endpoint, id, url = baseURL) => {
-    console.log(`${url}${endpoint}/${id}`);
+  static UpdateItem = async (endpoint, body, url = baseURL) => {
+    // console.log(`${url}${endpoint}`);
+    // console.log(JSON.stringify(body));
+
+    try {
+      const response = await fetch(`${url}${endpoint}`, {
+        method: "PUT",
+        body: JSON.stringify(body),
+      });
+
+      return response;
+    } catch (error) {
+      return error;
+    }
+  };
+
+  static DeleteItemById = async (endpoint, id, url = baseURL) => {
+    // console.log(`${url}${endpoint}/${id}`);
 
     try {
       const response = await fetch(`${url}${endpoint}/${id}`, {

@@ -1,23 +1,20 @@
 import express from "express";
-// import session from "express-session";
-// import methodOverride from "method-override";
+import cors from "cors";
 
 const serverConfiguration = (app) => {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
-  // app.use(methodOverride("_method"));
+  app.use(cors);
+  app.use(() => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    res.header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE");
+  });
 
-  // Express Session
-  // app.use(
-  //   session({
-  //     secret: "secret",
-  //     resave: false,
-  //     saveUninitialized: true,
-  //     cookie: {
-  //       maxAge: 1000 * 60 * 60 * 24 * 7, // uma semana
-  //     },
-  //   })
-  // );
+  next();
 };
 
 export default serverConfiguration;

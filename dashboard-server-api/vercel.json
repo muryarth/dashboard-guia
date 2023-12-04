@@ -17,6 +17,17 @@
         "Content-Type": "application/json"
       },
       "continue": true
+    },
+    {
+      "src": "/api/customers/:id",
+      "methods": ["DELETE"],
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type"
+      },
+      "continue": true,
+      "dest": "https://dashboard-guia.vercel.app/customers/:id"
     }
   ]
 }

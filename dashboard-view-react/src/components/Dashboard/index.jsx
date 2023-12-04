@@ -10,6 +10,8 @@ export default function Dashboard({
   buttonsGroup = [],
   message = "Nenhum item disponível.",
 }) {
+  console.log(elements);
+  
   return (
     <>
       {fields.length > 0 && elements.length > 0 ? (

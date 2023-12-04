@@ -31,7 +31,7 @@ function EmployeesHome() {
   const actionsButtonGroup = [
     {
       title: "Ações",
-      component: (
+      component: () => (
         <>
           <Button
             variant="info"

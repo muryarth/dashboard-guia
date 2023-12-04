@@ -105,6 +105,8 @@ export default class RequestHTTP {
   };
 
   static DeleteItemById = async (endpoint, id, url = baseURL) => {
+    console.log(`${url}${endpoint}/${id}`);
+
     try {
       const response = await fetch(`${url}${endpoint}/${id}`, {
         method: "DELETE",

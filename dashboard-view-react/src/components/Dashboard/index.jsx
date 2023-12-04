@@ -155,7 +155,7 @@ export default function Dashboard({
                             key={`${buttonGroup.title}`}
                             className="text-center"
                           >
-                            {buttonGroup.component}
+                            <buttonGroup.component _id={element._id} />
                           </td>
                         );
                       }

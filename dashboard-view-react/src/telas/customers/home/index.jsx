@@ -21,6 +21,7 @@ import RequestHTTP from "../../../services/services";
 function CustomersHome() {
   const [customerList, setCustomerList] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState();
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
@@ -28,41 +29,49 @@ function CustomersHome() {
   const actionsButtonGroup = [
     {
       title: "Ações",
-      component: (
-        <>
-          <Button
-            variant="success"
-            size="sm"
-            className="me-2"
-            onClick={() => handleShow()}
-          >
-            Emitir
-          </Button>
-          <Button
-            variant="info"
-            size="sm"
-            className="me-2"
-            onClick={() => console.log("Teste")}
-          >
-            Visualizar
-          </Button>
-          <Button
-            variant="primary"
-            size="sm"
-            className="me-2"
-            onClick={() => console.log("Teste")}
-          >
-            Editar
-          </Button>
-          <Button
-            variant="danger"
-            size="sm"
-            onClick={() => console.log("Teste")}
-          >
-            Deletar
-          </Button>
-        </>
-      ),
+      component: ({ _id = "_id" }) => {
+        return (
+          <>
+            <Button
+              variant="success"
+              size="sm"
+              className="me-2"
+              onClick={() => {
+                setCurrentUserId(_id);
+                handleShow();
+              }}
+            >
+              Emitir
+            </Button>
+            <Button
+              variant="info"
+              size="sm"
+              className="me-2"
+              onClick={() => console.log(_id)}
+            >
+              Visualizar
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              className="me-2"
+              onClick={() => console.log(_id)}
+            >
+              Editar
+            </Button>
+            <Button
+              variant="danger"
+              size="sm"
+              onClick={() => {
+                RequestHTTP.DeleteItemById("/customers", _id);
+                // window.location.reload();
+              }}
+            >
+              Deletar
+            </Button>
+          </>
+        );
+      },
     },
   ];
 
@@ -77,7 +86,11 @@ function CustomersHome() {
 
   return (
     <>
-      <StyledModal showModal={showModal} handleClose={handleClose} />
+      <StyledModal
+        showModal={showModal}
+        handleClose={handleClose}
+        currentUserId={currentUserId}
+      />
 
       <Container fluid>
         <Row>
@@ -122,7 +135,6 @@ function CustomersHome() {
             <Dashboard
               elements={customerList}
               fields={[
-                "_id",
                 "nome",
                 "cpf",
                 "email",

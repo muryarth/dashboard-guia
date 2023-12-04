@@ -2,8 +2,6 @@ const baseURL = "https://dashboard-guia.vercel.app";
 
 export default class RequestHTTP {
   static GetPaginatedItems = async (endpoint, url = baseURL) => {
-    // console.log(`${url}${endpoint}`);
-
     if (!(endpoint.split("/").filter((part) => part !== "").length > 1)) {
       // Verifica se está na rota principal
       try {
@@ -25,8 +23,6 @@ export default class RequestHTTP {
   };
 
   static GetAllItems = async (endpoint, url = baseURL) => {
-    // console.log(`${url}${endpoint}`);
-
     if (!(endpoint.split("/").filter((part) => part !== "").length > 1)) {
       // Verifica se está na rota principal
       try {
@@ -48,8 +44,6 @@ export default class RequestHTTP {
   };
 
   static GetItemById = async (endpoint, id, url = baseURL) => {
-    // console.log(`${url}${endpoint}/${id}`);
-
     try {
       const response = await fetch(`${url}${endpoint}/${id}`, {
         method: "GET",
@@ -68,8 +62,6 @@ export default class RequestHTTP {
 
   // search?
   static GetItemsBySearch = async (endpoint, querySearch, url = baseURL) => {
-    // console.log(`${url}${endpoint}/search?${querySearch}`);
-
     try {
       const response = await fetch(`${url}${endpoint}/search?${querySearch}`, {
         method: "GET",
@@ -87,9 +79,6 @@ export default class RequestHTTP {
   };
 
   static AddItem = async (endpoint, body, url = baseURL) => {
-    // console.log(`${url}${endpoint}`);
-    // console.log(JSON.stringify(body));
-
     try {
       const response = await fetch(`${url}${endpoint}`, {
         method: "POST",
@@ -103,9 +92,6 @@ export default class RequestHTTP {
   };
 
   static UpdateItem = async (endpoint, body, url = baseURL) => {
-    // console.log(`${url}${endpoint}`);
-    // console.log(JSON.stringify(body));
-
     try {
       const response = await fetch(`${url}${endpoint}`, {
         method: "PUT",
@@ -119,8 +105,6 @@ export default class RequestHTTP {
   };
 
   static DeleteItemById = async (endpoint, id, url = baseURL) => {
-    // console.log(`${url}${endpoint}/${id}`);
-
     try {
       const response = await fetch(`${url}${endpoint}/${id}`, {
         method: "DELETE",

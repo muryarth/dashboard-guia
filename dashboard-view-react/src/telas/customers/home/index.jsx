@@ -6,13 +6,13 @@ import {
   Form,
   Button,
   ButtonToolbar,
-  Modal,
-  Dropdown,
 } from "react-bootstrap";
 
 // Componente da app
 import Dashboard from "../../../components/Dashboard";
+import StyledModal from "../../../components/StyledModal";
 
+// Serviços
 import RequestHTTP from "../../../services/services";
 
 // Placeholder Loader
@@ -30,6 +30,14 @@ function CustomersHome() {
       title: "Ações",
       component: (
         <>
+          <Button
+            variant="success"
+            size="sm"
+            className="me-2"
+            onClick={() => handleShow()}
+          >
+            Emitir
+          </Button>
           <Button
             variant="info"
             size="sm"
@@ -56,21 +64,6 @@ function CustomersHome() {
         </>
       ),
     },
-    {
-      title: "Guias",
-      component: (
-        <>
-          <Button
-            variant="info"
-            size="sm"
-            className="me-2"
-            onClick={() => handleShow()}
-          >
-            Emitir
-          </Button>
-        </>
-      ),
-    },
   ];
 
   const GetCustomers = async () => {
@@ -84,59 +77,8 @@ function CustomersHome() {
 
   return (
     <>
-      <Modal show={showModal} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Emitir guia:</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="d-flex justify-content-between">
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Convênio
-              </Dropdown.Toggle>
+      <StyledModal showModal={showModal} handleClose={handleClose} />
 
-              <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Action 1</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Action 2</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Action 3</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Especialidade
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Action 1</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Action 2</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Action 3</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Local
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Action 1</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Action 2</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Action 3</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      
       <Container fluid>
         <Row>
           <Col>

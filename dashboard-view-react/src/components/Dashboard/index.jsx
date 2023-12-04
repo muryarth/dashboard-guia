@@ -68,7 +68,17 @@ export default function Dashboard({
               {elements.map((element) => (
                 <tr key={element._id}>
                   {fields.map((field) => {
-                    if (field === "nome" && element.sobrenome) {
+                    if (
+                      element[field] === null ||
+                      element[field] === undefined ||
+                      element[field] === ""
+                    ) {
+                      return (
+                        <td key={field} className="text-center">
+                          -
+                        </td>
+                      );
+                    } else if (field === "nome" && element.sobrenome) {
                       return (
                         <td
                           key={field}

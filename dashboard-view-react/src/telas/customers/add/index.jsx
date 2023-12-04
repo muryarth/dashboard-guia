@@ -15,19 +15,28 @@ export default function CustomersAdd() {
   const [uf, setUF] = useState("");
   const [detalhesCliente, setDetalhesCliente] = useState("");
 
-  const CampoForm = (label, placeholder, nome, set, required = false) => {
+  const CustomFormField = (
+    label,
+    placeholder,
+    nome,
+    set,
+    required = false,
+    as = "input"
+  ) => {
     return (
       <>
-        <label>{`${label}:`}</label>
-        <input
-          type="text"
-          className="form-control"
-          name={`${nome}`}
-          value={nome}
-          placeholder={placeholder}
-          onChange={(event) => set(event.target.value)}
-          required={required}
-        />
+        <Form.Group controlId={nome} className="mb-4">
+          <Form.Label>{`${label}:`}</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder={placeholder}
+            value={nome}
+            onChange={(event) => set(event.target.value)}
+            required={required}
+            as={as}
+            rows={as === "textarea" ? 6 : null}
+          />
+        </Form.Group>
       </>
     );
   };
@@ -49,6 +58,7 @@ export default function CustomersAdd() {
 
     if ((nome !== "", sobrenome !== "", telefone !== "", email !== "")) {
       RequestHTTP.AddItem("/customers", body);
+      window.location.reload();
     }
   };
 
@@ -57,11 +67,11 @@ export default function CustomersAdd() {
       <Form>
         <Row className="form-group mb-4">
           <Col>
-            {CampoForm("Nome", "Insira o nome...", nome, setNome, true)}
+            {CustomFormField("Nome", "Insira o nome...", nome, setNome, true)}
           </Col>
 
           <Col>
-            {CampoForm(
+            {CustomFormField(
               "Sobrenome",
               "Insira o sobrenome...",
               sobrenome,
@@ -73,7 +83,7 @@ export default function CustomersAdd() {
 
         <Row className="form-group mb-4">
           <Col>
-            {CampoForm(
+            {CustomFormField(
               "Telefone",
               "(00)90000-0000",
               telefone,
@@ -83,23 +93,31 @@ export default function CustomersAdd() {
           </Col>
 
           <Col>
-            {CampoForm("Email", "exemplo@exemplo.com", email, setEmail, true)}
+            {CustomFormField(
+              "Email",
+              "exemplo@exemplo.com",
+              email,
+              setEmail,
+              true
+            )}
           </Col>
         </Row>
 
         <Row className="form-group mb-4">
-          <Col>{CampoForm("RG", "00.000.000-0", rg, setRG)}</Col>
+          <Col>{CustomFormField("RG", "00.000.000-0", rg, setRG)}</Col>
 
-          <Col>{CampoForm("CPF", "000.000.000-00", cpf, setCPF)}</Col>
+          <Col>{CustomFormField("CPF", "000.000.000-00", cpf, setCPF)}</Col>
 
-          <Col>{CampoForm("Matrícula", "000000", matricula, setMatricula)}</Col>
+          <Col>
+            {CustomFormField("Matrícula", "000000", matricula, setMatricula)}
+          </Col>
         </Row>
 
         <Row className="form-group mb-4">
-          <Col>{CampoForm("CEP", "00000-000", cep, setCEP)}</Col>
+          <Col>{CustomFormField("CEP", "00000-000", cep, setCEP)}</Col>
 
           <Col>
-            {CampoForm(
+            {CustomFormField(
               "Endereco",
               "Rua Exemplo, n° 100",
               endereco,
@@ -107,24 +125,25 @@ export default function CustomersAdd() {
             )}
           </Col>
 
-          <Col>{CampoForm("UF", "Rio de Janeiro", uf, setUF)}</Col>
+          <Col>{CustomFormField("UF", "Rio de Janeiro", uf, setUF)}</Col>
         </Row>
 
-        <Form.Group className="mb-4">
-          {CampoForm(
-            "Detalhes do cliente",
-            "",
-            detalhesCliente,
-            setDetalhesCliente
-          )}
-        </Form.Group>
+        <Row>
+          <Col>
+            {CustomFormField(
+              "Detalhes do cliente",
+              "",
+              detalhesCliente,
+              setDetalhesCliente,
+              false,
+              "textarea"
+            )}
+          </Col>
+        </Row>
+        <Form.Group className="mb-4"></Form.Group>
 
         <Form.Group className="mb-4">
-          <Button
-            // type="submit"
-            variant="primary"
-            onClick={() => SubmitFormData()}
-          >
+          <Button variant="primary" onClick={() => SubmitFormData()}>
             Adicionar Cliente
           </Button>
         </Form.Group>

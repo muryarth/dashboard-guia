@@ -11,7 +11,7 @@
     {
       "handle": "allow-origin",
       "src": "/(.*)",
-      "methods": ["GET", "POST", "PUT", "DELETE"],
+      "methods": ["GET", "POST"],
       "headers": {
         "Access-Control-Allow-Origin": "https/localhost:3000",
         "Content-Type": "application/json"
@@ -20,11 +20,12 @@
     },
     {
       "handle": "allow-origin",
-      "src": "/(.*)/:id",
+      "src": "/(.*)",
       "methods": ["PUT", "DELETE"],
       "headers": {
         "Access-Control-Allow-Origin": "https/localhost:3000",
-        "Content-Type": "application/json"
+        "Access-Control-Allow-Methods": "DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type"
       },
       "continue": true
     }

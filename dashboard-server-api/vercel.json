@@ -16,15 +16,6 @@
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json"
       }
-    },
-    {
-      "src": "/(.*)/",
-      "dest": "/",
-      "methods": ["PUT", "DELETE"],
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json"
-      }
     }
   ]
 }

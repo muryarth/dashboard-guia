@@ -5,8 +5,6 @@ const CORSConfig = (app) => {
     ? process.env.ALLOWED_ORIGINS.split(";")
     : ["http://localhost:3000"];
 
-  console.log(allowedOrigins);
-
   const corsOptions = {
     origin: function (origin, callback) {
       if (allowedOrigins.indexOf(origin) !== -1 || !origin) {

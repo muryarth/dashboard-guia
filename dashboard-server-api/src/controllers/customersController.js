@@ -5,6 +5,8 @@ export default class CustomerController {
   // GET -> ./customers
   static GetAllCustomers = async (req, res) => {
     try {
+      res.setHeader("Content-Type", "application/json");
+
       const { page = 1, limit = 10 } = req.query;
 
       const pageNumber = parseInt(page);
@@ -37,6 +39,8 @@ export default class CustomerController {
   // GET -> ./customers/search (Busca com filtro)
   static GetCustomersByQuerySearch = async (req, res) => {
     try {
+      res.setHeader("Content-Type", "application/json");
+
       const search = await HandleQuerySearch(req);
       const customers = await Customers.find(search, {});
 
@@ -57,6 +61,8 @@ export default class CustomerController {
     const id = req.params.id;
 
     try {
+      res.setHeader("Content-Type", "application/json");
+
       const customers = await Customers.findById(id);
 
       res.status(200).send({
@@ -76,6 +82,8 @@ export default class CustomerController {
     const newCustomer = new Customers(req.body);
 
     try {
+      res.setHeader("Content-Type", "application/json");
+
       const customer = await newCustomer.save();
       res.status(201).send({
         message: "Cliente cadastrado com sucesso.",
@@ -95,6 +103,8 @@ export default class CustomerController {
     const lastUpdate = GetCurrentTimeObject();
 
     try {
+      res.setHeader("Content-Type", "application/json");
+
       const updateCustomer = await Customers.findOneAndUpdate(
         { _id: id },
         { $set: { ...req.body, lastUpdate } },
@@ -124,6 +134,8 @@ export default class CustomerController {
     console.log(id);
 
     try {
+      res.setHeader("Content-Type", "application/json");
+
       await Customers.findByIdAndDelete(id);
 
       res.status(200).send({

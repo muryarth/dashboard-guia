@@ -5,6 +5,8 @@ export default class EmployeeController {
   // GET -> ./employees
   static GetAllEmployees = async (req, res) => {
     try {
+      res.setHeader("Content-Type", "application/json");
+
       const { page = 1, limit = 10 } = req.query;
 
       const pageNumber = parseInt(page);
@@ -38,6 +40,8 @@ export default class EmployeeController {
   static GetEmployeesByQuerySearch = async (req, res) => {
     if (req.query.nome || req.query.administrador) {
       try {
+        res.setHeader("Content-Type", "application/json");
+
         const search = await HandleQuerySearch(req);
         const employees = await Employees.find(search, {}).select("-senha");
 
@@ -67,6 +71,8 @@ export default class EmployeeController {
     const id = req.params.id;
 
     try {
+      res.setHeader("Content-Type", "application/json");
+
       const employees = await Employees.findById(id).select("-senha");
 
       res.status(200).send({
@@ -86,6 +92,8 @@ export default class EmployeeController {
     const newEmployee = new Employees(req.body);
 
     try {
+      res.setHeader("Content-Type", "application/json");
+
       await newEmployee.save();
       res.status(201).send({
         message: "Funcionário cadastrado com sucesso.",
@@ -104,6 +112,8 @@ export default class EmployeeController {
     const lastUpdate = GetCurrentTimeObject();
 
     try {
+      res.setHeader("Content-Type", "application/json");
+
       const updateEmployee = await Employees.findOneAndUpdate(
         { _id: id },
         { $set: { ...req.body, lastUpdate } },
@@ -133,6 +143,8 @@ export default class EmployeeController {
     console.log(id);
 
     try {
+      res.setHeader("Content-Type", "application/json");
+
       await Employees.findByIdAndDelete(id);
 
       res.status(200).send({

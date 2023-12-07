@@ -5,6 +5,8 @@ export default class ExpertiseController {
   // GET -> ./expertises
   static GetAllExpertises = async (req, res) => {
     try {
+      res.setHeader("Content-Type", "application/json");
+
       const { page = 1, limit = 10 } = req.query;
 
       const pageNumber = parseInt(page);
@@ -38,6 +40,8 @@ export default class ExpertiseController {
 
     if (!urlParams.senha) {
       try {
+        res.setHeader("Content-Type", "application/json");
+
         const search = await HandleQuerySearch();
         const expertises = await Expertises.find(search, {});
 
@@ -63,6 +67,8 @@ export default class ExpertiseController {
     const id = req.params.id;
 
     try {
+      res.setHeader("Content-Type", "application/json");
+
       const expertises = await Expertises.findById(id);
 
       res.status(200).send({
@@ -82,6 +88,8 @@ export default class ExpertiseController {
     const newExpertise = new Expertises(req.body);
 
     try {
+      res.setHeader("Content-Type", "application/json");
+
       await newExpertise.save();
       res.status(201).send({
         message: "Especialidade adicionada com sucesso.",
@@ -100,6 +108,8 @@ export default class ExpertiseController {
     console.log(id);
 
     try {
+      res.setHeader("Content-Type", "application/json");
+
       await Expertises.findByIdAndDelete(id);
 
       res.status(200).send({

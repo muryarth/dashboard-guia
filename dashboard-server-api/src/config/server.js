@@ -1,20 +1,10 @@
 import express from "express";
-import cors from "cors";
+import CORSConfiguration from "./CORSConfiguration";
 
-const serverConfiguration = (app) => {
+const ServerConfiguration = (app) => {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
-  app.use(cors);
-  app.use(() => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    res.header("Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE");
-  });
-
-  next();
+  CORSConfiguration(app);
 };
 
-export default serverConfiguration;
+export default ServerConfiguration;

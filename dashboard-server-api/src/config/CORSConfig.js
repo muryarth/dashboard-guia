@@ -1,6 +1,6 @@
 import cors from "cors";
 
-const CORSConfiguration = (app) => {
+const CORSConfig = (app) => {
   const allowedOrigins = process.env.ALLOWED_ORIGINS
     ? process.env.ALLOWED_ORIGINS.split(";")
     : ["http://localhost:3000"];
@@ -21,4 +21,4 @@ const CORSConfiguration = (app) => {
   app.use(cors(corsOptions));
 };
 
-export default CORSConfiguration;
+export default CORSConfig;

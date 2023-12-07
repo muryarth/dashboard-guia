@@ -1,10 +1,10 @@
 import express from "express";
 import CORSConfig from "./CORSConfig.js";
 
-const ServerConfiguration = (app) => {
+const ServerConfig = (app) => {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
   CORSConfig(app);
 };
 
-export default ServerConfiguration;
+export default ServerConfig;

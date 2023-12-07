@@ -2,7 +2,7 @@ import dotenv from "dotenv/config.js";
 import express from "express";
 import routes from "./routes/index.js";
 import connectDB from "./config/db.js";
-import serverConfiguration from "./config/server.js";
+import ServerConfig from "./config/server.js";
 
 const app = express();
 
@@ -10,7 +10,7 @@ const app = express();
 connectDB();
 
 // Trás todas as configurações básicas do servidor
-serverConfiguration(app);
+ServerConfig(app);
 
 // Trás todas as rotas
 routes(app);

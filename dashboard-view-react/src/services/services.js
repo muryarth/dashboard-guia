@@ -1,4 +1,5 @@
-const baseURL = "https://dashboard-guia.vercel.app";
+const baseURL = "https://dashboard-convenio-api.vercel.app";
+console.log(baseURL);
 
 export default class RequestHTTP {
   static GetPaginatedItems = async (endpoint, url = baseURL) => {

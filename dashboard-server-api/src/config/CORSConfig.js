@@ -1,11 +1,9 @@
 import cors from "cors";
 
 const CORSConfig = (app) => {
-  // const allowedOrigins = process.env.ALLOWED_ORIGINS
-  //   ? process.env.ALLOWED_ORIGINS.split(",")
-  //   : ["http://localhost:3000"];
-
-  const allowedOrigins = ["*"];
+  const allowedOrigins = process.env.ALLOWED_ORIGINS
+    ? [process.env.ALLOWED_ORIGINS]
+    : ["http://localhost:3000"];
 
   const corsOptions = {
     origin: function (origin, callback) {

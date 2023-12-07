@@ -10,11 +10,7 @@
     { "handle": "filesystem" },
     {
       "src": "/(.*)",
-      "dest": "/",
-      "methods": ["GET", "POST", "PUT"],
-      "headers": {
-        "Content-Type": "application/json"
-      }
+      "dest": "/"
     }
   ]
 }

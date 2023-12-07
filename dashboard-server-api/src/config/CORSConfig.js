@@ -1,9 +1,18 @@
 import cors from "cors";
 
 const CORSConfig = (app) => {
-  const allowedOrigins = process.env.ALLOWED_ORIGINS
-    ? [process.env.ALLOWED_ORIGINS]
-    : ["http://localhost:3000"];
+  const allowedOrigins = [];
+
+  if (process.env.ALLOWED_ORIGINS) {
+    const origins = process.env.ALLOWED_ORIGINS.split(";");
+    origins.forEach((origin) => {
+      allowedOrigins.push(origin);
+    });
+  } else {
+    allowedOrigins.push("http://localhost:3000");
+  }
+
+  console.log(allowedOrigins);
 
   const corsOptions = {
     origin: function (origin, callback) {

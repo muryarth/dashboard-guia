@@ -5,6 +5,8 @@ export default class ClinicController {
   // GET -> ./clinics
   static GetAllClinics = async (req, res) => {
     try {
+      res.setHeader("Content-Type", "application/json");
+      
       const { page = 1, limit = 10 } = req.query;
 
       const pageNumber = parseInt(page);
@@ -38,6 +40,8 @@ export default class ClinicController {
 
     if (!urlParams.senha) {
       try {
+        res.setHeader("Content-Type", "application/json");
+        
         const search = await HandleQuerySearch();
         const clinics = await Clinics.find(search, {});
 
@@ -63,6 +67,8 @@ export default class ClinicController {
     const id = req.params.id;
 
     try {
+      res.setHeader("Content-Type", "application/json");
+      
       const clinics = await Clinics.findById(id);
 
       res.status(200).send({
@@ -82,6 +88,8 @@ export default class ClinicController {
     const newclinic = new Clinics(req.body);
 
     try {
+      res.setHeader("Content-Type", "application/json");
+      
       await newclinic.save();
       res.status(201).send({
         message: "Especialidade adicionada com sucesso.",
@@ -100,6 +108,8 @@ export default class ClinicController {
     const lastUpdate = GetCurrentTimeObject();
 
     try {
+      res.setHeader("Content-Type", "application/json");
+      
       const updateClinic = await Clinics.findOneAndUpdate(
         { _id: id },
         { $set: { ...req.body, lastUpdate } },
@@ -124,6 +134,8 @@ export default class ClinicController {
     console.log(id);
 
     try {
+      res.setHeader("Content-Type", "application/json");
+      
       await Clinics.findByIdAndDelete(id);
 
       res.status(200).send({

@@ -5,6 +5,8 @@ export default class AuthorizationController {
   // GET -> ./authorizations
   static GetAllAuthorizations = async (req, res) => {
     try {
+      res.setHeader('Content-Type', 'application/json');
+      
       const { page = 1, limit = 10 } = req.query;
 
       const pageNumber = parseInt(page);
@@ -45,6 +47,8 @@ export default class AuthorizationController {
     console.log(urlParams);
 
     try {
+      res.setHeader('Content-Type', 'application/json');
+      
       const search = await HandleQuerySearch(req);
       const authorizations = await Authorizations.find(search, {})
         .populate({
@@ -74,6 +78,8 @@ export default class AuthorizationController {
     const id = req.params.id;
 
     try {
+      res.setHeader('Content-Type', 'application/json');
+      
       const authorizations = await Authorizations.findById(id)
         .populate({
           path: "cliente",
@@ -102,6 +108,8 @@ export default class AuthorizationController {
     const newAuthorization = new Authorizations(req.body);
 
     try {
+      res.setHeader('Content-Type', 'application/json');
+      
       const authorization = await newAuthorization.save();
       res.status(200).send({
         message: "Guia gerada com sucesso",
@@ -112,36 +120,14 @@ export default class AuthorizationController {
     }
   };
 
-  // PUT -> ./authorizations/:id
-  // static UpdateAuthorization = async (req, res) => {
-  //   const id = req.params.id;
-  //   const lastUpdate = GetCurrentTimeObject();
-
-  //   try {
-  //     const updatedAuthorization = await Authorizations.findOneAndUpdate(
-  //       { _id: id },
-  //       { $set: { ...req.body, lastUpdate } },
-  //       { new: true } // Puxa o novo item criado para este contexto
-  //     );
-
-  //     res.status(200).send({
-  //       message: "Cliente cadastrado com successfully.",
-  //       results: updatedAuthorization.toJSON(),
-  //     });
-  //   } catch (err) {
-  //     res.status(500).send({
-  //       message: `Erro interno no servidor.`,
-  //       err: err,
-  //     });
-  //   }
-  // };
-
   //DELETE -> ./authorizations
   static DeleteAuthorization = async (req, res) => {
     const { id } = req.params;
     console.log(id);
 
     try {
+      res.setHeader('Content-Type', 'application/json');
+      
       await Authorizations.findByIdAndDelete(id);
 
       res.status(200).send({

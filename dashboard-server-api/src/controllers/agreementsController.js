@@ -5,6 +5,8 @@ export default class AgreementController {
   // GET -> ./agreements
   static GetAllAgreements = async (req, res) => {
     try {
+      res.setHeader("Content-Type", "application/json");
+
       const { page = 1, limit = 10 } = req.query;
 
       const pageNumber = parseInt(page);
@@ -39,6 +41,8 @@ export default class AgreementController {
   // GET -> ./agreements/search (Busca com filtro)
   static GetAgreementByQuerySearch = async (req, res) => {
     try {
+      res.setHeader("Content-Type", "application/json");
+
       const search = await HandleQuerySearch(req);
       const agreements = await Agreements.find(search, {})
         .populate("locais")
@@ -65,6 +69,8 @@ export default class AgreementController {
     const id = req.params.id;
 
     try {
+      res.setHeader("Content-Type", "application/json");
+
       const agreements = await Agreements.findById(id)
         .populate("locais")
         .populate("especialidades")
@@ -90,6 +96,8 @@ export default class AgreementController {
     const newAgreement = new Agreements(req.body);
 
     try {
+      res.setHeader("Content-Type", "application/json");
+
       const agreement = await newAgreement.save();
       res
         .status(200)
@@ -105,6 +113,8 @@ export default class AgreementController {
     const lastUpdate = GetCurrentTimeObject();
 
     try {
+      res.setHeader("Content-Type", "application/json");
+
       const updateAgreement = await Agreements.findOneAndUpdate(
         { _id: id },
         { $set: { ...req.body, lastUpdate } },

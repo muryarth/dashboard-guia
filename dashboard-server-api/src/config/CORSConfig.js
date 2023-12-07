@@ -3,7 +3,7 @@ import cors from "cors";
 const ip = process.env.DEV_IP || "localhost";
 
 const CORSConfig = (app) => {
-  const allowedOrigins = ["*"];
+  const allowedOrigins = [`http://${ip}:3000`, `http://localhost:3000`, "*"];
 
   const corsOptions = {
     origin: function (origin, callback) {

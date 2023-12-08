@@ -58,7 +58,7 @@ export default function CustomersAdd() {
 
     if ((nome !== "", sobrenome !== "", telefone !== "", email !== "")) {
       RequestHTTP.AddItem("/customers", body);
-      window.location.reload();
+      // window.location.reload();
     }
   };
 

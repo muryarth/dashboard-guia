@@ -63,52 +63,44 @@ function EmployeesHome() {
 
   return (
     <Container fluid>
-      <Row>
-        <Col>
-          <Container fluid className="pt-3 pb-2 mb-3 border-bottom">
-            <Row className="justify-content-between align-items-center">
-              <Col md="auto">
-                <h1 className="h2">Funcionários:</h1>
-              </Col>
-              <Col md="auto" className="flex-fill">
-                <Form.Control
-                  type="text"
-                  placeholder="Pesquisar..."
-                  className="mr-sm-2"
-                />
-              </Col>
-              <Col md="auto">
-                <ButtonToolbar className="mb-2 mb-md-0">
-                  <Button
-                    variant="outline-secondary"
-                    size="sm"
-                    onClick={() => {}}
-                  >
-                    Pesquisar
-                  </Button>
-                </ButtonToolbar>
-              </Col>
-              <Col md="auto">
-                <ButtonToolbar className="mb-2 mb-md-0">
-                  <Button
-                    href="/employees/add"
-                    variant="outline-secondary"
-                    size="sm"
-                  >
-                    + Novo Funcionário
-                  </Button>
-                </ButtonToolbar>
-              </Col>
-            </Row>
-          </Container>
+      <Container fluid className="pt-3 pb-2 mb-3 border-bottom">
+        <Row className="justify-content-between align-items-center">
+          <Col md="auto">
+            <h1 className="h2">Funcionários:</h1>
+          </Col>
+          <Col md="auto" className="flex-fill">
+            <Form.Control
+              type="text"
+              placeholder="Pesquisar..."
+              className="mr-sm-2"
+            />
+          </Col>
+          <Col md="auto">
+            <ButtonToolbar className="mb-2 mb-md-0">
+              <Button variant="outline-secondary" size="sm" onClick={() => {}}>
+                Pesquisar
+              </Button>
+            </ButtonToolbar>
+          </Col>
+          <Col md="auto">
+            <ButtonToolbar className="mb-2 mb-md-0">
+              <Button
+                href="/employees/add"
+                variant="outline-secondary"
+                size="sm"
+              >
+                + Novo Funcionário
+              </Button>
+            </ButtonToolbar>
+          </Col>
+        </Row>
+      </Container>
 
-          <Dashboard
-            elements={employeesList}
-            fields={["nome", "administrador", "registerDate", "lastUpdated"]}
-            buttonsGroup={actionsButtonGroup}
-          />
-        </Col>
-      </Row>
+      <Dashboard
+        elements={employeesList}
+        fields={["nome", "administrador", "registerDate", "lastUpdated"]}
+        buttonsGroup={actionsButtonGroup}
+      />
     </Container>
   );
 }

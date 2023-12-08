@@ -10,8 +10,6 @@ export default function Dashboard({
   buttonsGroup = [],
   message = "Nenhum item disponível.",
 }) {
-  console.log(elements);
-  
   return (
     <>
       {fields.length > 0 && elements.length > 0 ? (
@@ -157,7 +155,10 @@ export default function Dashboard({
                             key={`${buttonGroup.title}`}
                             className="text-center"
                           >
-                            <buttonGroup.component _id={element._id} name={element.nome} />
+                            <buttonGroup.component
+                              _id={element._id}
+                              name={element.nome}
+                            />
                           </td>
                         );
                       }

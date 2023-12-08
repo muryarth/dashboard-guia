@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button, Modal, Dropdown } from "react-bootstrap";
-import RequestHTTP from "../../services/services";
+import RequestHTTP from "../../../../../services/services";
 
 const StyledModal = ({
   showModal,
@@ -16,7 +16,7 @@ const StyledModal = ({
   const [localAtivo, setLocalAtivo] = useState();
 
   const GetAgreements = async () => {
-    const data = await RequestHTTP.GetAllItems("/agreements");
+    const data = await RequestHTTP.GetPaginatedItems("/agreements", "1000");
     setConvenios(data);
   };
 

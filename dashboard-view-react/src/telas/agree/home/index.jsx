@@ -40,7 +40,7 @@ function AgreeHome() {
             variant="info"
             size="sm"
             className="me-2"
-            onClick={() => console.log("Teste")}
+            onClick={() => console.log("Visualizar")}
           >
             Visualizar
           </Button>
@@ -48,14 +48,14 @@ function AgreeHome() {
             variant="primary"
             size="sm"
             className="me-2"
-            onClick={() => console.log("Teste")}
+            onClick={() => console.log("Editar")}
           >
             Editar
           </Button>
           <Button
             variant="danger"
             size="sm"
-            onClick={() => console.log("Teste")}
+            onClick={() => console.log("Deletar")}
           >
             Deletar
           </Button>
@@ -66,51 +66,43 @@ function AgreeHome() {
 
   return (
     <Container fluid>
-      <Row>
-        <Col>
-          <Container fluid className="pt-3 pb-2 mb-3 border-bottom">
-            <Row className="align-items-center">
-              <Col md="auto">
-                <h1 className="h2">Convênios:</h1>
-              </Col>
-              <Col md="auto" className="flex-fill">
-                <Form.Control
-                  type="text"
-                  placeholder="Pesquisar..."
-                  className="mr-sm-2"
-                />
-              </Col>
-              <Col md="auto">
-                <ButtonToolbar className="mb-2 mb-md-0">
-                  <Button
-                    variant="outline-secondary"
-                    size="sm"
-                    onClick={() => {}}
-                  >
-                    Pesquisar
-                  </Button>
-                </ButtonToolbar>
-              </Col>
-              <Col md="auto">
-                <ButtonToolbar className="mb-2 mb-md-0">
-                  <Button
-                    href="/agreements/add"
-                    variant="outline-secondary"
-                    size="sm"
-                  >
-                    + Novo Convênio
-                  </Button>
-                </ButtonToolbar>
-              </Col>
-            </Row>
-          </Container>
+      <Container fluid className="pt-3 pb-2 mb-3 border-bottom">
+        <Row className="align-items-center">
+          <Col md="auto">
+            <h1 className="h2">Convênios:</h1>
+          </Col>
+          <Col md="auto" className="flex-fill">
+            <Form.Control
+              type="text"
+              placeholder="Pesquisar..."
+              className="mr-sm-2"
+            />
+          </Col>
+          <Col md="auto">
+            <ButtonToolbar className="mb-2 mb-md-0">
+              <Button variant="outline-secondary" size="sm" onClick={() => {}}>
+                Pesquisar
+              </Button>
+            </ButtonToolbar>
+          </Col>
+          <Col md="auto">
+            <ButtonToolbar className="mb-2 mb-md-0">
+              <Button
+                href="/agreements/add"
+                variant="outline-secondary"
+                size="sm"
+              >
+                + Novo Convênio
+              </Button>
+            </ButtonToolbar>
+          </Col>
+        </Row>
+      </Container>
 
-          <Dashboard
-            elements={agreementsList}
-            fields={["nome", "locais", "especialidades"]}
-          />
-        </Col>
-      </Row>
+      <Dashboard
+        elements={agreementsList}
+        fields={["nome", "locais", "especialidades"]}
+      />
     </Container>
   );
 }

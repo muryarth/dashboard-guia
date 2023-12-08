@@ -7,8 +7,6 @@ export default function NewSidebar({
     { name: "About", link: "/customers/about" },
   ],
 }) {
-  // const [sidebarItems, setSidebarItems] = useState();
-
   return (
     <Nav className="flex-column position-fixed pt-3">
       <Container fluid>

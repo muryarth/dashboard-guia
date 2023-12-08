@@ -1,20 +1,100 @@
-const baseURL = "https://dashboard-convenio-api.vercel.app";
-console.log(baseURL);
-
 export default class RequestHTTP {
-  static GetPaginatedItems = async (endpoint, url = baseURL) => {
+  static BaseURL =
+    process.env.REACT_APP_BASE_URL || "https://dashboard-guia.vercel.app";
+
+  static GetPaginatedItems = async (
+    endpoint,
+    limit = 10,
+    page = 1,
+    url = this.BaseURL
+  ) => {
+    // console.log(url);
+
     if (!(endpoint.split("/").filter((part) => part !== "").length > 1)) {
       // Verifica se está na rota principal
+      try {
+        const response = await fetch(
+          `${url}${endpoint}?$limit=${limit}&page=${page}`,
+          {
+            method: "GET",
+          }
+        );
+
+        const jsonData = await response.json();
+
+        if (jsonData.results) {
+          return jsonData.results;
+        }
+      } catch (error) {
+        return error;
+      }
+    } else {
+      throw new Error(`Erro na requisição: rota inválida`);
+    }
+  };
+
+  static GetItemsBySearch = async (
+    endpoint,
+    querySearch,
+    url = this.BaseURL
+  ) => {
+    // Verifica se está na rota principal
+    if (!(endpoint.split("/").filter((part) => part !== "").length > 1)) {
+      try {
+        const response = await fetch(
+          `${url}${endpoint}/search?${querySearch}`,
+          {
+            method: "GET",
+          }
+        );
+
+        const jsonData = await response.json();
+
+        if (jsonData.results) {
+          return jsonData.results;
+        }
+        return [];
+      } catch (error) {
+        return error;
+      }
+    } else {
+      throw new Error(`Erro na requisição: rota inválida`);
+    }
+  };
+
+  static GetItemById = async (endpoint, id, url = this.BaseURL) => {
+    // Verifica se está na rota principal
+    if (!(endpoint.split("/").filter((part) => part !== "").length > 1)) {
+      try {
+        const response = await fetch(`${url}${endpoint}/${id}`, {
+          method: "GET",
+        });
+
+        const jsonData = await response.json();
+
+        if (jsonData.results) {
+          return jsonData.results;
+        }
+        return [];
+      } catch (error) {
+        return error;
+      }
+    } else {
+      throw new Error(`Erro na requisição: rota inválida`);
+    }
+  };
+
+  static AddItem = async (endpoint, body, url = this.BaseURL) => {
+    // Verifica se está na rota principal
+    if (!(endpoint.split("/").filter((part) => part !== "").length > 1)) {
       try {
         const response = await fetch(`${url}${endpoint}`, {
-          method: "GET",
+          method: "POST",
+          "Content-Type": "application/json",
+          body: JSON.stringify(body),
         });
 
-        const jsonData = await response.json();
-
-        if (jsonData.results) {
-          return jsonData.results;
-        }
+        return response;
       } catch (error) {
         return error;
       }
@@ -23,19 +103,16 @@ export default class RequestHTTP {
     }
   };
 
-  static GetAllItems = async (endpoint, url = baseURL) => {
+  static UpdateItem = async (endpoint, body, url = this.BaseURL) => {
+    // Verifica se está na rota principal
     if (!(endpoint.split("/").filter((part) => part !== "").length > 1)) {
-      // Verifica se está na rota principal
       try {
-        const response = await fetch(`${url}${endpoint}?limit=1000`, {
-          method: "GET",
+        const response = await fetch(`${url}${endpoint}`, {
+          method: "PUT",
+          body: JSON.stringify(body),
         });
 
-        const jsonData = await response.json();
-
-        if (jsonData.results) {
-          return jsonData.results;
-        }
+        return response;
       } catch (error) {
         return error;
       }
@@ -44,78 +121,20 @@ export default class RequestHTTP {
     }
   };
 
-  static GetItemById = async (endpoint, id, url = baseURL) => {
-    try {
-      const response = await fetch(`${url}${endpoint}/${id}`, {
-        method: "GET",
-      });
+  static DeleteItemById = async (endpoint, id, url = this.BaseURL) => {
+    // Verifica se está na rota principal
+    if (!(endpoint.split("/").filter((part) => part !== "").length > 1)) {
+      try {
+        const response = await fetch(`${url}${endpoint}/${id}`, {
+          method: "DELETE",
+        });
 
-      const jsonData = await response.json();
-
-      if (jsonData.results) {
-        return jsonData.results;
+        return response;
+      } catch (error) {
+        return error;
       }
-      return [];
-    } catch (error) {
-      return error;
-    }
-  };
-
-  // search?
-  static GetItemsBySearch = async (endpoint, querySearch, url = baseURL) => {
-    try {
-      const response = await fetch(`${url}${endpoint}/search?${querySearch}`, {
-        method: "GET",
-      });
-
-      const jsonData = await response.json();
-
-      if (jsonData.results) {
-        return jsonData.results;
-      }
-      return [];
-    } catch (error) {
-      return error;
-    }
-  };
-
-  static AddItem = async (endpoint, body, url = baseURL) => {
-    try {
-      const response = await fetch(`${url}${endpoint}`, {
-        method: "POST",
-        body: JSON.stringify(body),
-      });
-
-      return response;
-    } catch (error) {
-      return error;
-    }
-  };
-
-  static UpdateItem = async (endpoint, body, url = baseURL) => {
-    try {
-      const response = await fetch(`${url}${endpoint}`, {
-        method: "PUT",
-        body: JSON.stringify(body),
-      });
-
-      return response;
-    } catch (error) {
-      return error;
-    }
-  };
-
-  static DeleteItemById = async (endpoint, id, url = baseURL) => {
-    console.log(`${url}${endpoint}/${id}`);
-
-    try {
-      const response = await fetch(`${url}${endpoint}/${id}`, {
-        method: "DELETE",
-      });
-
-      return response;
-    } catch (error) {
-      return error;
+    } else {
+      throw new Error(`Erro na requisição: rota inválida`);
     }
   };
 }

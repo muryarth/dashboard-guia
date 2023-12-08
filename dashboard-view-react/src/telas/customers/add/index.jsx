@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import DefaultAppFormField from "../../../components/DefaultAppFormField";
 import RequestHTTP from "../../../services/services";
 
 export default function CustomersAdd() {
@@ -14,32 +15,6 @@ export default function CustomersAdd() {
   const [endereco, setEndereco] = useState("");
   const [uf, setUF] = useState("");
   const [detalhesCliente, setDetalhesCliente] = useState("");
-
-  const CustomFormField = (
-    label,
-    placeholder,
-    nome,
-    set,
-    required = false,
-    as = "input"
-  ) => {
-    return (
-      <>
-        <Form.Group controlId={nome} className="mb-4">
-          <Form.Label>{`${label}:`}</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder={placeholder}
-            value={nome}
-            onChange={(event) => set(event.target.value)}
-            required={required}
-            as={as}
-            rows={as === "textarea" ? 6 : null}
-          />
-        </Form.Group>
-      </>
-    );
-  };
 
   const SubmitFormData = () => {
     const body = {};
@@ -58,7 +33,8 @@ export default function CustomersAdd() {
 
     if ((nome !== "", sobrenome !== "", telefone !== "", email !== "")) {
       RequestHTTP.AddItem("/customers", body);
-      window.location.reload();
+      console.log(body);
+      // window.location.reload();
     }
   };
 
@@ -67,86 +43,129 @@ export default function CustomersAdd() {
       <Form>
         <Row className="form-group mb-4">
           <Col>
-            {CustomFormField("Nome", "Insira o nome...", nome, setNome, true)}
+            <DefaultAppFormField
+              label={"Nome"}
+              placeholder={"Insira o nome..."}
+              state={nome}
+              setState={setNome}
+              required={true}
+            />
           </Col>
 
           <Col>
-            {CustomFormField(
-              "Sobrenome",
-              "Insira o sobrenome...",
-              sobrenome,
-              setSobrenome,
-              true
-            )}
+            <DefaultAppFormField
+              label={"Sobrenome"}
+              placeholder={"Insira o sobrenome..."}
+              state={sobrenome}
+              setState={setSobrenome}
+              required={true}
+            />
           </Col>
         </Row>
 
         <Row className="form-group mb-4">
           <Col>
-            {CustomFormField(
-              "Telefone",
-              "(00)90000-0000",
-              telefone,
-              setTelefone,
-              true
-            )}
+            <DefaultAppFormField
+              label={"Telefone"}
+              placeholder={"(00)90000-0000"}
+              state={telefone}
+              setState={setTelefone}
+              required={true}
+            />
           </Col>
 
           <Col>
-            {CustomFormField(
-              "Email",
-              "exemplo@exemplo.com",
-              email,
-              setEmail,
-              true
-            )}
+            <DefaultAppFormField
+              label={"Email"}
+              placeholder={"exemplo@exemplo.com"}
+              state={email}
+              setState={setEmail}
+              required={true}
+            />
           </Col>
         </Row>
 
         <Row className="form-group mb-4">
-          <Col>{CustomFormField("RG", "00.000.000-0", rg, setRG)}</Col>
-
-          <Col>{CustomFormField("CPF", "000.000.000-00", cpf, setCPF)}</Col>
+          <Col>
+            <DefaultAppFormField
+              label={"RG"}
+              placeholder={"00.000.000-0"}
+              state={rg}
+              setState={setRG}
+              required={true}
+            />
+          </Col>
 
           <Col>
-            {CustomFormField("Matrícula", "000000", matricula, setMatricula)}
+            <DefaultAppFormField
+              label={"CPF"}
+              placeholder={"000.000.000-00"}
+              state={cpf}
+              setState={setCPF}
+              required={true}
+            />
+          </Col>
+
+          <Col>
+            <DefaultAppFormField
+              label={"Matrícula"}
+              placeholder={"000000"}
+              state={matricula}
+              setState={setMatricula}
+              required={true}
+            />
           </Col>
         </Row>
 
         <Row className="form-group mb-4">
-          <Col>{CustomFormField("CEP", "00000-000", cep, setCEP)}</Col>
-
           <Col>
-            {CustomFormField(
-              "Endereco",
-              "Rua Exemplo, n° 100",
-              endereco,
-              setEndereco
-            )}
+            <DefaultAppFormField
+              label={"CEP"}
+              placeholder={"00000-000"}
+              state={cep}
+              setState={setCEP}
+              required={true}
+            />
           </Col>
 
-          <Col>{CustomFormField("UF", "Rio de Janeiro", uf, setUF)}</Col>
+          <Col>
+            <DefaultAppFormField
+              label={"Endereco"}
+              placeholder={"Rua Exemplo, n° 100"}
+              state={endereco}
+              setState={setEndereco}
+              required={true}
+            />
+          </Col>
+
+          <Col>
+            <DefaultAppFormField
+              label={"UF"}
+              placeholder={"Rio de Janeiro"}
+              state={uf}
+              setState={setUF}
+              required={true}
+            />
+          </Col>
         </Row>
 
         <Row>
           <Col>
-            {CustomFormField(
-              "Detalhes do cliente",
-              "",
-              detalhesCliente,
-              setDetalhesCliente,
-              false,
-              "textarea"
-            )}
+            <DefaultAppFormField
+              label={"Detalhes do cliente"}
+              placeholder={""}
+              state={detalhesCliente}
+              setState={setDetalhesCliente}
+              required={false}
+              as={"textarea"}
+            />
           </Col>
         </Row>
         <Form.Group className="mb-4"></Form.Group>
 
-        <Form.Group className="mb-4">
-          <Button variant="primary" onClick={() => SubmitFormData()}>
-            Adicionar Cliente
-          </Button>
-        </Form.Group>
+        <Button variant="primary" onClick={() => SubmitFormData()}>
+          Adicionar Cliente
+        </Button>
       </Form>
     </Container>
   );

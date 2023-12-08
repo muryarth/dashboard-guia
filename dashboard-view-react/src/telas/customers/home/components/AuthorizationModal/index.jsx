@@ -3,8 +3,6 @@ import { Container, Button, Modal, Dropdown } from "react-bootstrap";
 import RequestHTTP from "../../../../../services/services";
 
 const CustomDropdown = ({ list, state, setState, title = "Title" }) => {
-  console.log(list);
-
   return (
     <Dropdown>
       {/* Parte do título */}
@@ -48,9 +46,6 @@ const CustomDropdown = ({ list, state, setState, title = "Title" }) => {
     </Dropdown>
   );
 };
-
-// style={{ maxHeight: "200px", overflowY: "auto" }}
-// className="w-100"
 
 export default function AuthorizationModal({
   showModal,

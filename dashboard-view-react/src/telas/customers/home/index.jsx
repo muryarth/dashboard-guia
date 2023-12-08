@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Button,
-  ButtonToolbar,
-} from "react-bootstrap";
+
+//Bootstrap
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 
 // Componente da app
 import Dashboard from "../../../components/Dashboard";
 import AuthorizationModal from "./components/AuthorizationModal";
 import AgreementsModal from "./components/AgreementsModal";
+import DefaultAppButton from "../../../components/DefaultAppButton";
+import DeleteConfirmationModal from "../../../components/DeleteConfirmationModal";
 
 // Serviços
 import RequestHTTP from "../../../services/services";
@@ -20,61 +22,11 @@ function CustomersHome() {
   const [customersList, setCustomersList] = useState([]);
   const [showAuthorizationModal, setShowAuthorizationModal] = useState(false);
   const [showAgreementModal, setShowAgreementModal] = useState(false);
+  const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
+    useState(false);
   const [currentUser, setCurrentUser] = useState({ _id: null, name: null });
   const [agreementsList, setAgreementsList] = useState();
   const [dropdownOptions, setDropdownOptions] = useState([]);
-
-  const actionsButtonGroup = [
-    {
-      title: "Ações",
-      component: ({ _id = "_id", name = "name" }) => {
-        return (
-          <>
-            <Button
-              variant="success"
-              size="sm"
-              className="me-2"
-              onClick={() => {
-                setCurrentUser({ _id: _id, name: name });
-                setShowAuthorizationModal(true);
-              }}
-            >
-              Emitir
-            </Button>
-            <Button
-              variant="info"
-              size="sm"
-              className="me-2"
-              onClick={() => {
-                setCurrentUser({ _id: _id, name: name });
-                setShowAgreementModal(true);
-              }}
-            >
-              Convênios
-            </Button>
-            {/* <Button
-              variant="primary"
-              size="sm"
-              className="me-2"
-              onClick={() => console.log("Editar")}
-            >
-              Editar
-            </Button> */}
-            <Button
-              variant="danger"
-              size="sm"
-              onClick={() => {
-                RequestHTTP.DeleteItemById("/customers", _id);
-                window.location.reload();
-              }}
-            >
-              Deletar
-            </Button>
-          </>
-        );
-      },
-    },
-  ];
 
   const GetCustomers = async () => {
     const data = await RequestHTTP.GetPaginatedItems("/customers");
@@ -96,22 +48,76 @@ function CustomersHome() {
     }
   }, [showAgreementModal]);
 
+  const buttonsGroup = [
+    {
+      title: "Ações",
+      component: ({ _id = "_id", name = "name" }) => {
+        return (
+          <>
+            <DefaultAppButton
+              variant="success"
+              title="Emitir"
+              action={() => {
+                setCurrentUser({ _id: _id, name: name });
+                setShowAgreementModal(false);
+                setShowDeleteConfirmationModal(false);
+                setShowAuthorizationModal(true);
+              }}
+            />
+            <DefaultAppButton
+              variant="info"
+              title="Convênios"
+              action={() => {
+                setCurrentUser({ _id: _id, name: name });
+                setShowAgreementModal(true);
+                setShowDeleteConfirmationModal(false);
+                setShowAuthorizationModal(false);
+              }}
+            />
+            {/* <DefaultAppButton
+              variant="primary"
+              title="Editar"
+              action={() => console.log("Editar")}
+            /> */}
+            <DefaultAppButton
+              variant="danger"
+              title="Deletar"
+              action={() => {
+                setCurrentUser({ _id: _id, name: name });
+                setShowAgreementModal(false);
+                setShowDeleteConfirmationModal(true);
+                setShowAuthorizationModal(false);
+              }}
+            />
+          </>
+        );
+      },
+    },
+  ];
+
   return (
     <>
       <AuthorizationModal
         showModal={showAuthorizationModal}
         handleClose={() => setShowAuthorizationModal(false)}
         currentUserId={currentUser._id}
-        currentUserName={currentUser.name}
+        currentUserName={`${currentUser.name}`}
       />
       <AgreementsModal
         showModal={showAgreementModal}
         handleClose={() => setShowAgreementModal(false)}
         currentUserId={currentUser._id}
-        currentUserName={currentUser.name}
+        currentUserName={`${currentUser.name}`}
         agreements={agreementsList}
         dropdownOptions={dropdownOptions}
         setDropdownOptions={setDropdownOptions}
+      />
+      <DeleteConfirmationModal
+        showModal={showDeleteConfirmationModal}
+        handleClose={() => setShowDeleteConfirmationModal(false)}
+        deleteName={`${currentUser.name}`}
+        deleteId={currentUser._id}
+        deleteRoute={"/customers"}
       />
 
       <Container fluid>
@@ -155,7 +161,7 @@ function CustomersHome() {
         <Dashboard
           elements={customersList}
           fields={["nome", "cpf", "email", "telefone", "registerDate"]}
-          buttonsGroup={actionsButtonGroup}
+          buttonsGroup={buttonsGroup}
         />
       </Container>
     </>

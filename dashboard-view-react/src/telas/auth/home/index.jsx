@@ -69,7 +69,7 @@ function AuthHome() {
           <Col md="auto">
             <ButtonToolbar className="mb-2 mb-md-0">
               <Button
-                href="/authorizations/add"
+                href="/customers"
                 variant="outline-secondary"
                 size="sm"
               >

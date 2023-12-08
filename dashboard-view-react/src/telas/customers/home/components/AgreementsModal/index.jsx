@@ -1,4 +1,4 @@
-import { Row, Col, Button, Modal, Dropdown } from "react-bootstrap";
+import { Row, Col, Button, Modal, Dropdown, Spinner } from "react-bootstrap";
 
 export default function AgreementsModal({
   showModal,
@@ -16,10 +16,14 @@ export default function AgreementsModal({
       dialogClassName="modal-dialog-scrollable"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Emitir guia para {currentUserName}:</Modal.Title>
+        <Modal.Title>
+          {currentUserName // Se não houver um nome, trata a label da forma correta
+            ? `Convênios ativos de ${currentUserName}:`
+            : "Convênios:"}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ maxHeight: "40vh", overflowY: "auto" }}>
-        {agreements.length > 0 &&
+        {agreements.length > 0 ? (
           agreements.map((convenio) => {
             return (
               <Row key={`${convenio._id}`} className="mb-2 mt-2">
@@ -39,7 +43,12 @@ export default function AgreementsModal({
                 </Col>
               </Row>
             );
-          })}
+          })
+        ) : (
+          <div className="d-flex align-items-center justify-content-center">
+            <Spinner />
+          </div>
+        )}
       </Modal.Body>
       <Modal.Footer>
         <Button variant="primary" onClick={() => console.log(agreements)}>

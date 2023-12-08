@@ -2,7 +2,7 @@ import React from "react";
 
 // Router
 import { RouterProvider } from "react-router-dom";
-import router from "./rotas";
+import routes from "./routes";
 
 // Componentes
 import Main from "./telas";
@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <Main>
-        <RouterProvider router={router} />
+        <RouterProvider router={routes} />
       </Main>
     </>
   );

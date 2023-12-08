@@ -38,7 +38,7 @@ export default function AgreeAdd() {
       body.nome &&
       body.preco
     ) {
-      const response = await RequestHTTP.AddItem("/agreements", body);
+      await RequestHTTP.AddItem("/agreements", body);
       // console.log(response);
       // window.location.reload();
     }
@@ -111,11 +111,9 @@ export default function AgreeAdd() {
           </Col>
         </Row>
 
-        <Form.Group>
-          <Button variant="primary" onClick={() => SubmitAgreeData()}>
-            Criar guia
-          </Button>
-        </Form.Group>
+        <Button variant="primary" onClick={() => SubmitAgreeData()} className="mt-4">
+          Criar guia
+        </Button>
       </Form>
     </Container>
   );

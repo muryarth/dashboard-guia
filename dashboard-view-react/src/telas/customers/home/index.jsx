@@ -6,95 +6,23 @@ import {
   Form,
   Button,
   ButtonToolbar,
-  Modal,
-  Dropdown,
 } from "react-bootstrap";
 
 // Componente da app
 import Dashboard from "../../../components/Dashboard";
-import StyledModal from "./components/StyledModal";
+import AuthorizationModal from "./components/AuthorizationModal";
+import AgreementsModal from "./components/AgreementsModal";
 
 // Serviços
 import RequestHTTP from "../../../services/services";
 
-// Placeholder Loader
-// import ContentLoader from "react-content-loader";
-
-const ModalPessoaConvenio = ({
-  showModal,
-  handleClose,
-  currentUserName,
-  currentUserId,
-  dataList = [],
-  dropdownOptions = [],
-  setDropdownOptions = [],
-}) => {
-  return (
-    <Modal show={showModal} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Emitir guia para {currentUserName}:</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Container>
-          {dataList.length > 0 &&
-            dataList.map((convenio) => {
-              return (
-                <>
-                  <Row>
-                    <Col>
-                      <p className="text-center">{convenio.nome}</p>
-                    </Col>
-                    <Col>
-                      <Dropdown>
-                        <Dropdown.Toggle variant="success" id="dropdown-basic">
-                          Ativo
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                          <Dropdown.Item onClick={() => {}}>
-                            Ativo
-                          </Dropdown.Item>
-                          <Dropdown.Item onClick={() => {}}>
-                            Inativo
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </Col>
-                  </Row>
-                </>
-              );
-            })}
-        </Container>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="primary" onClick={() => console.log(dataList)}>
-          Save Changes
-        </Button>
-        <Button
-          variant="secondary"
-          onClick={() => {
-            handleClose();
-          }}
-        >
-          Close
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
-};
-
 function CustomersHome() {
-  const [customerList, setCustomerList] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [showModalConvenio, setShowModalConvenio] = useState(false);
-  const [currentUserId, setCurrentUserId] = useState();
-  const [currentUserName, setCurrentUserName] = useState();
+  const [customersList, setCustomersList] = useState([]);
+  const [showAuthorizationModal, setShowAuthorizationModal] = useState(false);
+  const [showAgreementModal, setShowAgreementModal] = useState(false);
+  const [currentUser, setCurrentUser] = useState({ _id: null, name: null });
   const [agreementsList, setAgreementsList] = useState();
   const [dropdownOptions, setDropdownOptions] = useState([]);
-
-  const handleClose = () => setShowModal(false);
-  const handleShow = () => setShowModal(true);
-  const handleCloseConvenio = () => setShowModalConvenio(false);
-  const handleShowConvenio = () => setShowModalConvenio(true);
 
   const actionsButtonGroup = [
     {
@@ -107,9 +35,8 @@ function CustomersHome() {
               size="sm"
               className="me-2"
               onClick={() => {
-                setCurrentUserId(_id);
-                setCurrentUserName(name);
-                handleShow();
+                setCurrentUser({ _id: _id, name: name });
+                setShowAuthorizationModal(true);
               }}
             >
               Emitir
@@ -119,21 +46,20 @@ function CustomersHome() {
               size="sm"
               className="me-2"
               onClick={() => {
-                setCurrentUserId(_id);
-                setCurrentUserName(name);
-                handleShowConvenio();
+                setCurrentUser({ _id: _id, name: name });
+                setShowAgreementModal(true);
               }}
             >
               Convênios
             </Button>
-            <Button
+            {/* <Button
               variant="primary"
               size="sm"
               className="me-2"
               onClick={() => console.log("Editar")}
             >
               Editar
-            </Button>
+            </Button> */}
             <Button
               variant="danger"
               size="sm"
@@ -152,10 +78,10 @@ function CustomersHome() {
 
   const GetCustomers = async () => {
     const data = await RequestHTTP.GetPaginatedItems("/customers");
-    setCustomerList(data);
+    setCustomersList(data);
   };
 
-  const GetAllConvenios = async () => {
+  const GetAllAgreements = async () => {
     const data = await RequestHTTP.GetPaginatedItems("/agreements");
     setAgreementsList(data);
   };
@@ -165,25 +91,25 @@ function CustomersHome() {
   }, []);
 
   useEffect(() => {
-    if (showModalConvenio) {
-      GetAllConvenios();
+    if (showAgreementModal) {
+      GetAllAgreements();
     }
-  }, [showModalConvenio]);
+  }, [showAgreementModal]);
 
   return (
     <>
-      <StyledModal
-        showModal={showModal}
-        handleClose={handleClose}
-        currentUserId={currentUserId}
-        currentUserName={currentUserName}
+      <AuthorizationModal
+        showModal={showAuthorizationModal}
+        handleClose={() => setShowAuthorizationModal(false)}
+        currentUserId={currentUser._id}
+        currentUserName={currentUser.name}
       />
-      <ModalPessoaConvenio
-        showModal={showModalConvenio}
-        handleClose={handleCloseConvenio}
-        currentUserId={currentUserId}
-        currentUserName={currentUserName}
-        dataList={agreementsList}
+      <AgreementsModal
+        showModal={showAgreementModal}
+        handleClose={() => setShowAgreementModal(false)}
+        currentUserId={currentUser._id}
+        currentUserName={currentUser.name}
+        agreements={agreementsList}
         dropdownOptions={dropdownOptions}
         setDropdownOptions={setDropdownOptions}
       />
@@ -227,7 +153,7 @@ function CustomersHome() {
         </Container>
 
         <Dashboard
-          elements={customerList}
+          elements={customersList}
           fields={["nome", "cpf", "email", "telefone", "registerDate"]}
           buttonsGroup={actionsButtonGroup}
         />

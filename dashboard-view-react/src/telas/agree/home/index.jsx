@@ -15,14 +15,8 @@ import RequestHTTP from "../../../services/services";
 
 function AgreeHome() {
   const [agreementsList, setAgreementsList] = useState([]);
-  const [search, setSearch] = useState("");
 
   const GetAllAgreements = async () => {
-    const data = await RequestHTTP.GetPaginatedItems("/agreements");
-    setAgreementsList(data);
-  };
-
-  const GetAgreementsBySearch = async () => {
     const data = await RequestHTTP.GetPaginatedItems("/agreements");
     setAgreementsList(data);
   };
@@ -30,39 +24,6 @@ function AgreeHome() {
   useEffect(() => {
     GetAllAgreements();
   }, []);
-
-  const actionsButtonGroup = [
-    {
-      title: "Ações",
-      component: (
-        <>
-          <Button
-            variant="info"
-            size="sm"
-            className="me-2"
-            onClick={() => console.log("Visualizar")}
-          >
-            Visualizar
-          </Button>
-          <Button
-            variant="primary"
-            size="sm"
-            className="me-2"
-            onClick={() => console.log("Editar")}
-          >
-            Editar
-          </Button>
-          <Button
-            variant="danger"
-            size="sm"
-            onClick={() => console.log("Deletar")}
-          >
-            Deletar
-          </Button>
-        </>
-      ),
-    },
-  ];
 
   return (
     <Container fluid>

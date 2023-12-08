@@ -16,7 +16,7 @@ export default function CustomAuthorizationDropdown({
 
       <Dropdown.Menu
         style={{ maxHeight: "200px", overflowY: "auto" }}
-        className="w-100"
+        className="w-50"
       >
         <Dropdown.Item key={"0"}>{"Nenhum"}</Dropdown.Item>
         {list.length > 0 &&

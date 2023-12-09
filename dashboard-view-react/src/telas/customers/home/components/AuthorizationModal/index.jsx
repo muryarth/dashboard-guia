@@ -1,20 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { Container, Button, Modal, Dropdown } from "react-bootstrap";
+
+//Bootstrap
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Dropdown from "react-bootstrap/Dropdown";
+import Spinner from "react-bootstrap/Spinner";
+
+// services.js
 import RequestHTTP from "../../../../../services/services";
 
-const CustomDropdown = ({ list, state, setState, title = "Title" }) => {
+const CustomDropdown = ({
+  list,
+  state,
+  setState,
+  title = "Title",
+  disabled = false,
+}) => {
   return (
     <Dropdown>
       {/* Parte do título */}
-      <Dropdown.Toggle variant="success" id="dropdown-basic" className="w-100">
+      <Dropdown.Toggle
+        variant="success"
+        id="dropdown-basic"
+        disabled={disabled}
+      >
         {state ? state.nome || state.especialidade : title}
       </Dropdown.Toggle>
 
       {/* Parte do menu */}
-      <Dropdown.Menu
-        style={{ maxHeight: "200px", overflowY: "auto" }}
-        className="w-100"
-      >
+      <Dropdown.Menu style={{ maxHeight: "200px", overflowY: "auto" }}>
         {/* "Reset" */}
         <Dropdown.Item key={"0"} onClick={() => setState(null)}>
           {"Nenhum"}
@@ -52,20 +69,49 @@ const CustomDropdown = ({ list, state, setState, title = "Title" }) => {
 
 export default function AuthorizationModal({
   showModal,
-  handleClose,
+  setShowModal,
   currentUserId = "",
   currentUserName = "",
 }) {
+  const [isLoading, setIsLoading] = useState(false); // Controla o spinner
   const [convenios, setConvenios] = useState([]);
-  const [especialidades, setEspecialidades] = useState([]);
-  const [locais, setLocais] = useState([]);
   const [convenioAtivo, setConvenioAtivo] = useState(null);
+  const [especialidades, setEspecialidades] = useState([]);
   const [especialidadeAtiva, setEspecialidadeAtiva] = useState(null);
+  const [locais, setLocais] = useState([]);
   const [localAtivo, setLocalAtivo] = useState(null);
 
-  const GetAgreements = async () => {
-    const data = await RequestHTTP.GetPaginatedItems("/agreements", "1000");
-    setConvenios(data);
+  const HandleClose = () => {
+    setShowModal(false);
+    setConvenios([]);
+    setEspecialidades([]);
+    setLocais([]);
+  };
+
+  const GetCurrentUserActiveAgreements = async () => {
+    setIsLoading(true);
+    const currentUser = await RequestHTTP.GetItemById(
+      "/customers",
+      `${currentUserId}`
+    );
+
+    const userAgreementsId = currentUser.conveniosAtivos;
+
+    if (currentUser && userAgreementsId.length > 0) {
+      const userAgreements = userAgreementsId.map(async (agreementId) => {
+        const agreementObject = await RequestHTTP.GetItemById(
+          "/agreements",
+          agreementId
+        );
+        return agreementObject;
+      });
+
+      // console.log("Fora >", await Promise.all(userAgreements));
+      setConvenios(await Promise.all(userAgreements));
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
+    }
   };
 
   const GetAllDropdownData = async (id) => {
@@ -86,34 +132,47 @@ export default function AuthorizationModal({
       body.convenio = convenioAtivo._id;
     }
 
-    if (Object.keys(body).length !== 0 && Object.keys(body).length === 6) {
+    if (Object.keys(body).length > 0 && Object.keys(body).length === 6) {
       const response = await RequestHTTP.AddItem("/authorizations", body);
-      console.log(response);
-      // if (response)
-      //   setTimeout(() => {
-      //     window.location.reload();
-      //   }, 10);
+      if (response)
+        setTimeout(() => {
+          window.location.reload();
+        }, 10);
     }
   };
 
   useEffect(() => {
-    GetAgreements();
-  }, []);
+    if (showModal) {
+      GetCurrentUserActiveAgreements();
+    }
+  }, [showModal]);
 
   useEffect(() => {
     if (convenioAtivo !== undefined && convenioAtivo !== null)
       GetAllDropdownData(convenioAtivo._id);
   }, [convenioAtivo]);
 
+  useEffect(() => {}, [convenios]);
+
   return (
-    <Modal show={showModal} onHide={handleClose}>
+    <Modal show={showModal} onHide={() => HandleClose()}>
       <Modal.Header closeButton>
-        <Modal.Title>
-          {currentUserName // Se não houver um nome, trata a label da forma correta
-            ? `Emitir guia para ${currentUserName}:`
-            : "Emitir guia:"}
+        <Modal.Title className="d-flex align-items-center">
+          <Container style={{ maxWidth: 420 }}>
+            {currentUserName
+              ? `Emitir guia para ${currentUserName}:`
+              : "Emitir guia:"}
+            <Spinner
+              className={`ms-3 ${!isLoading ? "d-none" : ""}`}
+              style={{
+                width: "1.4rem",
+                height: "1.4rem",
+              }}
+            />
+          </Container>
         </Modal.Title>
       </Modal.Header>
+
       <Modal.Body>
         <Container className="d-flex justify-content-between">
           {/* Convênios */}
@@ -122,6 +181,7 @@ export default function AuthorizationModal({
             list={convenios}
             state={convenioAtivo}
             setState={setConvenioAtivo}
+            disabled={isLoading}
           />
 
           {/* Especialidades */}
@@ -130,6 +190,7 @@ export default function AuthorizationModal({
             list={especialidades}
             state={especialidadeAtiva}
             setState={setEspecialidadeAtiva}
+            disabled={!convenioAtivo}
           />
 
           {/* Locais */}
@@ -138,6 +199,7 @@ export default function AuthorizationModal({
             list={locais}
             state={localAtivo}
             setState={setLocalAtivo}
+            disabled={!convenioAtivo}
           />
         </Container>
       </Modal.Body>
@@ -145,7 +207,7 @@ export default function AuthorizationModal({
         <Button variant="primary" onClick={() => SubmitAuthorization()}>
           Emitir
         </Button>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={() => HandleClose()}>
           Fechar
         </Button>
       </Modal.Footer>

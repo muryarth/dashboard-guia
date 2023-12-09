@@ -25,18 +25,11 @@ function CustomersHome() {
   const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
     useState(false);
   const [currentUser, setCurrentUser] = useState({ _id: null, name: null });
-  const [agreementsList, setAgreementsList] = useState();
-  const [dropdownOptions, setDropdownOptions] = useState([]);
   const [search, setSearch] = useState("");
 
   const GetAllCustomers = async () => {
     const data = await RequestHTTP.GetPaginatedItems("/customers");
     setCustomersList(data);
-  };
-
-  const GetAllAgreements = async () => {
-    const data = await RequestHTTP.GetPaginatedItems("/agreements");
-    setAgreementsList(data);
   };
 
   const GetSearchedCustomers = async (search) => {
@@ -55,12 +48,6 @@ function CustomersHome() {
   useEffect(() => {
     GetAllCustomers();
   }, []);
-
-  useEffect(() => {
-    if (showAgreementModal) {
-      GetAllAgreements();
-    }
-  }, [showAgreementModal]);
 
   const buttonsGroup = [
     {
@@ -115,7 +102,7 @@ function CustomersHome() {
     <>
       <AuthorizationModal
         showModal={showAuthorizationModal}
-        handleClose={() => setShowAuthorizationModal(false)}
+        setShowModal={() => setShowAuthorizationModal(false)}
         currentUserId={currentUser._id}
         currentUserName={`${currentUser.name}`}
       />
@@ -127,7 +114,7 @@ function CustomersHome() {
       />
       <DeleteConfirmationModal
         showModal={showDeleteConfirmationModal}
-        handleClose={() => setShowDeleteConfirmationModal(false)}
+        setShowModal={() => setShowDeleteConfirmationModal(false)}
         deleteName={`${currentUser.name}`}
         deleteId={currentUser._id}
         deleteRoute={"/customers"}

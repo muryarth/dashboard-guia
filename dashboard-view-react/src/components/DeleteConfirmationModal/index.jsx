@@ -5,7 +5,7 @@ import RequestHTTP from "../../services/services";
 
 export default function DeleteConfirmationModal({
   showModal,
-  handleClose,
+  setShowModal,
   deleteName,
   deleteId,
   deleteRoute,
@@ -20,7 +20,7 @@ export default function DeleteConfirmationModal({
   return (
     <Modal
       show={showModal}
-      onHide={handleClose}
+      onHide={setShowModal}
       dialogClassName="modal-dialog-scrollable"
     >
       <Modal.Header closeButton>
@@ -34,7 +34,7 @@ export default function DeleteConfirmationModal({
         >
           Deletar
         </Button>
-        <Button variant="secondary" onClick={() => handleClose()}>
+        <Button variant="secondary" onClick={() => setShowModal()}>
           Cancelar
         </Button>
       </Modal.Footer>

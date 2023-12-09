@@ -44,13 +44,17 @@ export default function CustomersAdd() {
     body.endereco = endereco;
     body.uf = uf;
     body.detalhesCliente = detalhesCliente;
+    body.conveniosAtivos = [];
 
-    console.log(body);
-
-    if ((nome !== "", sobrenome !== "", telefone !== "", email !== "")) {
-      const response = await RequestHTTP.AddItem("/customers", body);
-      console.log(response);
-      // window.location.reload();
+    if (
+      Object.keys(body).length !== 0 &&
+      nome !== "" &&
+      sobrenome !== "" &&
+      telefone !== "" &&
+      email !== ""
+    ) {
+      await RequestHTTP.AddItem("/customers", body);
+      window.location.href = "/customers";
     }
   };
 

@@ -14,7 +14,7 @@ export default class RequestHTTP {
       // Verifica se está na rota principal
       try {
         const response = await fetch(
-          `${url}${endpoint}?$limit=${limit}&page=${page}`,
+          `${url}${endpoint}?limit=${limit}&page=${page}`,
           {
             method: "GET",
           }

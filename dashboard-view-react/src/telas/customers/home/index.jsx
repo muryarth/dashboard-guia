@@ -27,8 +27,9 @@ function CustomersHome() {
   const [currentUser, setCurrentUser] = useState({ _id: null, name: null });
   const [agreementsList, setAgreementsList] = useState();
   const [dropdownOptions, setDropdownOptions] = useState([]);
+  const [search, setSearch] = useState("");
 
-  const GetCustomers = async () => {
+  const GetAllCustomers = async () => {
     const data = await RequestHTTP.GetPaginatedItems("/customers");
     setCustomersList(data);
   };
@@ -38,8 +39,21 @@ function CustomersHome() {
     setAgreementsList(data);
   };
 
+  const GetSearchedCustomers = async (search) => {
+    if (search !== "") {
+      const searchResponse = await RequestHTTP.GetItemsBySearch(
+        "/customers",
+        `nome=${search}`
+      );
+
+      setCustomersList(searchResponse);
+    } else {
+      GetAllCustomers();
+    }
+  };
+
   useEffect(() => {
-    GetCustomers();
+    GetAllCustomers();
   }, []);
 
   useEffect(() => {
@@ -107,12 +121,9 @@ function CustomersHome() {
       />
       <AgreementsModal
         showModal={showAgreementModal}
-        handleClose={() => setShowAgreementModal(false)}
+        setShowModal={() => setShowAgreementModal(false)}
         currentUserId={currentUser._id}
         currentUserName={`${currentUser.name}`}
-        agreements={agreementsList}
-        dropdownOptions={dropdownOptions}
-        setDropdownOptions={setDropdownOptions}
       />
       <DeleteConfirmationModal
         showModal={showDeleteConfirmationModal}
@@ -132,19 +143,10 @@ function CustomersHome() {
               <Form.Control
                 type="text"
                 placeholder="Pesquisar..."
+                defaultValue={search}
                 className="mr-sm-2"
+                onChange={(event) => GetSearchedCustomers(event.target.value)}
               />
-            </Col>
-            <Col md="auto">
-              <ButtonToolbar className="mb-2 mb-md-0">
-                <Button
-                  variant="outline-secondary"
-                  size="sm"
-                  onClick={() => {}}
-                >
-                  Pesquisar
-                </Button>
-              </ButtonToolbar>
             </Col>
             <Col md="auto">
               <ButtonToolbar className="mb-2 mb-md-0">

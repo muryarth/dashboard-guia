@@ -18,7 +18,8 @@ function AuthHome() {
   const [authorizationsList, setAuthorizationsList] = useState([]);
 
   const GetCustomerAuthorization = async () => {
-    const data = await RequestHTTP.GetPaginatedItems("/authorizations");
+    const data = await RequestHTTP.GetPaginatedItems("/authorizations", "1000");
+    console.log(data);
     setAuthorizationsList(data);
   };
 
@@ -68,11 +69,7 @@ function AuthHome() {
           </Col>
           <Col md="auto">
             <ButtonToolbar className="mb-2 mb-md-0">
-              <Button
-                href="/customers"
-                variant="outline-secondary"
-                size="sm"
-              >
+              <Button href="/customers" variant="outline-secondary" size="sm">
                 + Nova Guia
               </Button>
             </ButtonToolbar>

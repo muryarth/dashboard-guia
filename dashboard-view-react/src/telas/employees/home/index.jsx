@@ -34,14 +34,6 @@ function EmployeesHome() {
       component: () => (
         <>
           <Button
-            variant="info"
-            size="sm"
-            className="me-2"
-            onClick={() => console.log("Teste")}
-          >
-            Visualizar
-          </Button>
-          <Button
             variant="primary"
             size="sm"
             className="me-2"

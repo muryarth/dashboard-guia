@@ -54,14 +54,17 @@ export default function CustomersEdit() {
 
     console.log(body);
 
-    if (body) {
+    if (Object.keys(body).length !== 0) {
       const response = await RequestHTTP.UpdateItem(
         "/customers",
         currentUserId,
         body
       );
-      console.log(response);
-      // window.location.reload();
+
+      if (response)
+        setTimeout(() => {
+          window.location.reload();
+        }, 10);
     }
   };
 

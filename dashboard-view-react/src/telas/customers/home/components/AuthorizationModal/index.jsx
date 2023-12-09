@@ -26,15 +26,18 @@ const CustomDropdown = ({ list, state, setState, title = "Title" }) => {
             return (
               <Dropdown.Item
                 onClick={() => {
-                  listItem.especialidade
-                    ? setState({
-                        _id: listItem._id,
-                        especialidade: listItem.especialidade,
-                      })
-                    : setState({
-                        _id: listItem._id,
-                        nome: listItem.nome,
-                      });
+                  if (listItem.hasOwnProperty("preco")) {
+                    setState({
+                      _id: listItem._id,
+                      nome: listItem.nome,
+                      preco: listItem.preco,
+                    });
+                  } else {
+                    setState({
+                      _id: listItem._id,
+                      nome: listItem.nome || listItem.especialidade,
+                    });
+                  }
                 }}
                 key={`${index}`}
               >
@@ -56,9 +59,9 @@ export default function AuthorizationModal({
   const [convenios, setConvenios] = useState([]);
   const [especialidades, setEspecialidades] = useState([]);
   const [locais, setLocais] = useState([]);
-  const [convenioAtivo, setConvenioAtivo] = useState();
-  const [especialidadeAtiva, setEspecialidadeAtiva] = useState();
-  const [localAtivo, setLocalAtivo] = useState();
+  const [convenioAtivo, setConvenioAtivo] = useState(null);
+  const [especialidadeAtiva, setEspecialidadeAtiva] = useState(null);
+  const [localAtivo, setLocalAtivo] = useState(null);
 
   const GetAgreements = async () => {
     const data = await RequestHTTP.GetPaginatedItems("/agreements", "1000");
@@ -71,19 +74,25 @@ export default function AuthorizationModal({
     setLocais(dadosConvenio.locais);
   };
 
-  const SubmitAuthorization = () => {
+  const SubmitAuthorization = async () => {
     const body = {};
 
-    body.cliente = currentUserId;
-    body.preco = 70;
-    body.convenio = convenioAtivo;
-    body.especialidade = especialidadeAtiva;
-    body.local = localAtivo;
-    body.criadoPor = "656cb3af8d7c85e024a6a892";
+    if (currentUserId) body.cliente = currentUserId;
+    if ("656cb3af8d7c85e024a6a892") body.criadoPor = "656cb3af8d7c85e024a6a892";
+    if (especialidadeAtiva) body.especialidade = especialidadeAtiva;
+    if (localAtivo) body.local = localAtivo;
+    if (convenioAtivo) {
+      body.preco = convenioAtivo.preco;
+      body.convenio = convenioAtivo._id;
+    }
 
-    if (convenioAtivo || especialidadeAtiva || localAtivo) {
-      RequestHTTP.AddItem("/authorizations", body);
-      window.location.reload();
+    if (Object.keys(body).length !== 0 && Object.keys(body).length === 6) {
+      const response = await RequestHTTP.AddItem("/authorizations", body);
+      console.log(response);
+      // if (response)
+      //   setTimeout(() => {
+      //     window.location.reload();
+      //   }, 10);
     }
   };
 

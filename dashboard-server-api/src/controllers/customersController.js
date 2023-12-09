@@ -16,6 +16,7 @@ export default class CustomerController {
       const skip = (pageNumber - 1) * limitNumber;
 
       const customers = await Customers.find()
+        // .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limitNumber)
         .populate("conveniosAtivos");

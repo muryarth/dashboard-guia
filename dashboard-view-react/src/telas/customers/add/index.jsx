@@ -24,26 +24,32 @@ export default function CustomersAdd() {
   const [cpf, setCPF] = useState("");
   const [matricula, setMatricula] = useState("");
   const [cep, setCEP] = useState("");
-  const [endereco, setEndereco] = useState("");
+  const [endereco, setEndereco] = useState(""); // Rua
+  const [cidade, setCidade] = useState("");
   const [uf, setUF] = useState("");
   const [detalhesCliente, setDetalhesCliente] = useState("");
 
   const SubmitFormData = async () => {
     const body = {};
 
-    body.nome = nome;
-    body.sobrenome = sobrenome;
-    body.dataNascimento = dataNascimento;
-    body.genero = genero;
-    body.telefone = telefone;
-    body.email = email;
-    body.rg = rg;
-    body.cpf = cpf;
-    body.matricula = matricula;
-    body.cep = cep;
-    body.endereco = endereco;
-    body.uf = uf;
-    body.detalhesCliente = detalhesCliente;
+    console.log(cep);
+
+    body.nome = nome || "";
+    body.sobrenome = sobrenome || "";
+    body.dataNascimento = dataNascimento || "";
+    body.genero = genero || "";
+    body.telefone = telefone || "";
+    body.email = email || "";
+    body.rg = rg || "";
+    body.cpf = cpf || "";
+    body.matricula = matricula || "";
+    body.endereco = {
+      cep: cep || "",
+      rua: endereco || "",
+      uf: uf || "",
+      cidade: cidade || "",
+    };
+    body.detalhesCliente = detalhesCliente || "";
     body.conveniosAtivos = [];
 
     if (
@@ -103,11 +109,14 @@ export default function CustomersAdd() {
               <Dropdown.Item onClick={() => setGenero("Masculino")}>
                 Masculino
               </Dropdown.Item>
-              <Dropdown.Item onClick={() => setGenero("Masculino")}>
+              <Dropdown.Item onClick={() => setGenero("Feminino")}>
                 Feminino
               </Dropdown.Item>
               <Dropdown.Item onClick={() => setGenero("Outro")}>
                 Outro
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setGenero("Prefere não responder")}>
+                Prefere não responder
               </Dropdown.Item>
             </DropdownButton>
           </Col>

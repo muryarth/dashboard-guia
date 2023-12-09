@@ -27,7 +27,8 @@ export default function CustomersEdit() {
   const [cpf, setCPF] = useState("");
   const [matricula, setMatricula] = useState("");
   const [cep, setCEP] = useState("");
-  const [endereco, setEndereco] = useState("");
+  const [endereco, setEndereco] = useState(""); // Rua
+  const [cidade, setCidade] = useState("");
   const [uf, setUF] = useState("");
   const [detalhesCliente, setDetalhesCliente] = useState("");
 
@@ -46,13 +47,21 @@ export default function CustomersEdit() {
     if (rg !== currentUserData.rg) body.rg = rg;
     if (cpf !== currentUserData.cpf) body.cpf = cpf;
     if (matricula !== currentUserData.matricula) body.matricula = matricula;
-    if (cep !== currentUserData.cep) body.cep = cep;
-    // if (endereco !== currentUserData.endereco) body.endereco = endereco;
-    if (uf !== currentUserData.uf) body.uf = uf;
+    if (
+      cep !== currentUserData.endereco.cep ||
+      endereco !== currentUserData.endereco.rua ||
+      cidade !== currentUserData.endereco.cidade ||
+      uf !== currentUserData.endereco.uf
+    ) {
+      body.endereco = {
+        cep: cep,
+        rua: endereco,
+        cidade: cidade,
+        uf: uf,
+      };
+    }
     if (detalhesCliente !== currentUserData.detalhesCliente)
       body.detalhesCliente = detalhesCliente;
-
-    console.log(body);
 
     if (Object.keys(body).length !== 0) {
       const response = await RequestHTTP.UpdateItem(
@@ -70,6 +79,8 @@ export default function CustomersEdit() {
 
   // Popula os dados de cada formulário
   const PopulateFormsData = (currentUserData) => {
+    console.log(currentUserData);
+
     if (currentUserData) {
       console.log("Teste >", currentUserData);
       setNome(currentUserData.nome);
@@ -81,9 +92,9 @@ export default function CustomersEdit() {
       setRG(currentUserData.rg);
       setCPF(currentUserData.cpf);
       setMatricula(currentUserData.matricula);
-      setCEP(currentUserData.cep);
-      setEndereco(currentUserData.endereço);
-      setUF(currentUserData.uf);
+      setCEP(currentUserData.endereco.cep);
+      setEndereco(currentUserData.endereco.rua);
+      setUF(currentUserData.endereco.uf);
       setDetalhesCliente(currentUserData.detalhesCliente);
     } else {
       console.log("Não há dados para popular os formulários!");
@@ -161,11 +172,14 @@ export default function CustomersEdit() {
               <Dropdown.Item onClick={() => setGenero("Masculino")}>
                 Masculino
               </Dropdown.Item>
-              <Dropdown.Item onClick={() => setGenero("Masculino")}>
+              <Dropdown.Item onClick={() => setGenero("Feminino")}>
                 Feminino
               </Dropdown.Item>
               <Dropdown.Item onClick={() => setGenero("Outro")}>
                 Outro
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => setGenero("Prefere não responder")}>
+                Prefere não responder
               </Dropdown.Item>
             </DropdownButton>
           </Col>

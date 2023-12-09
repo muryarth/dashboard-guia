@@ -81,6 +81,9 @@ export default function AuthorizationModal({
 
   const HandleClose = () => {
     setShowModal(false);
+    setConvenioAtivo(null);
+    setEspecialidadeAtiva(null);
+    setLocalAtivo(null);
     setConvenios([]);
     setEspecialidades([]);
     setLocais([]);
@@ -101,10 +104,11 @@ export default function AuthorizationModal({
           "/agreements",
           agreementId
         );
+
         return agreementObject;
       });
 
-      // console.log("Fora >", await Promise.all(userAgreements));
+      console.log("Fora >", await Promise.all(userAgreements));
       setConvenios(await Promise.all(userAgreements));
       setIsLoading(false);
     } else {

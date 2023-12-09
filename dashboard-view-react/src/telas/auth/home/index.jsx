@@ -18,9 +18,20 @@ function AuthHome() {
   const [authorizationsList, setAuthorizationsList] = useState([]);
 
   const GetCustomerAuthorization = async () => {
-    const data = await RequestHTTP.GetPaginatedItems("/authorizations", "1000");
-    console.log(data);
-    setAuthorizationsList(data);
+    const authorizations = await RequestHTTP.GetPaginatedItems(
+      "/authorizations",
+      "1000"
+    );
+
+    if (authorizations.length > 0) {
+      // Atenção que isso aqui é gambiarra! Caso coloque paginação, essa solução pode gerar problemas
+      // Filtra os itens que tem o campo cliente igual a null
+      let validAuthorizations = [];
+      validAuthorizations = authorizations.filter(
+        (authorization) => authorization.cliente !== null
+      );
+      setAuthorizationsList(validAuthorizations);
+    }
   };
 
   useEffect(() => {

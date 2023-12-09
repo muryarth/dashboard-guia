@@ -74,11 +74,13 @@ function CustomersHome() {
                 setShowAuthorizationModal(false);
               }}
             />
-            {/* <DefaultAppButton
+            <DefaultAppButton
               variant="primary"
               title="Editar"
-              action={() => console.log("Editar")}
-            /> */}
+              action={() =>
+                (window.location.href = `/customers/edit?_id=${_id}`)
+              }
+            />
             <DefaultAppButton
               variant="danger"
               title="Deletar"

@@ -6,20 +6,40 @@ export default function DefaultAppFormField({
   state,
   setState,
   required = false,
+  disabled = false,
   as = "input",
 }) {
+  // return (
+  //   <>
+  //     <Form.Group controlId={state} className="mb-4">
+  //       <Form.Label>{`${label}:`}</Form.Label>
+  //       <Form.Control
+  //         type="text"
+  //         placeholder={placeholder}
+  //         value={state}
+  //         onChange={(event) => setState(event.target.value)}
+  //         required={required}
+  //         as={as} // Muda o tipo do input
+  //         rows={as === "textarea" ? 6 : null} // Se for do tipo "textarea" define uma quantidade de linhas
+  //         disabled={disabled}
+  //       />
+  //     </Form.Group>
+  //   </>
+  // );
+
   return (
     <>
-      <Form.Group controlId={state} className="mb-4">
+      <Form.Group className="mb-4">
         <Form.Label>{`${label}:`}</Form.Label>
         <Form.Control
           type="text"
           placeholder={placeholder}
-          value={state}
+          defaultValue={state} // Use defaultValue instead of value
           onChange={(event) => setState(event.target.value)}
+          as={as}
+          rows={as === "textarea" ? 6 : null}
+          disabled={disabled}
           required={required}
-          as={as} // Muda o tipo do input
-          rows={as === "textarea" ? 6 : null} // Se for do tipo "textarea" define uma quantidade de linhas
         />
       </Form.Group>
     </>

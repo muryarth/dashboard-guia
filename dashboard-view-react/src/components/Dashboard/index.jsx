@@ -155,22 +155,22 @@ export default function Dashboard({
                             key={`${buttonGroup.title}`}
                             className="text-center"
                           >
-                            <buttonGroup.component // Sem sobrenome
+                            {/* <buttonGroup.component // Sem sobrenome
                               _id={element._id}
                               name={
                                 element.sobrenome
                                   ? `${element.nome}`
                                   : element.nome || element.especialidade
                               }
-                            />
-                            {/* <buttonGroup.component // Se quiser mostrar o sobrenome (testando a viabilidade)
+                            /> */}
+                            <buttonGroup.component // Se quiser mostrar o sobrenome (testando a viabilidade)
                               _id={element._id}
                               name={
                                 element.sobrenome
                                   ? `${element.nome} ${element.sobrenome}`
                                   : element.nome || element.especialidade
                               }
-                            /> */}
+                            />
                           </td>
                         );
                       }

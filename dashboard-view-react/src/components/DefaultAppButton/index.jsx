@@ -13,9 +13,9 @@ export default function DefaultAppButton({
       className="m-1"
       style={{
         fontSize: "0.8rem",
-        minWidth: "100px",
-        // maxWidth: "200px"
-        width: "40%",
+        minWidth: "80px",
+        maxWidth: "200px",
+        width: "35%",
       }}
       onClick={() => action()}
     >

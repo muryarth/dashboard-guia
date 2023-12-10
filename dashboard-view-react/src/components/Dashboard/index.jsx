@@ -26,7 +26,11 @@ export default function Dashboard({
                     field === "cep"
                   ) {
                     return (
-                      <th key={field} className="text-center align-middle">
+                      <th
+                        style={{ minWidth: 100 }}
+                        key={field}
+                        className="text-center align-middle"
+                      >
                         {`${field.toUpperCase()}`}
                       </th>
                     );
@@ -54,7 +58,10 @@ export default function Dashboard({
                   buttonsGroup.map((buttonGroup) => {
                     if (buttonGroup.title && buttonGroup.component) {
                       return (
-                        <th key={buttonGroup.title} className="text-center align-middle">
+                        <th
+                          key={buttonGroup.title}
+                          className="text-center align-middle"
+                        >
                           {buttonGroup.title}
                         </th>
                       );
@@ -82,6 +89,7 @@ export default function Dashboard({
                       return (
                         <td
                           key={field}
+                          style={{ minWidth: 140 }}
                           className="text-center align-middle"
                         >{`${element["nome"]} ${element["sobrenome"]}`}</td>
                       );
@@ -103,7 +111,11 @@ export default function Dashboard({
                       );
                     } else if (field === "cliente") {
                       return (
-                        <td key={field} className="text-center align-middle">
+                        <td
+                          key={field}
+                          style={{ minWidth: 140 }}
+                          className="text-center align-middle"
+                        >
                           {`${element[field].nome} ${element[field].sobrenome}`}
                         </td>
                       );
@@ -140,7 +152,11 @@ export default function Dashboard({
                       return htmlElement;
                     }
                     return (
-                      <td key={field} className="text-center align-middle">
+                      <td
+                        key={field}
+                        style={{ minWidth: 120 }}
+                        className="text-center align-middle"
+                      >
                         {element[field]}
                       </td>
                     );
@@ -154,6 +170,7 @@ export default function Dashboard({
                           <td
                             key={`${buttonGroup.title}`}
                             className="text-center align-middle"
+                            style={{ maxWidth: 200 }}
                           >
                             {/* <buttonGroup.component // Sem sobrenome
                               _id={element._id}

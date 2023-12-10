@@ -1,8 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import RequestHTTP from "../../../services/services";
+
+// Bootstrap
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+
+// Componentes da App
 import CustomAuthorizationDropdown from "./components/CustomAuthorizationDropdown";
+import AddItemModal from "./components/AddItemModal";
 import DefaultAppFormField from "../../../components/DefaultAppFormField";
+
+// services.js
+import RequestHTTP from "../../../services/services";
 
 export default function AgreeAdd() {
   const [nome, setNome] = useState("");
@@ -39,8 +50,7 @@ export default function AgreeAdd() {
       body.preco
     ) {
       const response = await RequestHTTP.AddItem("/agreements", body);
-      console.log(response);
-      // window.location.reload();
+      if (response) window.location.href("/agreements");
     }
   };
 
@@ -69,84 +79,92 @@ export default function AgreeAdd() {
   }, []);
 
   return (
-    <Container fluid>
-      <Form>
-        <Row className="form-group mb-4">
-          {/* Nome */}
-          <Col>
-            <DefaultAppFormField
-              label={"Nome"}
-              placeholder={"Insira o nome..."}
-              state={nome}
-              setState={setNome}
-              required={true}
-            />
-          </Col>
-
-          {/* Preço */}
-          <Col>
-            <DefaultAppFormField
-              label={"Preço"}
-              placeholder={"Insira o preço..."}
-              state={preco}
-              setState={setPreco}
-              required={true}
-            />
-          </Col>
-        </Row>
-
-        <Row className="mb-2">
-          {/* Especialidades */}
-          <Col className="d-flex flex-column align-items-start">
-            <div className="d-flex">
-              <CustomAuthorizationDropdown
-                title={"Especialidades"}
-                list={especialidades}
-                state={especialidadesAtivas}
-                setState={setEspecialidadesAtivas}
+    <>
+      <Container fluid>
+        <Form>
+          <Row className="form-group mb-4">
+            {/* Nome */}
+            <Col>
+              <DefaultAppFormField
+                label={"Nome"}
+                placeholder={"Insira o nome..."}
+                state={nome}
+                setState={setNome}
+                required={true}
               />
-              <Button className="ms-2" variant={"light"}>
-                + Nova Especialidade
-              </Button>
-            </div>
-            <p
-              style={{ overflowWrap: "break-word", maxWidth: "350px" }}
-              className="mt-2"
-            >
-              {`Selecionados: ${JoinArrayByName(especialidadesAtivas)}`}
-            </p>
-          </Col>
+            </Col>
 
-          {/* Locais */}
-          <Col className="d-flex flex-column align-items-start">
-            <div className="d-flex">
-              <CustomAuthorizationDropdown
-                title={"Locais"}
-                list={locais}
-                state={locaisAtivos}
-                setState={setLocaisAtivos}
+            {/* Preço */}
+            <Col>
+              <DefaultAppFormField
+                label={"Preço"}
+                placeholder={"Insira o preço..."}
+                state={preco}
+                setState={setPreco}
+                required={true}
               />
-              <Button className="ms-2" variant={"light"}>
-                + Novo Local
-              </Button>
-            </div>
-            <p
-              style={{ overflowWrap: "break-word", maxWidth: "350px" }}
-              className="mt-2"
-            >
-              {`Selecionados: ${JoinArrayByName(locaisAtivos)}`}
-            </p>
-          </Col>
-        </Row>
+            </Col>
+          </Row>
 
-        <Button
-          variant="primary"
-          onClick={() => SubmitAgreeData()}
-          className="mt-4"
-        >
-          Criar guia
-        </Button>
-      </Form>
-    </Container>
+          <Row className="mb-2">
+            {/* Especialidades */}
+            <Col className="d-flex flex-column align-items-start">
+              <div className="d-flex">
+                <CustomAuthorizationDropdown
+                  title={"Especialidades"}
+                  list={especialidades}
+                  state={especialidadesAtivas}
+                  setState={setEspecialidadesAtivas}
+                />
+                <Button className="ms-2" variant={"light"}>
+                  + Nova Especialidade
+                </Button>
+              </div>
+              <p
+                style={{ overflowWrap: "break-word", maxWidth: "350px" }}
+                className="mt-2"
+              >
+                <span>{`Selecionados: `}</span>
+                {especialidadesAtivas.length > 0
+                  ? `${JoinArrayByName(especialidadesAtivas)}`
+                  : "Nenhum"}
+              </p>
+            </Col>
+
+            {/* Locais */}
+            <Col className="d-flex flex-column align-items-start">
+              <div className="d-flex">
+                <CustomAuthorizationDropdown
+                  title={"Locais"}
+                  list={locais}
+                  state={locaisAtivos}
+                  setState={setLocaisAtivos}
+                />
+                <Button className="ms-2" variant={"light"}>
+                  + Novo Local
+                </Button>
+              </div>
+              <p
+                style={{ overflowWrap: "break-word", maxWidth: "350px" }}
+                className="mt-2"
+              >
+                <span>{`Selecionados: `}</span>
+                {locaisAtivos.length > 0
+                  ? `${JoinArrayByName(locaisAtivos)}`
+                  : "Nenhum"}
+              </p>
+            </Col>
+          </Row>
+
+          <Button
+            variant="primary"
+            onClick={() => SubmitAgreeData()}
+            className="mt-4"
+          >
+            Criar guia
+          </Button>
+        </Form>
+      </Container>
+    </>
   );
 }

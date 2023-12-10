@@ -38,14 +38,14 @@ function AuthHome() {
     }
   };
 
-  const GetAllAuthorizations = async () => {
-    const authorizations = await RequestHTTP.GetPaginatedItems(
-      "/authorizations",
-      "1000"
-    );
+  // const GetAllAuthorizations = async () => {
+  //   const authorizations = await RequestHTTP.GetPaginatedItems(
+  //     "/authorizations",
+  //     "1000"
+  //   );
 
-    setAuthorizationsList(authorizations);
-  };
+  //   setAuthorizationsList(authorizations);
+  // };
 
   useEffect(() => {
     GetValidAuthorizations();

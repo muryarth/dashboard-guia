@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Button,
-  ButtonToolbar,
-} from "react-bootstrap";
+
+// Bootstrap
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
+import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 
 // Componente da app
 import Dashboard from "../../../components/Dashboard";
 import DeleteConfirmationModal from "../../../components/DeleteAndUpdateModal";
 import DefaultAppButton from "../../../components/DefaultAppButton";
+import SearchBar from "../../../components/SearchBar";
 
+// services.js
 import RequestHTTP from "../../../services/services";
 
 function AgreeHome() {
@@ -70,22 +71,10 @@ function AgreeHome() {
               <h1 className="h2">Convênios:</h1>
             </Col>
             <Col md="auto" className="flex-fill">
-              <Form.Control
-                type="text"
-                placeholder="Pesquisar..."
-                className="mr-sm-2"
+              <SearchBar // É necessário ajustar
+                route="/agreements"
+                setSearchResults={setAgreementsList}
               />
-            </Col>
-            <Col md="auto">
-              <ButtonToolbar className="mb-2 mb-md-0">
-                <Button
-                  variant="outline-secondary"
-                  size="sm"
-                  onClick={() => {}}
-                >
-                  Pesquisar
-                </Button>
-              </ButtonToolbar>
             </Col>
             <Col md="auto">
               <ButtonToolbar className="mb-2 mb-md-0">

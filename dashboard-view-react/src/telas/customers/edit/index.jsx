@@ -79,10 +79,7 @@ export default function CustomersEdit() {
 
   // Popula os dados de cada formulário
   const PopulateFormsData = (currentUserData) => {
-    console.log(currentUserData);
-
     if (currentUserData) {
-      console.log("Teste >", currentUserData);
       setNome(currentUserData.nome);
       setSobrenome(currentUserData.sobrenome);
       setTelefone(currentUserData.telefone);
@@ -96,8 +93,6 @@ export default function CustomersEdit() {
       setEndereco(currentUserData.endereco.rua);
       setUF(currentUserData.endereco.uf);
       setDetalhesCliente(currentUserData.detalhesCliente);
-    } else {
-      console.log("Não há dados para popular os formulários!");
     }
   };
 
@@ -119,7 +114,7 @@ export default function CustomersEdit() {
 
   // Roda sempre que currentUserId for atualizado
   useEffect(() => {
-    PopulateFormsData(currentUserData);
+    if (currentUserData) PopulateFormsData(currentUserData);
   }, [currentUserData]);
 
   return (

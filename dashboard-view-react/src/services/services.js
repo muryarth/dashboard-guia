@@ -14,7 +14,7 @@ export default class RequestHTTP {
       // Verifica se está na rota principal
       try {
         const response = await fetch(
-          `${url}${endpoint}?$limit=${limit}&page=${page}`,
+          `${url}${endpoint}?limit=${limit}&page=${page}`,
           {
             method: "GET",
           }
@@ -62,11 +62,13 @@ export default class RequestHTTP {
     }
   };
 
-  static GetItemById = async (endpoint, id, url = this.BaseURL) => {
+  static GetItemById = async (endpoint, _id, url = this.BaseURL) => {
+    // console.log(`${url}${endpoint}/${_id}`);
+
     // Verifica se está na rota principal
     if (!(endpoint.split("/").filter((part) => part !== "").length > 1)) {
       try {
-        const response = await fetch(`${url}${endpoint}/${id}`, {
+        const response = await fetch(`${url}${endpoint}/${_id}`, {
           method: "GET",
         });
 
@@ -90,7 +92,9 @@ export default class RequestHTTP {
       try {
         const response = await fetch(`${url}${endpoint}`, {
           method: "POST",
-          "Content-Type": "application/json",
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify(body),
         });
 
@@ -103,12 +107,15 @@ export default class RequestHTTP {
     }
   };
 
-  static UpdateItem = async (endpoint, body, url = this.BaseURL) => {
+  static UpdateItem = async (endpoint, _id, body, url = this.BaseURL) => {
     // Verifica se está na rota principal
     if (!(endpoint.split("/").filter((part) => part !== "").length > 1)) {
       try {
-        const response = await fetch(`${url}${endpoint}`, {
+        const response = await fetch(`${url}${endpoint}/${_id}`, {
           method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify(body),
         });
 
@@ -121,11 +128,11 @@ export default class RequestHTTP {
     }
   };
 
-  static DeleteItemById = async (endpoint, id, url = this.BaseURL) => {
+  static DeleteItemById = async (endpoint, _id, url = this.BaseURL) => {
     // Verifica se está na rota principal
     if (!(endpoint.split("/").filter((part) => part !== "").length > 1)) {
       try {
-        const response = await fetch(`${url}${endpoint}/${id}`, {
+        const response = await fetch(`${url}${endpoint}/${_id}`, {
           method: "DELETE",
         });
 

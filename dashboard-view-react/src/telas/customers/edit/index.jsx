@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Bootstrap
 import Container from "react-bootstrap/Container";
@@ -13,7 +13,10 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import DefaultAppFormField from "../../../components/DefaultAppFormField";
 import RequestHTTP from "../../../services/services";
 
-export default function CustomersAdd() {
+export default function CustomersEdit() {
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState();
+  const [currentUserData, setCurrentUserData] = useState();
   const [nome, setNome] = useState("");
   const [sobrenome, setSobrenome] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
@@ -29,40 +32,95 @@ export default function CustomersAdd() {
   const [uf, setUF] = useState("");
   const [detalhesCliente, setDetalhesCliente] = useState("");
 
+  // Atualiza o registro do usuário
   const SubmitFormData = async () => {
     const body = {};
 
-    console.log(cep);
-
-    body.nome = nome || "";
-    body.sobrenome = sobrenome || "";
-    body.dataNascimento = dataNascimento || "";
-    body.genero = genero || "";
-    body.telefone = telefone || "";
-    body.email = email || "";
-    body.rg = rg || "";
-    body.cpf = cpf || "";
-    body.matricula = matricula || "";
-    body.endereco = {
-      cep: cep || "",
-      rua: endereco || "",
-      uf: uf || "",
-      cidade: cidade || "",
-    };
-    body.detalhesCliente = detalhesCliente || "";
-    body.conveniosAtivos = [];
-
+    // Valida se algum campo é diferente
+    if (nome !== currentUserData.nome) body.nome = nome;
+    if (sobrenome !== currentUserData.sobrenome) body.sobrenome = sobrenome;
+    if (dataNascimento !== currentUserData.dataNascimento)
+      body.dataNascimento = dataNascimento;
+    if (genero !== currentUserData.dataNascimento) body.genero = genero;
+    if (telefone !== currentUserData.telefone) body.telefone = telefone;
+    if (email !== currentUserData.email) body.email = email;
+    if (rg !== currentUserData.rg) body.rg = rg;
+    if (cpf !== currentUserData.cpf) body.cpf = cpf;
+    if (matricula !== currentUserData.matricula) body.matricula = matricula;
     if (
-      Object.keys(body).length !== 0 &&
-      nome !== "" &&
-      sobrenome !== "" &&
-      telefone !== "" &&
-      email !== ""
+      cep !== currentUserData.endereco.cep ||
+      endereco !== currentUserData.endereco.rua ||
+      cidade !== currentUserData.endereco.cidade ||
+      uf !== currentUserData.endereco.uf
     ) {
-      await RequestHTTP.AddItem("/customers", body);
-      window.location.href = "/customers";
+      body.endereco = {
+        cep: cep,
+        rua: endereco,
+        cidade: cidade,
+        uf: uf,
+      };
+    }
+    if (detalhesCliente !== currentUserData.detalhesCliente)
+      body.detalhesCliente = detalhesCliente;
+
+    if (Object.keys(body).length !== 0) {
+      const response = await RequestHTTP.UpdateItem(
+        "/customers",
+        currentUserId,
+        body
+      );
+
+      if (response)
+        setTimeout(() => {
+          window.location.reload();
+        }, 10);
     }
   };
+
+  // Popula os dados de cada formulário
+  const PopulateFormsData = (currentUserData) => {
+    console.log(currentUserData);
+
+    if (currentUserData) {
+      console.log("Teste >", currentUserData);
+      setNome(currentUserData.nome);
+      setSobrenome(currentUserData.sobrenome);
+      setTelefone(currentUserData.telefone);
+      setDataNascimento(currentUserData.dataNascimento);
+      setGenero(currentUserData.genero);
+      setEmail(currentUserData.email);
+      setRG(currentUserData.rg);
+      setCPF(currentUserData.cpf);
+      setMatricula(currentUserData.matricula);
+      setCEP(currentUserData.endereco.cep);
+      setEndereco(currentUserData.endereco.rua);
+      setUF(currentUserData.endereco.uf);
+      setDetalhesCliente(currentUserData.detalhesCliente);
+    } else {
+      console.log("Não há dados para popular os formulários!");
+    }
+  };
+
+  const GetUserDataById = async (_id) => {
+    if (_id !== undefined) {
+      const response = await RequestHTTP.GetItemById("/customers", _id);
+      setCurrentUserId(_id);
+      setCurrentUserData(response);
+    }
+  };
+
+  // Roda sempre que o componente é montado
+  useEffect(() => {
+    if (window.location.search) {
+      const _id = window.location.search.split("?_id=")[1];
+      GetUserDataById(_id);
+    }
+  }, []);
+
+  // Roda sempre que currentUserId for atualizado
+  useEffect(() => {
+    PopulateFormsData(currentUserData);
+  }, [currentUserData]);
 
   return (
     <Container fluid>
@@ -70,6 +128,7 @@ export default function CustomersAdd() {
         <Row className="form-group mb-4">
           <Col>
             <DefaultAppFormField
+              disabled={!isEditing}
               label={"Nome"}
               placeholder={"Insira o nome..."}
               state={nome}
@@ -80,6 +139,7 @@ export default function CustomersAdd() {
 
           <Col>
             <DefaultAppFormField
+              disabled={!isEditing}
               label={"Sobrenome"}
               placeholder={"Insira o sobrenome..."}
               state={sobrenome}
@@ -87,13 +147,13 @@ export default function CustomersAdd() {
               required={true}
             />
           </Col>
-
           <Col>
             <DefaultAppFormField
               label={"Data de nascimento"}
               placeholder={"dd/mm/aaaa"}
               state={dataNascimento}
               setState={setDataNascimento}
+              disabled={!isEditing}
             />
           </Col>
 
@@ -101,7 +161,10 @@ export default function CustomersAdd() {
             <DropdownButton
               variant="light"
               id="dropdown-basic-button"
-              title={genero !== "" ? genero : "Gênero"}
+              title={
+                genero && (genero !== "") !== undefined ? genero : "Gênero"
+              }
+              disabled={!isEditing}
             >
               <Dropdown.Item onClick={() => setGenero("")}>
                 Nenhum
@@ -125,6 +188,7 @@ export default function CustomersAdd() {
         <Row className="form-group mb-4">
           <Col>
             <DefaultAppFormField
+              disabled={!isEditing}
               label={"Telefone"}
               placeholder={"(00)90000-0000"}
               state={telefone}
@@ -135,6 +199,7 @@ export default function CustomersAdd() {
 
           <Col>
             <DefaultAppFormField
+              disabled={!isEditing}
               label={"Email"}
               placeholder={"exemplo@exemplo.com"}
               state={email}
@@ -147,6 +212,7 @@ export default function CustomersAdd() {
         <Row className="form-group mb-4">
           <Col>
             <DefaultAppFormField
+              disabled={!isEditing}
               label={"RG"}
               placeholder={"00.000.000-0"}
               state={rg}
@@ -157,6 +223,7 @@ export default function CustomersAdd() {
 
           <Col>
             <DefaultAppFormField
+              disabled={!isEditing}
               label={"CPF"}
               placeholder={"000.000.000-00"}
               state={cpf}
@@ -167,6 +234,7 @@ export default function CustomersAdd() {
 
           <Col>
             <DefaultAppFormField
+              disabled={!isEditing}
               label={"Matrícula"}
               placeholder={"000000"}
               state={matricula}
@@ -179,6 +247,7 @@ export default function CustomersAdd() {
         <Row className="form-group mb-4">
           <Col>
             <DefaultAppFormField
+              disabled={!isEditing}
               label={"CEP"}
               placeholder={"00000-000"}
               state={cep}
@@ -189,6 +258,7 @@ export default function CustomersAdd() {
 
           <Col>
             <DefaultAppFormField
+              disabled={!isEditing}
               label={"Endereco"}
               placeholder={"Rua Exemplo, n° 100"}
               state={endereco}
@@ -199,6 +269,7 @@ export default function CustomersAdd() {
 
           <Col>
             <DefaultAppFormField
+              disabled={!isEditing}
               label={"UF"}
               placeholder={"Rio de Janeiro"}
               state={uf}
@@ -211,6 +282,7 @@ export default function CustomersAdd() {
         <Row>
           <Col>
             <DefaultAppFormField
+              disabled={!isEditing}
               label={"Detalhes do cliente"}
               placeholder={""}
               state={detalhesCliente}
@@ -220,10 +292,33 @@ export default function CustomersAdd() {
             />
           </Col>
         </Row>
-        
-        <Button variant="primary" onClick={() => SubmitFormData()}>
-          Adicionar Cliente
-        </Button>
+
+        {!isEditing ? (
+          <Button
+            className="ms-2"
+            variant="primary"
+            onClick={() => setIsEditing(true)}
+          >
+            Editar
+          </Button>
+        ) : (
+          <>
+            <Button
+              className="ms-2"
+              variant="primary"
+              onClick={() => SubmitFormData()}
+            >
+              Salvar
+            </Button>
+            <Button
+              className="ms-2"
+              variant="primary"
+              onClick={() => setIsEditing(false)}
+            >
+              Cancelar
+            </Button>
+          </>
+        )}
         <Form.Group className="mb-4"></Form.Group>
       </Form>
     </Container>

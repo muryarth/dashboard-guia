@@ -1,5 +1,6 @@
 import CustomersHome from "../telas/customers/home";
 import CustomersAdd from "../telas/customers/add";
+import CustomersEdit from "../telas/customers/edit";
 
 const CustomersRoutes = [
   {
@@ -13,6 +14,10 @@ const CustomersRoutes = [
   {
     path: "/customers/add",
     element: <CustomersAdd />,
+  },
+  {
+    path: "/customers/edit",
+    element: <CustomersEdit />,
   },
 ];
 

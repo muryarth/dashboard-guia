@@ -19,7 +19,6 @@ export default function Main({ children }) {
   };
 
   const contentStyle = {
-    // background: "lightgreen",
     height: "100vh",
     position: "fixed",
     right: 0,

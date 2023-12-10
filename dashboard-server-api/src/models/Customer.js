@@ -42,6 +42,9 @@ const CustomerSchema = new Schema({
   genero: {
     type: String,
   },
+  // endereco: {
+  //   type: String,
+  // },
   endereco: {
     uf: { type: String },
     cidade: { type: String },

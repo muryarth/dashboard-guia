@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Button,
-  ButtonToolbar,
-} from "react-bootstrap";
+
+//Bootstrap
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 
 // Componente da app
 import Dashboard from "../../../components/Dashboard";
 import AuthorizationModal from "./components/AuthorizationModal";
 import AgreementsModal from "./components/AgreementsModal";
+import DefaultAppButton from "../../../components/DefaultAppButton";
+import DeleteConfirmationModal from "../../../components/DeleteConfirmationModal";
 
 // Serviços
 import RequestHTTP from "../../../services/services";
@@ -20,98 +22,102 @@ function CustomersHome() {
   const [customersList, setCustomersList] = useState([]);
   const [showAuthorizationModal, setShowAuthorizationModal] = useState(false);
   const [showAgreementModal, setShowAgreementModal] = useState(false);
+  const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
+    useState(false);
   const [currentUser, setCurrentUser] = useState({ _id: null, name: null });
-  const [agreementsList, setAgreementsList] = useState();
-  const [dropdownOptions, setDropdownOptions] = useState([]);
+  const [search, setSearch] = useState("");
 
-  const actionsButtonGroup = [
+  const GetAllCustomers = async () => {
+    const data = await RequestHTTP.GetPaginatedItems("/customers");
+    setCustomersList(data);
+  };
+
+  const GetSearchedCustomers = async (search) => {
+    if (search !== "") {
+      const searchResponse = await RequestHTTP.GetItemsBySearch(
+        "/customers",
+        `nome=${search}`
+      );
+
+      setCustomersList(searchResponse);
+    } else {
+      GetAllCustomers();
+    }
+  };
+
+  useEffect(() => {
+    GetAllCustomers();
+  }, []);
+
+  const buttonsGroup = [
     {
       title: "Ações",
       component: ({ _id = "_id", name = "name" }) => {
         return (
           <>
-            <Button
+            <DefaultAppButton
               variant="success"
-              size="sm"
-              className="me-2"
-              onClick={() => {
+              title="Emitir"
+              action={() => {
                 setCurrentUser({ _id: _id, name: name });
+                setShowAgreementModal(false);
+                setShowDeleteConfirmationModal(false);
                 setShowAuthorizationModal(true);
               }}
-            >
-              Emitir
-            </Button>
-            <Button
+            />
+            <DefaultAppButton
               variant="info"
-              size="sm"
-              className="me-2"
-              onClick={() => {
+              title="Convênios"
+              action={() => {
                 setCurrentUser({ _id: _id, name: name });
                 setShowAgreementModal(true);
+                setShowDeleteConfirmationModal(false);
+                setShowAuthorizationModal(false);
               }}
-            >
-              Convênios
-            </Button>
-            {/* <Button
+            />
+            <DefaultAppButton
               variant="primary"
-              size="sm"
-              className="me-2"
-              onClick={() => console.log("Editar")}
-            >
-              Editar
-            </Button> */}
-            <Button
+              title="Editar"
+              action={() =>
+                (window.location.href = `/customers/edit?_id=${_id}`)
+              }
+            />
+            <DefaultAppButton
               variant="danger"
-              size="sm"
-              onClick={() => {
-                RequestHTTP.DeleteItemById("/customers", _id);
-                window.location.reload();
+              title="Deletar"
+              action={() => {
+                setCurrentUser({ _id: _id, name: name });
+                setShowAgreementModal(false);
+                setShowDeleteConfirmationModal(true);
+                setShowAuthorizationModal(false);
               }}
-            >
-              Deletar
-            </Button>
+            />
           </>
         );
       },
     },
   ];
 
-  const GetCustomers = async () => {
-    const data = await RequestHTTP.GetPaginatedItems("/customers");
-    setCustomersList(data);
-  };
-
-  const GetAllAgreements = async () => {
-    const data = await RequestHTTP.GetPaginatedItems("/agreements");
-    setAgreementsList(data);
-  };
-
-  useEffect(() => {
-    GetCustomers();
-  }, []);
-
-  useEffect(() => {
-    if (showAgreementModal) {
-      GetAllAgreements();
-    }
-  }, [showAgreementModal]);
-
   return (
     <>
       <AuthorizationModal
         showModal={showAuthorizationModal}
-        handleClose={() => setShowAuthorizationModal(false)}
+        setShowModal={() => setShowAuthorizationModal(false)}
         currentUserId={currentUser._id}
-        currentUserName={currentUser.name}
+        currentUserName={`${currentUser.name}`}
       />
       <AgreementsModal
         showModal={showAgreementModal}
-        handleClose={() => setShowAgreementModal(false)}
+        setShowModal={() => setShowAgreementModal(false)}
         currentUserId={currentUser._id}
-        currentUserName={currentUser.name}
-        agreements={agreementsList}
-        dropdownOptions={dropdownOptions}
-        setDropdownOptions={setDropdownOptions}
+        currentUserName={`${currentUser.name}`}
+      />
+      <DeleteConfirmationModal
+        showModal={showDeleteConfirmationModal}
+        setShowModal={() => setShowDeleteConfirmationModal(false)}
+        deleteName={`${currentUser.name}`}
+        deleteId={currentUser._id}
+        deleteRoute={"/customers"}
       />
 
       <Container fluid>
@@ -124,19 +130,10 @@ function CustomersHome() {
               <Form.Control
                 type="text"
                 placeholder="Pesquisar..."
+                defaultValue={search}
                 className="mr-sm-2"
+                onChange={(event) => GetSearchedCustomers(event.target.value)}
               />
-            </Col>
-            <Col md="auto">
-              <ButtonToolbar className="mb-2 mb-md-0">
-                <Button
-                  variant="outline-secondary"
-                  size="sm"
-                  onClick={() => {}}
-                >
-                  Pesquisar
-                </Button>
-              </ButtonToolbar>
             </Col>
             <Col md="auto">
               <ButtonToolbar className="mb-2 mb-md-0">
@@ -155,7 +152,7 @@ function CustomersHome() {
         <Dashboard
           elements={customersList}
           fields={["nome", "cpf", "email", "telefone", "registerDate"]}
-          buttonsGroup={actionsButtonGroup}
+          buttonsGroup={buttonsGroup}
         />
       </Container>
     </>

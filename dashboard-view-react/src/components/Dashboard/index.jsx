@@ -26,25 +26,29 @@ export default function Dashboard({
                     field === "cep"
                   ) {
                     return (
-                      <th key={field} className="text-center">
+                      <th
+                        style={{ minWidth: 100 }}
+                        key={field}
+                        className="text-center align-middle"
+                      >
                         {`${field.toUpperCase()}`}
                       </th>
                     );
                   } else if (field === "registerDate") {
                     return (
-                      <th key={field} className="text-center">
+                      <th key={field} className="text-center align-middle">
                         {"Cadastrado em:"}
                       </th>
                     );
                   } else if (field === "lastUpdated") {
                     return (
-                      <th key={field} className="text-center">
+                      <th key={field} className="text-center align-middle">
                         {"Última atualização:"}
                       </th>
                     );
                   } else {
                     return (
-                      <th key={field} className="text-center">
+                      <th key={field} className="text-center align-middle">
                         {`${field.charAt(0).toUpperCase()}${field.slice(1)}`}
                       </th>
                     );
@@ -54,7 +58,10 @@ export default function Dashboard({
                   buttonsGroup.map((buttonGroup) => {
                     if (buttonGroup.title && buttonGroup.component) {
                       return (
-                        <th key={buttonGroup.title} className="text-center">
+                        <th
+                          key={buttonGroup.title}
+                          className="text-center align-middle"
+                        >
                           {buttonGroup.title}
                         </th>
                       );
@@ -74,7 +81,7 @@ export default function Dashboard({
                       element[field] === ""
                     ) {
                       return (
-                        <td key={field} className="text-center">
+                        <td key={field} className="text-center align-middle">
                           -
                         </td>
                       );
@@ -82,7 +89,8 @@ export default function Dashboard({
                       return (
                         <td
                           key={field}
-                          className="text-center"
+                          style={{ minWidth: 140 }}
+                          className="text-center align-middle"
                         >{`${element["nome"]} ${element["sobrenome"]}`}</td>
                       );
                     } else if (
@@ -92,36 +100,40 @@ export default function Dashboard({
                       return (
                         <td
                           key={field}
-                          className="text-center"
+                          className="text-center align-middle"
                         >{`${element[field].FormatBR}`}</td>
                       );
                     } else if (field === "administrador") {
                       return (
-                        <td key={field} className="text-center">
+                        <td key={field} className="text-center align-middle">
                           {element[field] === true ? "Sim" : "Não"}
                         </td>
                       );
                     } else if (field === "cliente") {
                       return (
-                        <td key={field} className="text-center">
+                        <td
+                          key={field}
+                          style={{ minWidth: 140 }}
+                          className="text-center align-middle"
+                        >
                           {`${element[field].nome} ${element[field].sobrenome}`}
                         </td>
                       );
                     } else if (field === "local") {
                       return (
-                        <td key={field} className="text-center">
+                        <td key={field} className="text-center align-middle">
                           {element[field].nome}
                         </td>
                       );
                     } else if (field === "especialidade") {
                       return (
-                        <td key={field} className="text-center">
+                        <td key={field} className="text-center align-middle">
                           {element[field].especialidade}
                         </td>
                       );
                     } else if (field === "locais") {
                       let htmlElement = (
-                        <td key={field} className="text-center">
+                        <td key={field} className="text-center align-middle">
                           {element[field].map((item) => {
                             return `${item.nome}; `;
                           })}
@@ -131,7 +143,7 @@ export default function Dashboard({
                       return htmlElement;
                     } else if (field === "especialidades") {
                       let htmlElement = (
-                        <td key={field} className="text-center">
+                        <td key={field} className="text-center align-middle">
                           {element[field].map((item) => {
                             return `${item.especialidade}; `;
                           })}
@@ -140,7 +152,11 @@ export default function Dashboard({
                       return htmlElement;
                     }
                     return (
-                      <td key={field} className="text-center">
+                      <td
+                        key={field}
+                        style={{ minWidth: 120 }}
+                        className="text-center align-middle"
+                      >
                         {element[field]}
                       </td>
                     );
@@ -153,11 +169,24 @@ export default function Dashboard({
                         return (
                           <td
                             key={`${buttonGroup.title}`}
-                            className="text-center"
+                            className="text-center align-middle"
+                            style={{ maxWidth: 200 }}
                           >
-                            <buttonGroup.component
+                            {/* <buttonGroup.component // Sem sobrenome
                               _id={element._id}
-                              name={element.nome}
+                              name={
+                                element.sobrenome
+                                  ? `${element.nome}`
+                                  : element.nome || element.especialidade
+                              }
+                            /> */}
+                            <buttonGroup.component // Se quiser mostrar o sobrenome (testando a viabilidade)
+                              _id={element._id}
+                              name={
+                                element.sobrenome
+                                  ? `${element.nome} ${element.sobrenome}`
+                                  : element.nome || element.especialidade
+                              }
                             />
                           </td>
                         );
@@ -169,7 +198,7 @@ export default function Dashboard({
           </Table>
         </div>
       ) : (
-        <p className="text-center">{message}</p>
+        <p className="text-center align-middle">{message}</p>
       )}
     </>
   );

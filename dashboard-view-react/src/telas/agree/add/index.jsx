@@ -16,6 +16,8 @@ import DefaultAppFormField from "../../../components/DefaultAppFormField";
 import RequestHTTP from "../../../services/services";
 
 export default function AgreeAdd() {
+  const [showClinicModal, setShowClinicModal] = useState();
+  const [showExpertiseModal, setShowExpertiseModal] = useState();
   const [nome, setNome] = useState("");
   const [preco, setPreco] = useState("");
   const [especialidades, setEspecialidades] = useState([]);
@@ -50,7 +52,7 @@ export default function AgreeAdd() {
       body.preco
     ) {
       const response = await RequestHTTP.AddItem("/agreements", body);
-      if (response) window.location.href("/agreements");
+      if (response) window.location.reload();
     }
   };
 
@@ -80,6 +82,24 @@ export default function AgreeAdd() {
 
   return (
     <>
+      {/* Criar nova especialidade */}
+      <AddItemModal
+        label={"Especialidade"}
+        route={"/expertises"}
+        showModal={showExpertiseModal}
+        setShowModal={setShowExpertiseModal}
+        title="Criar nova especialidade"
+      />
+
+      {/* Criar novo local */}
+      <AddItemModal
+        label={"Local"}
+        route={"/clinics"}
+        showModal={showClinicModal}
+        setShowModal={setShowClinicModal}
+        title="Criar novo local"
+      />
+
       <Container fluid>
         <Form>
           <Row className="form-group mb-4">
@@ -116,8 +136,14 @@ export default function AgreeAdd() {
                   state={especialidadesAtivas}
                   setState={setEspecialidadesAtivas}
                 />
-                <Button className="ms-2" variant={"light"}>
-                  + Nova Especialidade
+                <Button
+                  className="ms-2"
+                  variant={"light"}
+                  onClick={() => {
+                    setShowExpertiseModal(true);
+                  }}
+                >
+                  + Criar novo
                 </Button>
               </div>
               <p
@@ -140,8 +166,14 @@ export default function AgreeAdd() {
                   state={locaisAtivos}
                   setState={setLocaisAtivos}
                 />
-                <Button className="ms-2" variant={"light"}>
-                  + Novo Local
+                <Button
+                  className="ms-2"
+                  variant={"light"}
+                  onClick={() => {
+                    setShowClinicModal(true);
+                  }}
+                >
+                  + Criar novo
                 </Button>
               </div>
               <p

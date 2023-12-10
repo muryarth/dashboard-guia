@@ -11,12 +11,12 @@ import DefaultAppFormField from "../../../../../components/DefaultAppFormField";
 // services.js
 import RequestHTTP from "../../../../../services/services";
 
-export default function DeleteConfirmationModal({
+export default function AddItemModal({
   route,
   showModal,
   setShowModal,
   label = "Local",
-  title = "Adicionar",
+  title = "Criar novo",
 }) {
   const [text, setText] = useState();
 
@@ -30,12 +30,19 @@ export default function DeleteConfirmationModal({
 
     if (label === "Especialidade") {
       body.especialidade = text;
-    } else {
+    } else if (label === "Local") {
       body.nome = text;
+      body.endereco = {
+        uf: "RJ",
+        cidade: "Petrópolis",
+        rua: "Rua A",
+      };
     }
 
-    await RequestHTTP.AddItem(route, body);
-    window.location.reload();
+    console.log(body);
+
+    const response = await RequestHTTP.AddItem(route, body);
+    if (response) window.location.reload();
   };
 
   return (
@@ -58,7 +65,7 @@ export default function DeleteConfirmationModal({
         </Container>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="danger" onClick={() => AddNewItem(route)}>
+        <Button variant="primary" onClick={() => AddNewItem(route)}>
           Adicionar
         </Button>
         <Button variant="secondary" onClick={() => HandleClose()}>

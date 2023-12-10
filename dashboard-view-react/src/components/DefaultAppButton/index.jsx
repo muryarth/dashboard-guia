@@ -10,7 +10,13 @@ export default function DefaultAppButton({
     <Button
       variant={variant}
       size="sm"
-      className="me-2"
+      className="m-1"
+      style={{
+        fontSize: "0.8rem",
+        minWidth: "100px",
+        // maxWidth: "200px"
+        width: "40%",
+      }}
       onClick={() => action()}
     >
       {title}

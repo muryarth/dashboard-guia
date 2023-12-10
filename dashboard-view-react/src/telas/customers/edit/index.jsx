@@ -292,7 +292,6 @@ export default function CustomersEdit() {
             />
           </Col>
         </Row>
-        <Form.Group className="mb-4"></Form.Group>
 
         {!isEditing ? (
           <Button
@@ -320,6 +319,7 @@ export default function CustomersEdit() {
             </Button>
           </>
         )}
+        <Form.Group className="mb-4"></Form.Group>
       </Form>
     </Container>
   );

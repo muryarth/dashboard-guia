@@ -220,11 +220,11 @@ export default function CustomersAdd() {
             />
           </Col>
         </Row>
-        <Form.Group className="mb-4"></Form.Group>
-
+        
         <Button variant="primary" onClick={() => SubmitFormData()}>
           Adicionar Cliente
         </Button>
+        <Form.Group className="mb-4"></Form.Group>
       </Form>
     </Container>
   );

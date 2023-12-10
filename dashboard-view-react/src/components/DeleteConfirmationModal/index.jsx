@@ -10,7 +10,7 @@ export default function DeleteConfirmationModal({
   deleteId,
   deleteRoute,
   title = "Confirmação",
-  message = `Tem certeza que deseja deletar ${deleteName}?`,
+  message = deleteName ? `Tem certeza que deseja deletar ${deleteName}?` : "Tem certeza que deseja deletar este item?",
 }) {
   const DeleteSelectedItem = async (route, _id) => {
     await RequestHTTP.DeleteItemById(route, _id);

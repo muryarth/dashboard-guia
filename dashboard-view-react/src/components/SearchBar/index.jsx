@@ -20,7 +20,7 @@ export default function SearchBar({
 
   const GetSearchElementsByRoute = async (route, search, setSearchResults) => {
     if (search !== "") {
-      // console.log(`${route}/search?${queryParam}=${search}`);
+      console.log(`${route}/search?${queryParam}=${search}`);
 
       const searchResponse = await RequestHTTP.GetItemsBySearch(
         route,

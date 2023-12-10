@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Button,
-  ButtonToolbar,
-} from "react-bootstrap";
+
+// Bootstrap
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
+import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 
 // Componente da app
 import Dashboard from "../../../components/Dashboard";
+import SearchBar from "../../../components/SearchBar";
 import DefaultAppButton from "../../../components/DefaultAppButton";
 import DeleteConfirmationModal from "../../../components/DeleteConfirmationModal";
 
@@ -19,7 +19,8 @@ import RequestHTTP from "../../../services/services";
 function AuthHome() {
   const [authorizationsList, setAuthorizationsList] = useState([]);
   const [currentAuthorizationId, setCurrentAuthorizationId] = useState();
-  const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState(false);
+  const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
+    useState(false);
 
   const GetValidAuthorizations = async () => {
     const authorizations = await RequestHTTP.GetPaginatedItems(
@@ -87,18 +88,10 @@ function AuthHome() {
               <h1 className="h2">Guias emitidas:</h1>
             </Col>
             <Col md="auto" className="flex-fill">
-              <Form.Control
-                type="text"
-                placeholder="Pesquisar..."
-                className="mr-sm-2"
+              <SearchBar // É necessário ajustar, porque o campo tem referência
+                route="/authorizations"
+                setSearchResults={setAuthorizationsList}
               />
-            </Col>
-            <Col md="auto">
-              <ButtonToolbar className="mb-2 mb-md-0">
-                <Button variant="outline-secondary" size="sm" onClick={() => { }}>
-                  Pesquisar
-                </Button>
-              </ButtonToolbar>
             </Col>
             <Col md="auto">
               <ButtonToolbar className="mb-2 mb-md-0">

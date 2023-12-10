@@ -10,7 +10,7 @@ export default function CustomAuthorizationDropdown({
 }) {
   return (
     <Dropdown>
-      <Dropdown.Toggle variant="success" id="dropdown-basic" className="w-50">
+      <Dropdown.Toggle variant="success" id="dropdown-basic">
         {title}
       </Dropdown.Toggle>
 
@@ -18,7 +18,9 @@ export default function CustomAuthorizationDropdown({
         style={{ maxHeight: "200px", overflowY: "auto" }}
         className="w-50"
       >
-        <Dropdown.Item key={"0"}>{"Nenhum"}</Dropdown.Item>
+        <Dropdown.Item key={"0"} onClick={() => setState([])}>
+          {"Nenhum"}
+        </Dropdown.Item>
         {list.length > 0 &&
           list.map((listItem) => {
             return (
@@ -31,13 +33,12 @@ export default function CustomAuthorizationDropdown({
                       (arrayItem) => arrayItem._id === listItem._id
                     ) === undefined // Verifica já há algum item com o id do item escolhido, para evitar repetição
                   ) {
-                    array.push({
+                    const objeto = {
                       _id: listItem._id,
                       nome: listItem.nome || listItem.especialidade,
-                    });
-                    setState(array);
+                    };
+                    setState([...state, objeto]);
                   }
-                  console.log(array);
                 }}
               >
                 {listItem.nome || listItem.especialidade}

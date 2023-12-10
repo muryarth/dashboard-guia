@@ -38,8 +38,8 @@ export default function AgreeAdd() {
       body.nome &&
       body.preco
     ) {
-      await RequestHTTP.AddItem("/agreements", body);
-      // console.log(response);
+      const response = await RequestHTTP.AddItem("/agreements", body);
+      console.log(response);
       // window.location.reload();
     }
   };
@@ -56,6 +56,12 @@ export default function AgreeAdd() {
 
     setLocal(dadosLocalidades);
     setEspecialidades(dadosEspecialidades);
+  };
+
+  const JoinArrayByName = (array, field = "nome") => {
+    const formattedArray = array.map((item) => item[field]);
+    const string = formattedArray.join("; ");
+    return string;
   };
 
   useEffect(() => {
@@ -91,27 +97,53 @@ export default function AgreeAdd() {
 
         <Row className="mb-2">
           {/* Especialidades */}
-          <Col>
-            <CustomAuthorizationDropdown
-              title={"Especialidades"}
-              list={especialidades}
-              state={especialidadesAtivas}
-              setState={setEspecialidadesAtivas}
-            />
+          <Col className="d-flex flex-column align-items-start">
+            <div className="d-flex">
+              <CustomAuthorizationDropdown
+                title={"Especialidades"}
+                list={especialidades}
+                state={especialidadesAtivas}
+                setState={setEspecialidadesAtivas}
+              />
+              <Button className="ms-2" variant={"light"}>
+                + Nova Especialidade
+              </Button>
+            </div>
+            <p
+              style={{ overflowWrap: "break-word", maxWidth: "350px" }}
+              className="mt-2"
+            >
+              {`Selecionados: ${JoinArrayByName(especialidadesAtivas)}`}
+            </p>
           </Col>
 
           {/* Locais */}
-          <Col>
-            <CustomAuthorizationDropdown
-              title={"Locais"}
-              list={locais}
-              state={locaisAtivos}
-              setState={setLocaisAtivos}
-            />
+          <Col className="d-flex flex-column align-items-start">
+            <div className="d-flex">
+              <CustomAuthorizationDropdown
+                title={"Locais"}
+                list={locais}
+                state={locaisAtivos}
+                setState={setLocaisAtivos}
+              />
+              <Button className="ms-2" variant={"light"}>
+                + Novo Local
+              </Button>
+            </div>
+            <p
+              style={{ overflowWrap: "break-word", maxWidth: "350px" }}
+              className="mt-2"
+            >
+              {`Selecionados: ${JoinArrayByName(locaisAtivos)}`}
+            </p>
           </Col>
         </Row>
 
-        <Button variant="primary" onClick={() => SubmitAgreeData()} className="mt-4">
+        <Button
+          variant="primary"
+          onClick={() => SubmitAgreeData()}
+          className="mt-4"
+        >
           Criar guia
         </Button>
       </Form>

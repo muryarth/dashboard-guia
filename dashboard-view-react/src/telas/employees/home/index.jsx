@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Button,
-  ButtonToolbar,
-} from "react-bootstrap";
+
+// Bootstrap
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 
 // Componente da app
 import Dashboard from "../../../components/Dashboard";
+import SearchBar from "../../../components/SearchBar";
+import DefaultAppButton from "../../../components/DefaultAppButton";
+import DeleteConfirmationModal from "../../../components/DeleteConfirmationModal";
 
+// services.js
 import RequestHTTP from "../../../services/services";
-
-// Placeholder Loader
-// import ContentLoader from "react-content-loader";
 
 function EmployeesHome() {
   const [employeesList, setEmployeesList] = useState([]);
+  const [currentEmployee, setCurrentEmployee] = useState({
+    _id: null,
+    name: null,
+  });
+  const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
+    useState(false);
 
   const GetEmployees = async () => {
     const data = await RequestHTTP.GetPaginatedItems("/employees");
@@ -28,72 +35,76 @@ function EmployeesHome() {
     GetEmployees();
   }, []);
 
-  const actionsButtonGroup = [
+  const buttonsGroup = [
     {
       title: "Ações",
-      component: () => (
-        <>
-          <Button
-            variant="primary"
-            size="sm"
-            className="me-2"
-            onClick={() => console.log("Teste")}
-          >
-            Editar
-          </Button>
-          <Button
-            variant="danger"
-            size="sm"
-            onClick={() => console.log("Teste")}
-          >
-            Deletar
-          </Button>
-        </>
-      ),
+      component: ({ _id = "_id", name = "name" }) => {
+        return (
+          <>
+            <DefaultAppButton
+              variant="primary"
+              title="Editar"
+              action={() =>
+                (window.location.href = `/employees/edit?_id=${_id}`)
+              }
+            />
+            <DefaultAppButton
+              variant="danger"
+              title="Deletar"
+              action={() => {
+                setCurrentEmployee({ _id: _id, name: name });
+                setShowDeleteConfirmationModal(true);
+              }}
+            />
+          </>
+        );
+      },
     },
   ];
 
   return (
-    <Container fluid>
-      <Container fluid className="pt-3 pb-2 mb-3 border-bottom">
-        <Row className="justify-content-between align-items-center">
-          <Col md="auto">
-            <h1 className="h2">Funcionários:</h1>
-          </Col>
-          <Col md="auto" className="flex-fill">
-            <Form.Control
-              type="text"
-              placeholder="Pesquisar..."
-              className="mr-sm-2"
-            />
-          </Col>
-          <Col md="auto">
-            <ButtonToolbar className="mb-2 mb-md-0">
-              <Button variant="outline-secondary" size="sm" onClick={() => {}}>
-                Pesquisar
-              </Button>
-            </ButtonToolbar>
-          </Col>
-          <Col md="auto">
-            <ButtonToolbar className="mb-2 mb-md-0">
-              <Button
-                href="/employees/add"
-                variant="outline-secondary"
-                size="sm"
-              >
-                + Novo Funcionário
-              </Button>
-            </ButtonToolbar>
-          </Col>
-        </Row>
-      </Container>
-
-      <Dashboard
-        elements={employeesList}
-        fields={["nome", "administrador", "registerDate", "lastUpdated"]}
-        buttonsGroup={actionsButtonGroup}
+    <>
+      <DeleteConfirmationModal
+        showModal={showDeleteConfirmationModal}
+        setShowModal={() => setShowDeleteConfirmationModal(false)}
+        deleteName={`${currentEmployee.name}`}
+        deleteId={currentEmployee._id}
+        deleteRoute={"/employees"}
       />
-    </Container>
+
+      <Container fluid>
+        <Container fluid className="pt-3 pb-2 mb-3 border-bottom">
+          <Row className="justify-content-between align-items-center">
+            <Col md="auto">
+              <h1 className="h2">Funcionários:</h1>
+            </Col>
+            <Col md="auto" className="flex-fill">
+              <SearchBar
+                route="/employees"
+                setSearchResults={setEmployeesList}
+              />
+            </Col>
+            <Col md="auto">
+              <ButtonToolbar className="mb-2 mb-md-0">
+                <Button
+                  href="/employees/add"
+                  variant="outline-secondary"
+                  size="sm"
+                >
+                  + Novo Funcionário
+                </Button>
+              </ButtonToolbar>
+            </Col>
+          </Row>
+        </Container>
+
+        <Dashboard
+          elements={employeesList}
+          fields={["nome", "administrador", "registerDate", "lastUpdated"]}
+          buttonsGroup={buttonsGroup}
+        />
+      </Container>
+    </>
   );
 }
 

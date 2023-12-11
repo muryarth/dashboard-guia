@@ -91,6 +91,7 @@ function AuthHome() {
               <SearchBar // É necessário ajustar, porque o campo tem referência
                 route="/authorizations"
                 setSearchResults={setAuthorizationsList}
+                queryParam="cliente"
               />
             </Col>
             <Col md="auto">

@@ -53,7 +53,7 @@ export default class AuthorizationController {
       const authorizations = await Authorizations.find(search, {})
         .populate({
           path: "cliente",
-          select: ["_id", "nome"],
+          select: ["_id", "nome", "sobrenome"],
         })
         .populate("local")
         .populate({
@@ -83,7 +83,7 @@ export default class AuthorizationController {
       const authorizations = await Authorizations.findById(id)
         .populate({
           path: "cliente",
-          select: ["_id", "nome"],
+          select: ["_id", "nome", "sobrenome"],
         })
         .populate("local")
         .populate({

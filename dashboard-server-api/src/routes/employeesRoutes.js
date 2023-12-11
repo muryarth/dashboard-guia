@@ -5,6 +5,7 @@ const router = express.Router();
 
 router
   .get("/employees/", EmployeeController.GetAllEmployees)
+  .get("/employees/auth", EmployeeController.AuthenticateEmployee)
   .get("/employees/search", EmployeeController.GetEmployeesByQuerySearch)
   .get("/employees/:id", EmployeeController.GetEmployeeById)
   .post("/employees/", EmployeeController.AddNewEmployee)

@@ -14,6 +14,7 @@ import AuthorizationModal from "./components/AuthorizationModal";
 import AgreementsModal from "./components/AgreementsModal";
 import DefaultAppButton from "../../../components/DefaultAppButton";
 import DeleteConfirmationModal from "../../../components/DeleteConfirmationModal";
+import SearchBar from "../../../components/SearchBar";
 
 // Serviços
 import RequestHTTP from "../../../services/services";
@@ -25,24 +26,10 @@ function CustomersHome() {
   const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
     useState(false);
   const [currentUser, setCurrentUser] = useState({ _id: null, name: null });
-  const [search, setSearch] = useState("");
 
   const GetAllCustomers = async () => {
     const data = await RequestHTTP.GetPaginatedItems("/customers");
     setCustomersList(data);
-  };
-
-  const GetSearchedCustomers = async (search) => {
-    if (search !== "") {
-      const searchResponse = await RequestHTTP.GetItemsBySearch(
-        "/customers",
-        `nome=${search}`
-      );
-
-      setCustomersList(searchResponse);
-    } else {
-      GetAllCustomers();
-    }
   };
 
   useEffect(() => {
@@ -127,12 +114,9 @@ function CustomersHome() {
               <h1 className="h2">Clientes:</h1>
             </Col>
             <Col md="auto" className="flex-fill">
-              <Form.Control
-                type="text"
-                placeholder="Pesquisar..."
-                defaultValue={search}
-                className="mr-sm-2"
-                onChange={(event) => GetSearchedCustomers(event.target.value)}
+              <SearchBar
+                route="/customers"
+                setSearchResults={setCustomersList}
               />
             </Col>
             <Col md="auto">

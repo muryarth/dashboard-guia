@@ -1,5 +1,8 @@
+import dotenv from "dotenv/config.js";
 import { Employees } from "../models/index.js";
 import { GetCurrentTimeObject, HandleQuerySearch } from "../services/index.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export default class EmployeeController {
   // GET -> ./employees
@@ -87,6 +90,48 @@ export default class EmployeeController {
     }
   };
 
+  // GET -> ./employees/auth | Autentica o funcionário
+  static AuthenticateEmployee = async (req, res) => {
+    const { login, senha } = req.body;
+
+    // Valida se os dados foram preenchidos
+    if (!login)
+      return res.status(422).json({ msg: "O login deve ser informado!" });
+    if (!senha)
+      return res.status(422).json({ msg: "A senha deve ser informada!" });
+
+    // Checa se o usuário existe
+    const user = await Employees.findOne({ login: login });
+    if (!user) return res.status(404).json({ msg: "Usuário não encontrado!" });
+
+    // Checa se a senha bate
+    const checkPassword = await bcrypt.compare(senha, user.senha);
+    if (!checkPassword) return res.status(404).json({ msg: "Senha inválida!" });
+
+    try {
+      const secret = process.env.SECRET;
+
+      const token = jwt.sign(
+        {
+          id: user._id,
+        },
+        secret
+      );
+
+      res
+        .status(200)
+        .json({ msg: "Autenticação realizada com sucesso", token });
+        
+    } catch (err) {
+      console.log(err);
+
+      res.status(500).json({
+        message: `Erro interno do servidor.`,
+        err: err,
+      });
+    }
+  };
+
   // POST -> ./employees
   static AddNewEmployee = async (req, res) => {
     const newEmployee = new Employees(req.body);
@@ -119,11 +164,6 @@ export default class EmployeeController {
         { $set: { ...req.body, lastUpdate } },
         { new: true }
       );
-
-      // Alternativa
-      // const updateEmployee = await Employees.findByIdAndUpdate(id, {
-      //   $set: { ...req.body, lastUpdate },
-      // });
 
       res.status(200).send({
         message: `Funcionário de ID:(${id}) atualizado com sucesso.`,

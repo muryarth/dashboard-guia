@@ -76,6 +76,7 @@ export default function Dashboard({
                 <tr key={element._id}>
                   {fields.map((field) => {
                     if (
+                      // Se o campo for vazio, null ou undefined renderiza um "-"
                       element[field] === null ||
                       element[field] === undefined ||
                       element[field] === ""
@@ -86,14 +87,27 @@ export default function Dashboard({
                         </td>
                       );
                     } else if (field === "nome" && element.sobrenome) {
+                      // Se tiver nome e sobrenome
                       return (
                         <td
                           key={field}
-                          style={{ minWidth: 140 }}
+                          style={{ minWidth: 140, maxWidth: 200 }}
                           className="text-center align-middle"
                         >{`${element["nome"]} ${element["sobrenome"]}`}</td>
                       );
+                    } else if (field === "cliente") {
+                      // Em alguns casos, "nome" é tratado como "cliente"
+                      return (
+                        <td
+                          key={field}
+                          style={{ minWidth: 140, maxWidth: 200 }}
+                          className="text-center align-middle"
+                        >
+                          {`${element[field].nome} ${element[field].sobrenome}`}
+                        </td>
+                      );
                     } else if (
+                      // Se for data, renderiza o formato brasileiro
                       field === "registerDate" ||
                       field === "lastUpdated"
                     ) {
@@ -104,34 +118,29 @@ export default function Dashboard({
                         >{`${element[field].FormatBR}`}</td>
                       );
                     } else if (field === "administrador") {
+                      // Trata a visualização de uma variável booleana
                       return (
                         <td key={field} className="text-center align-middle">
                           {element[field] === true ? "Sim" : "Não"}
                         </td>
                       );
-                    } else if (field === "cliente") {
-                      return (
-                        <td
-                          key={field}
-                          style={{ minWidth: 140 }}
-                          className="text-center align-middle"
-                        >
-                          {`${element[field].nome} ${element[field].sobrenome}`}
-                        </td>
-                      );
                     } else if (field === "local") {
+                      // Mostra o nome da clínica
                       return (
                         <td key={field} className="text-center align-middle">
                           {element[field].nome}
                         </td>
                       );
                     } else if (field === "especialidade") {
+                      // Mostra o nome da especialidade
                       return (
                         <td key={field} className="text-center align-middle">
                           {element[field].especialidade}
                         </td>
                       );
-                    } else if (field === "locais") {
+                    }
+                    // Histórico de guias
+                    else if (field === "locais") {
                       let htmlElement = (
                         <td key={field} className="text-center align-middle">
                           {element[field].map((item) => {
@@ -151,6 +160,8 @@ export default function Dashboard({
                       );
                       return htmlElement;
                     }
+
+                    // Trata um campo qualquer
                     return (
                       <td
                         key={field}
@@ -172,15 +183,7 @@ export default function Dashboard({
                             className="text-center align-middle"
                             style={{ maxWidth: 200 }}
                           >
-                            {/* <buttonGroup.component // Sem sobrenome
-                              _id={element._id}
-                              name={
-                                element.sobrenome
-                                  ? `${element.nome}`
-                                  : element.nome || element.especialidade
-                              }
-                            /> */}
-                            <buttonGroup.component // Se quiser mostrar o sobrenome (testando a viabilidade)
+                            <buttonGroup.component // Se quiser mostrar o sobrenome
                               _id={element._id}
                               name={
                                 element.sobrenome

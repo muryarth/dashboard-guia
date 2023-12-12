@@ -39,11 +39,7 @@ export default function EmployeesAdd() {
         currentEmployeeId,
         body
       );
-
-      // if (response)
-      //   setTimeout(() => {
-      //     window.location.reload();
-      //   }, 10);
+      if (response) window.location.reload();
     }
   };
 

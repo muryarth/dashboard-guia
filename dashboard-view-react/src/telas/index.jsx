@@ -31,15 +31,33 @@ export default function Main({ children }) {
     padding: "35px",
   };
 
-  const headerOptions = [];
+  // const headerOptions = [];
+  let sidebarOptions = [];
 
-  const sidebarOptions = [
-    { name: "Clientes", link: "/customers" },
-    { name: "Funcionários", link: "/employees" },
-    { name: "Convênios", link: "/agreements" },
-    { name: "Histórico de guias", link: "/authorizations" },
-    { name: "About", link: "/about" },
-  ];
+  // sidebarOptions = [
+  //   { name: "Clientes", link: "/customers" },
+  //   { name: "Convênios", link: "/agreements" },
+  //   { name: "Funcionários", link: "/employees" },
+  //   { name: "Histórico de guias", link: "/authorizations" },
+  //   { name: "About", link: "/about" },
+  // ];
+
+  if (localStorage.getItem("administrador") === "true") {
+    sidebarOptions = [
+      { name: "Clientes", link: "/customers" },
+      { name: "Convênios", link: "/agreements" },
+      { name: "Funcionários", link: "/employees" },
+      { name: "Histórico de guias", link: "/authorizations" },
+      { name: "About", link: "/about" },
+    ];
+  } else {
+    sidebarOptions = [
+      { name: "Clientes", link: "/customers" },
+      { name: "Convênios", link: "/agreements" },
+      { name: "Histórico de guias", link: "/authorizations" },
+      { name: "About", link: "/about" },
+    ];
+  }
 
   const HandleRedirect = () => {
     const token = localStorage.getItem("token");
@@ -54,7 +72,7 @@ export default function Main({ children }) {
   return (
     <>
       {/* Header fixo da App */}
-      <AppHeader items={headerOptions} />
+      <AppHeader />
 
       <Row style={{ margin: 0, overflow: "hidden" }}>
         {/* Siderbar fixa da App */}

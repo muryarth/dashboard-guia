@@ -14,7 +14,13 @@ export default function SearchBar({
   const [search, setSearch] = useState();
 
   const GetDefaultUnsearchedElements = async () => {
-    const data = await RequestHTTP.GetPaginatedItems(route, limit, page);
+    let data = await RequestHTTP.GetPaginatedItems(route, limit, page);
+
+    // Gambiarra pra filtrar dados nulos em /authorizations
+    // Corrigir isso depois
+    if (route === "/authorizations")
+      data = data.filter((a) => a.cliente !== null);
+
     setSearchResults(data);
   };
 

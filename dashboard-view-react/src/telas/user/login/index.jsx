@@ -21,6 +21,7 @@ export default function UserLogin() {
     localStorage.setItem("token", token);
     localStorage.setItem("user", user.nome);
     localStorage.setItem("email", user.email);
+    localStorage.setItem("administrador", user.administrador);
     localStorage.setItem("tokenExpiration", expirationTime.toString());
   };
 

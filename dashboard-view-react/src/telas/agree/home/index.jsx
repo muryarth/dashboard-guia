@@ -92,7 +92,7 @@ function AgreeHome() {
 
         <Dashboard
           elements={agreementsList}
-          fields={["nome", "locais", "especialidades"]}
+          fields={["nome", "preco", "locais", "especialidades"]}
           buttonsGroup={buttonsGroup}
         />
       </Container>

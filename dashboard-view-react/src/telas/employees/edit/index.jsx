@@ -23,6 +23,11 @@ export default function EmployeesAdd() {
   const [password, setPassword] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
 
+  const UpdateLocalStorage = (body) => {
+    localStorage.setItem("user", body.nome);
+    localStorage.setItem("administrador", body.administrador);
+  };
+
   const SubmitFormData = async () => {
     const body = {};
 
@@ -30,8 +35,6 @@ export default function EmployeesAdd() {
     if (login !== currentEmployeeData.login) body.login = login || "";
     if (isAdmin !== currentEmployeeData.administrador)
       body.administrador = isAdmin || false;
-
-    console.log(body);
 
     if (Object.keys(body).length > 0) {
       const response = await RequestHTTP.UpdateItem(
@@ -77,6 +80,14 @@ export default function EmployeesAdd() {
 
   return (
     <Container fluid>
+      <Container fluid className="pt-3 pb-2 mb-3 border-bottom">
+        <Row className="justify-content-between align-items-center">
+          <Col md="auto">
+            <h1 className="h2">Editar funcionário: </h1>
+          </Col>
+        </Row>
+      </Container>
+
       <Form>
         <Row className="form-group mb-4">
           <Col>

@@ -66,6 +66,14 @@ export default function CustomersAdd() {
 
   return (
     <Container fluid>
+      <Container fluid className="pt-3 pb-2 mb-3 border-bottom">
+        <Row className="justify-content-between align-items-center">
+          <Col md="auto">
+            <h1 className="h2">Cadastrar cliente: </h1>
+          </Col>
+        </Row>
+      </Container>
+
       <Form>
         <Row className="form-group mb-4">
           <Col>
@@ -194,6 +202,16 @@ export default function CustomersAdd() {
               placeholder={"Rua Exemplo, n° 100"}
               state={endereco}
               setState={setEndereco}
+              required={true}
+            />
+          </Col>
+
+          <Col>
+            <DefaultAppFormField
+              label={"Cidade"}
+              placeholder={"Três Rios"}
+              state={cidade}
+              setState={setCidade}
               required={true}
             />
           </Col>

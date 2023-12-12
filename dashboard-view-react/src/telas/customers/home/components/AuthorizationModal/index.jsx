@@ -9,14 +9,24 @@ import Spinner from "react-bootstrap/Spinner";
 
 // services.js
 import RequestHTTP from "../../../../../services/services";
+import PDFGenerator from "../../../../../components/PDFGenerator";
 
 const CustomDropdown = ({
   list,
   state,
   setState,
+  setEspecialidadeAtiva = null,
+  setLocalAtivo = null,
   title = "Title",
   disabled = false,
 }) => {
+  const ResetDropdownStatus = () => {
+    if (setEspecialidadeAtiva && setLocalAtivo) {
+      setEspecialidadeAtiva(null);
+      setLocalAtivo(null);
+    }
+  };
+
   return (
     <Dropdown>
       {/* Parte do título */}
@@ -31,7 +41,13 @@ const CustomDropdown = ({
       {/* Parte do menu */}
       <Dropdown.Menu style={{ maxHeight: "200px", overflowY: "auto" }}>
         {/* "Reset" */}
-        <Dropdown.Item key={"0"} onClick={() => setState(null)}>
+        <Dropdown.Item
+          key={"0"}
+          onClick={() => {
+            ResetDropdownStatus();
+            setState(null);
+          }}
+        >
           {"Nenhum"}
         </Dropdown.Item>
 
@@ -41,6 +57,10 @@ const CustomDropdown = ({
             return (
               <Dropdown.Item
                 onClick={() => {
+                  // Reseta especialidades e locais quando o dropdown de convênio é alterado
+                  ResetDropdownStatus();
+
+                  // Se houver preço
                   if (listItem.hasOwnProperty("preco")) {
                     setState({
                       _id: listItem._id,
@@ -122,6 +142,20 @@ export default function AuthorizationModal({
     setLocais(dadosConvenio.locais);
   };
 
+  const EmitPDF = async (_id, currentUserName, body) => {
+    const currentLocaleDate = new Date().toLocaleString("pt-BR", {
+      timeZone: "America/Sao_Paulo",
+    });
+
+    PDFGenerator({
+      _id: _id,
+      cliente: currentUserName,
+      especialidade: `${body.especialidade.nome}`,
+      local: `${body.local.nome}`,
+      data: currentLocaleDate,
+    });
+  };
+
   const SubmitAuthorization = async () => {
     const body = {};
 
@@ -136,10 +170,9 @@ export default function AuthorizationModal({
 
     if (Object.keys(body).length > 0 && Object.keys(body).length === 6) {
       const response = await RequestHTTP.AddItem("/authorizations", body);
-      if (response)
-        setTimeout(() => {
-          window.location.reload();
-        }, 10);
+      await EmitPDF(response.results._id, currentUserName, body);
+
+      if (response) window.location.reload();
     }
   };
 
@@ -183,6 +216,8 @@ export default function AuthorizationModal({
             list={convenios}
             state={convenioAtivo}
             setState={setConvenioAtivo}
+            setEspecialidadeAtiva={setEspecialidadeAtiva}
+            setLocalAtivo={setLocalAtivo}
             disabled={isLoading}
           />
 

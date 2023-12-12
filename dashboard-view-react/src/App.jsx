@@ -4,16 +4,23 @@ import React from "react";
 import { RouterProvider } from "react-router-dom";
 import routes from "./routes";
 
-
 // Componentes
 import Main from "./telas";
 
 function App() {
+  const currentRoute = window.location.pathname;
+
   return (
     <>
-      <Main>
+      {currentRoute !== "/user/login" &&
+      currentRoute !== "/user/register" &&
+      currentRoute !== "/" ? (
+        <Main>
+          <RouterProvider router={routes} />
+        </Main>
+      ) : (
         <RouterProvider router={routes} />
-      </Main>
+      )}
     </>
   );
 }

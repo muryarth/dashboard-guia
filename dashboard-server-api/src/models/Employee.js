@@ -12,13 +12,17 @@ const EmployeeSchema = new Schema({
   login: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   senha: {
     type: String,
     required: true,
   },
   administrador: {
+    type: Boolean,
+    required: true,
+  },
+  ativo: {
     type: Boolean,
     required: true,
   },

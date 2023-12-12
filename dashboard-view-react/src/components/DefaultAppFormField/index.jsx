@@ -2,16 +2,17 @@ import Form from "react-bootstrap/Form";
 
 export default function DefaultAppFormField({
   label,
-  placeholder,
   state,
   setState,
+  placeholder = "",
   required = false,
   disabled = false,
   as = "input",
+  mb = "mb-4",
 }) {
   return (
     <>
-      <Form.Group className="mb-4">
+      <Form.Group className={mb}>
         <Form.Label>{`${label}:`}</Form.Label>
         <Form.Control
           type="text"

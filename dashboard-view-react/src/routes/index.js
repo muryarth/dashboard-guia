@@ -6,6 +6,7 @@ import EmployeesRoutes from "./employeesRoutes";
 import AuthRoutes from "./authRoutes";
 import AgreeRoutes from "./agreeRoutes";
 import AboutRoutes from "./aboutRoutes";
+import UserRoutes from "./userRoutes";
 
 const routes = createBrowserRouter([
   ...CustomersRoutes,
@@ -13,6 +14,7 @@ const routes = createBrowserRouter([
   ...AuthRoutes,
   ...AgreeRoutes,
   ...AboutRoutes,
+  ...UserRoutes,
 ]);
 
 export default routes;

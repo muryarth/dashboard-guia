@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 
-const GenerateHashedPassword = async (password, saltSize) => {
+const GenerateHashedPassword = async (password, saltSize = 10) => {
   // Gera um salt para o hash
   const salt = await bcrypt.genSalt(saltSize);
 
@@ -32,10 +32,13 @@ const SaveOrUpdatePasswordHash = (employeeSchema) => {
 
   employeeSchema.pre("findOneAndUpdate", async function (next) {
     const newData = this._update.$set;
+    console.log(newData);
 
     try {
       //Atualiza a senha original, pela senha hashada
-      this.set({ senha: await GenerateHashedPassword(newData.senha) });
+      if (newData.senha)
+        this.set({ senha: await GenerateHashedPassword(newData.senha) });
+      
       next();
     } catch (err) {
       return next(err);

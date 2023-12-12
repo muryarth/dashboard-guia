@@ -92,7 +92,7 @@ export default class EmployeeController {
 
   // GET -> ./employees/auth | Autentica o funcionário
   static AuthenticateEmployee = async (req, res) => {
-    const { login, senha } = req.body;
+    const { login, senha } = req.query;
 
     // Valida se os dados foram preenchidos
     if (!login)
@@ -109,6 +109,8 @@ export default class EmployeeController {
     if (!checkPassword) return res.status(404).json({ msg: "Senha inválida!" });
 
     try {
+      res.setHeader("Content-Type", "application/json");
+
       const secret = process.env.SECRET;
 
       const token = jwt.sign(
@@ -120,8 +122,11 @@ export default class EmployeeController {
 
       res
         .status(200)
-        .json({ msg: "Autenticação realizada com sucesso", token });
-        
+        .json({
+          msg: "Autenticação realizada com sucesso",
+          token,
+          user: { nome: user.nome, email: user.email },
+        });
     } catch (err) {
       console.log(err);
 

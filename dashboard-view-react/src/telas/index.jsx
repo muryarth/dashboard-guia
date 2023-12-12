@@ -34,14 +34,6 @@ export default function Main({ children }) {
   // const headerOptions = [];
   let sidebarOptions = [];
 
-  // sidebarOptions = [
-  //   { name: "Clientes", link: "/customers" },
-  //   { name: "Convênios", link: "/agreements" },
-  //   { name: "Funcionários", link: "/employees" },
-  //   { name: "Histórico de guias", link: "/authorizations" },
-  //   { name: "About", link: "/about" },
-  // ];
-
   if (localStorage.getItem("administrador") === "true") {
     sidebarOptions = [
       { name: "Clientes", link: "/customers" },

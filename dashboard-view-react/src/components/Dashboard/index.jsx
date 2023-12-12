@@ -148,7 +148,6 @@ export default function Dashboard({
                           })}
                         </td>
                       );
-
                       return htmlElement;
                     } else if (field === "especialidades") {
                       let htmlElement = (
@@ -159,6 +158,12 @@ export default function Dashboard({
                         </td>
                       );
                       return htmlElement;
+                    } else if (field === "preco") {
+                      return (
+                        <td key={field} className="text-center align-middle">
+                          {`R$${element.preco},00`}
+                        </td>
+                      );
                     }
 
                     // Trata um campo qualquer
@@ -190,6 +195,18 @@ export default function Dashboard({
                                   ? `${element.nome} ${element.sobrenome}`
                                   : element.nome || element.especialidade
                               }
+                              expertise={
+                                element.especialidade
+                                  ? element.especialidade.especialidade
+                                  : null
+                              }
+                              clinic={element.local ? element.local.nome : null}
+                              client={
+                                element.cliente
+                                  ? `${element.cliente.nome} ${element.cliente.sobrenome}`
+                                  : null
+                              }
+                              date={element.registerDate.FormatBR}
                             />
                           </td>
                         );

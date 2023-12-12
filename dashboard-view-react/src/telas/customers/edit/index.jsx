@@ -14,6 +14,7 @@ import DefaultAppFormField from "../../../components/DefaultAppFormField";
 import RequestHTTP from "../../../services/services";
 
 export default function CustomersEdit() {
+  const [nomeAtual, setNomeAtual] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [currentUserId, setCurrentUserId] = useState();
   const [currentUserData, setCurrentUserData] = useState();
@@ -80,6 +81,7 @@ export default function CustomersEdit() {
   // Popula os dados de cada formulário
   const PopulateFormsData = (currentUserData) => {
     if (currentUserData) {
+      setNomeAtual(currentUserData.nome);
       setNome(currentUserData.nome);
       setSobrenome(currentUserData.sobrenome);
       setTelefone(currentUserData.telefone);
@@ -91,6 +93,7 @@ export default function CustomersEdit() {
       setMatricula(currentUserData.matricula);
       setCEP(currentUserData.endereco.cep);
       setEndereco(currentUserData.endereco.rua);
+      setCidade(currentUserData.endereco.cidade);
       setUF(currentUserData.endereco.uf);
       setDetalhesCliente(currentUserData.detalhesCliente);
     }
@@ -119,6 +122,14 @@ export default function CustomersEdit() {
 
   return (
     <Container fluid>
+      <Container fluid className="pt-3 pb-2 mb-3 border-bottom">
+        <Row className="justify-content-between align-items-center">
+          <Col md="auto">
+            <h1 className="h2">Editando {nomeAtual}: </h1>
+          </Col>
+        </Row>
+      </Container>
+
       <Form>
         <Row className="form-group mb-4">
           <Col>
@@ -259,6 +270,17 @@ export default function CustomersEdit() {
               placeholder={"Rua Exemplo, n° 100"}
               state={endereco}
               setState={setEndereco}
+              required={true}
+            />
+          </Col>
+
+          <Col>
+            <DefaultAppFormField
+              disabled={!isEditing}
+              label={"Cidade"}
+              placeholder={"Três Rios"}
+              state={cidade}
+              setState={setCidade}
               required={true}
             />
           </Col>

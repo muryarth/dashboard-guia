@@ -40,6 +40,14 @@ export default function EmployeesAdd() {
 
   return (
     <Container fluid>
+      <Container fluid className="pt-3 pb-2 mb-3 border-bottom">
+        <Row className="justify-content-between align-items-center">
+          <Col md="auto">
+            <h1 className="h2">Cadastrar funcionário: </h1>
+          </Col>
+        </Row>
+      </Container>
+
       <Form>
         <Row className="form-group mb-4">
           <Col>

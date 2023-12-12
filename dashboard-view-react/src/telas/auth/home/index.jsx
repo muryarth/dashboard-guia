@@ -12,6 +12,7 @@ import Dashboard from "../../../components/Dashboard";
 import SearchBar from "../../../components/SearchBar";
 import DefaultAppButton from "../../../components/DefaultAppButton";
 import DeleteConfirmationModal from "../../../components/DeleteConfirmationModal";
+import PDFGenerator from "../../../components/PDFGenerator";
 
 // Serviços
 import RequestHTTP from "../../../services/services";
@@ -39,15 +40,6 @@ function AuthHome() {
     }
   };
 
-  // const GetAllAuthorizations = async () => {
-  //   const authorizations = await RequestHTTP.GetPaginatedItems(
-  //     "/authorizations",
-  //     "1000"
-  //   );
-
-  //   setAuthorizationsList(authorizations);
-  // };
-
   useEffect(() => {
     GetValidAuthorizations();
   }, []);
@@ -55,9 +47,31 @@ function AuthHome() {
   const buttonsGroup = [
     {
       title: "Ações",
-      component: ({ _id = "_id" }) => {
+      component: ({
+        _id = "_id",
+        client = "client",
+        expertise = "expertise",
+        clinic = "clinic",
+        date = "date",
+      }) => {
+        console.log(date);
+
         return (
           <>
+            <DefaultAppButton
+              variant="warning"
+              title="Imprimir"
+              action={() => {
+                setCurrentAuthorizationId(_id);
+                PDFGenerator({
+                  _id: _id,
+                  cliente: client,
+                  especialidade: expertise,
+                  local: clinic,
+                  data: date,
+                });
+              }}
+            />
             <DefaultAppButton
               variant="danger"
               title="Deletar"

@@ -115,7 +115,7 @@ export default class RequestHTTP {
           body: JSON.stringify(body),
         });
 
-        return response;
+        return await response.json();
       } catch (error) {
         return error;
       }

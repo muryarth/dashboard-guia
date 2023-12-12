@@ -8,8 +8,6 @@ export default class RequestHTTP {
     page = 1,
     url = this.BaseURL
   ) => {
-    // console.log(url);
-
     if (!(endpoint.split("/").filter((part) => part !== "").length > 1)) {
       // Verifica se está na rota principal
       try {
@@ -63,8 +61,6 @@ export default class RequestHTTP {
   };
 
   static GetItemById = async (endpoint, _id, url = this.BaseURL) => {
-    // console.log(`${url}${endpoint}/${_id}`);
-
     // Verifica se está na rota principal
     if (!(endpoint.split("/").filter((part) => part !== "").length > 1)) {
       try {
@@ -83,6 +79,27 @@ export default class RequestHTTP {
       }
     } else {
       throw new Error(`Erro na requisição: rota inválida`);
+    }
+  };
+
+  static ValidateUser = async (
+    user = { login: null, senha: null },
+    url = this.BaseURL
+  ) => {
+    try {
+      const response = await fetch(
+        `${url}/employees/auth?login=${user.login}&senha=${user.senha}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      return await response.json();
+    } catch (error) {
+      return error;
     }
   };
 

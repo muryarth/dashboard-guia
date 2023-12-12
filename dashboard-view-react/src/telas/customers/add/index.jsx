@@ -97,7 +97,8 @@ export default function CustomersAdd() {
             />
           </Col>
 
-          <Col className="d-flex align-items-center mt-2">
+          <Col className="align-items-center">
+            <Form.Label>Gênero: </Form.Label>
             <DropdownButton
               variant="light"
               id="dropdown-basic-button"
@@ -220,7 +221,7 @@ export default function CustomersAdd() {
             />
           </Col>
         </Row>
-        
+
         <Button variant="primary" onClick={() => SubmitFormData()}>
           Adicionar Cliente
         </Button>

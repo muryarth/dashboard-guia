@@ -152,7 +152,8 @@ export default function CustomersEdit() {
             />
           </Col>
 
-          <Col className="d-flex align-items-center mt-2">
+          <Col className="align-items-center">
+            <Form.Label>Gênero: </Form.Label>
             <DropdownButton
               variant="light"
               id="dropdown-basic-button"

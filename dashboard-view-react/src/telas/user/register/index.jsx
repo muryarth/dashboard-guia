@@ -19,6 +19,30 @@ export default function UserLogin() {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
+  const RegisterNewEmployee = async () => {
+    if (
+      name !== "" &&
+      lastname !== "" &&
+      email !== "" &&
+      login !== "" &&
+      password !== "" &&
+      password === passwordConfirmation
+    ) {
+      const body = {
+        nome: `${name} ${lastname}`,
+        email: email,
+        login: login,
+        senha: password,
+        administrador: false,
+        ativo: true,
+      };
+      console.log(body);
+
+      const response = await RequestHTTP.AddItem("/employees", body);
+      if (response) window.location.href = "/user/login";
+    }
+  };
+
   return (
     <Container
       className="d-flex align-items-center justify-content-center"
@@ -73,6 +97,7 @@ export default function UserLogin() {
             setState={setPassword}
             required={true}
             mb="mb-2"
+            type="password"
           />
           <DefaultAppFormField
             label={"Confirmar senha"}
@@ -81,6 +106,7 @@ export default function UserLogin() {
             setState={setPasswordConfirmation}
             required={true}
             mb="mb-3"
+            type="password"
           />
 
           <div className="d-flex justify-content-between">
@@ -88,6 +114,7 @@ export default function UserLogin() {
               variant="primary"
               type="button"
               style={{ width: "48%" }}
+              onClick={RegisterNewEmployee}
             >
               Cadastrar
             </Button>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Nav, Container } from "react-bootstrap";
 
 export default function NewSidebar({
@@ -7,22 +7,32 @@ export default function NewSidebar({
     { name: "About", link: "/customers/about" },
   ],
 }) {
+  const [hoveredItem, setHoveredItem] = useState(null);
+
+  const handleMouseOver = (itemName) => {
+    setHoveredItem(itemName);
+  };
+
+  const handleMouseOut = () => {
+    setHoveredItem(null);
+  };
+
   return (
-    <Nav className="flex-column position-fixed pt-3">
+    <Nav className="flex-column position-relative pt-3 w-100">
       <Container fluid>
-        {items.map((item) => {
-          // Cria a sidebar de acordo com os valores recebidos pela prop, dinâmicamente
-          return (
-            <Nav.Link
-              className="active"
-              // key={item.name.toLowerCase()}
-              key={item.name}
-              href={item.link}
-            >
-              {item.name}
-            </Nav.Link>
-          );
-        })}
+        {items.map((item) => (
+          <Nav.Link
+            key={item.name}
+            href={item.link}
+            className={`pt-4 ps-4 ${
+              hoveredItem === item.name ? "hovered" : ""
+            }`}
+            onMouseOver={() => handleMouseOver(item.name)}
+            onMouseOut={handleMouseOut}
+          >
+            {item.name}
+          </Nav.Link>
+        ))}
       </Container>
     </Nav>
   );

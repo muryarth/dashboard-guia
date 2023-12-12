@@ -175,6 +175,8 @@ export default class EmployeeController {
         results: updateEmployee,
       });
     } catch (err) {
+      console.log(err);
+
       res.status(500).send({
         message: `Erro interno do servidor.`,
         err: err,

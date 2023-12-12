@@ -26,6 +26,7 @@ export default function EmployeesAdd() {
     body.login = login || "";
     body.senha = password || "";
     body.administrador = isAdmin || false;
+    body.ativo = true;
 
     if (
       Object.keys(body).length > 0 &&

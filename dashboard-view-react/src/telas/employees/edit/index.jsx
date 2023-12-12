@@ -40,10 +40,7 @@ export default function EmployeesAdd() {
         body
       );
 
-      // if (response)
-      //   setTimeout(() => {
-      //     window.location.reload();
-      //   }, 10);
+      window.location.reload();
     }
   };
 

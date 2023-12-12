@@ -120,13 +120,15 @@ export default class EmployeeController {
         secret
       );
 
-      res
-        .status(200)
-        .json({
-          msg: "Autenticação realizada com sucesso",
-          token,
-          user: { nome: user.nome, email: user.email },
-        });
+      res.status(200).json({
+        msg: "Autenticação realizada com sucesso",
+        token,
+        user: {
+          nome: user.nome,
+          email: user.email,
+          administrador: user.administrador,
+        },
+      });
     } catch (err) {
       console.log(err);
 

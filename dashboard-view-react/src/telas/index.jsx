@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 // react-bootstrap
 import Container from "react-bootstrap/Container";
@@ -15,7 +15,7 @@ export default function Main({ children }) {
     height: "100vh",
     position: "fixed",
     left: 0,
-    width: "calc(5% + max(300px, 5%))",
+    width: "calc(5% + max(250px, 5%))",
   };
 
   const contentStyle = {
@@ -27,8 +27,8 @@ export default function Main({ children }) {
 
   const scrollableContent = {
     overflow: "auto",
-    height: "100%", // ou uma altura específica
-    padding: "35px", // ajuste conforme necessário
+    height: "100%",
+    padding: "35px",
   };
 
   const headerOptions = [];
@@ -40,6 +40,16 @@ export default function Main({ children }) {
     { name: "Histórico de guias", link: "/authorizations" },
     { name: "About", link: "/about" },
   ];
+
+  const HandleRedirect = () => {
+    const token = localStorage.getItem("token");
+    const isAuthenticated = !!token;
+    if (!isAuthenticated) window.location.href = "/user/login";
+  };
+
+  useEffect(() => {
+    HandleRedirect();
+  }, []);
 
   return (
     <>

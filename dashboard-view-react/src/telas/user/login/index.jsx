@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 //Bootstrap
 import Container from "react-bootstrap/Container";
@@ -14,6 +14,31 @@ import RequestHTTP from "../../../services/services.js";
 export default function UserLogin() {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
+
+  const CreateLocalStorage = ({ user, token }) => {
+    const expirationTime = new Date().getTime() + 30 * 60 * 1000; // 30 minutos a partir do momento atual
+
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", user.nome);
+    localStorage.setItem("email", user.email);
+    localStorage.setItem("tokenExpiration", expirationTime.toString());
+  };
+
+  const AuthenticateUser = async () => {
+    if (login !== "" && password !== "") {
+      let user = {
+        login: login,
+        senha: password,
+      };
+
+      const response = await RequestHTTP.ValidateUser(user);
+      console.log(response);
+      if (response.token) {
+        CreateLocalStorage({ user: response.user, token: response.token });
+        window.location.href = "/customers";
+      }
+    }
+  };
 
   return (
     <Container
@@ -45,12 +70,14 @@ export default function UserLogin() {
             setState={setPassword}
             required={true}
             mb="mb-3"
+            type="password"
           />
 
           <Button
             variant="primary"
             type="button"
             style={{ width: "100%" }}
+            onClick={() => AuthenticateUser()}
           >
             Entrar
           </Button>

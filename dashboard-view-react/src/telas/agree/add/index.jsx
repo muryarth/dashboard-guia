@@ -193,7 +193,7 @@ export default function AgreeAdd() {
             onClick={() => SubmitAgreeData()}
             className="mt-4"
           >
-            Criar guia
+            Criar Convênio
           </Button>
         </Form>
       </Container>

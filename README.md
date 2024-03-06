@@ -1,6 +1,4 @@
 # dashboard-guia
- 
-Nesse projeto, eu desenvolvi um sistema para gerenciamento de convênios médicos usando a Stack MERN para desenvolver o Frontend e Backend da aplicação.
 
 O projeto está hospedado no vercel, e pode ser acessado em: https://dashboard-view-taupe.vercel.app/
 
